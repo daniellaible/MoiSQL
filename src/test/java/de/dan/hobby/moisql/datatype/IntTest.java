@@ -14,7 +14,7 @@ class IntTest {
   }
 
   @Test
-  void testBigInt2() {
+  void testBigIntBad() {
     Int intValue = new Int(5L);
     assertThat(intValue.getName()).isEqualTo("INT");
     assertThat(intValue.getValue()).isEqualTo(0);

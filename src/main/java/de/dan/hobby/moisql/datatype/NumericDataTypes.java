@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.datatype;
 
 import de.dan.hobby.moisql.tool.TryParseBigInt;
 import de.dan.hobby.moisql.tool.TryParseInt;
+import de.dan.hobby.moisql.tool.TryParseSmallInt;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +27,21 @@ public abstract class NumericDataTypes {
       if(parsed.isEmpty()) {
         logger.warn("trying to save a BigInt that's not a BigInt: {} ", value);
       }
-      value = parsed.get();
+      this.value = parsed.get();
 
     }else if(dt.equals(DataType.INT)){
       final Optional<Integer> parsed = TryParseInt.parse(value);
       if(parsed.isEmpty()) {
         logger.warn("trying to save a Int that's not a Int: {} ", value);
       }
-      value = parsed.get();
+      this.value = parsed.get();
+
+    }else if(dt.equals(DataType.SMALLINT)){
+      final Optional<Short> parsed = TryParseSmallInt.parse(value);
+      if(parsed.isEmpty()) {
+        logger.warn("trying to save a SmallInt that's not a SmallInt: {} ", value);
+      }
+      this.value = parsed.get();
     }
 
   }

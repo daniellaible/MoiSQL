@@ -8,7 +8,6 @@ package de.dan.hobby.moisql.datatype;
  * BIGINT   -   64-bit signed
  * INT      -   32-bit signed
  * SMALLINT -   16-bit signed
- * TINYINT  -    8-bit signed
  * DECIMAL  -   32-bit signed
  * FLOAT    -   64-bit signed
  * DATE     -   24-bit
