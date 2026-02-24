@@ -1,9 +1,9 @@
 package de.dan.hobby.moisql.datatype;
 
-import de.dan.hobby.moisql.tool.TryParseBigInt;
-import de.dan.hobby.moisql.tool.TryParseDecimal;
-import de.dan.hobby.moisql.tool.TryParseInt;
-import de.dan.hobby.moisql.tool.TryParseSmallInt;
+import de.dan.hobby.moisql.tool.parser.TryParseBigInt;
+import de.dan.hobby.moisql.tool.parser.TryParseDecimal;
+import de.dan.hobby.moisql.tool.parser.TryParseInt;
+import de.dan.hobby.moisql.tool.parser.TryParseSmallInt;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

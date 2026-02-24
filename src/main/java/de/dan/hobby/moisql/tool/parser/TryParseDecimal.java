@@ -1,4 +1,4 @@
-package de.dan.hobby.moisql.tool;
+package de.dan.hobby.moisql.tool.parser;
 
 import java.util.Optional;
 
