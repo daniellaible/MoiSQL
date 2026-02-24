@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.tree;
 
+import de.dan.hobby.moisql.datatype.IDataType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +28,10 @@ public class BPTree {
 
   private Node root;
 
+  private IDataType[] dataStructure;
+
+  private String[] columnNames;
+
   /**
    * Initialize a new B+Tree with a certain magnitude.
    * The minimum magnitude is 3
@@ -41,6 +46,15 @@ public class BPTree {
     this.magnitude = magnitude;
     this.root = new LeafNode();
     logger.trace("New tree with magnitude {} was created", magnitude);
+  }
+
+  public void specifyDataStructure(@NotNull IDataType[] dataStruct, @NotNull String[] columnNames)
+      throws IllegalArgumentException {
+    if(dataStruct.length != columnNames.length){
+      throw new IllegalArgumentException("Data size mismatch");
+    }
+    this.dataStructure = dataStruct;
+    this.columnNames = columnNames;
   }
 
 
