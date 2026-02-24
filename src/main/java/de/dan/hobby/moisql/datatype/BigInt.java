@@ -1,6 +1,6 @@
 package de.dan.hobby.moisql.datatype;
 
-public class BigInt extends NumericDataTypes{
+public class BigInt extends NumericDataType {
 
   public BigInt(Long value) {
     super(value, DataType.BIGINT);

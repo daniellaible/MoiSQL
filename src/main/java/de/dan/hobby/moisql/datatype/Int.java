@@ -1,6 +1,6 @@
 package de.dan.hobby.moisql.datatype;
 
-public class Int extends NumericDataTypes{
+public class Int extends NumericDataType {
 
   public Int(Number value) {
     super(value, DataType.INT);

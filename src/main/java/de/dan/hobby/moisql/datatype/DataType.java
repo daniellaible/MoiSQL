@@ -10,8 +10,8 @@ package de.dan.hobby.moisql.datatype;
  * SMALLINT -   16-bit signed
  * DECIMAL  -   32-bit signed
  * FLOAT    -   64-bit signed
- * DATE     -   24-bit
- * TIME     -   24-bit
+ * DATE     -   64-bit
+ * TIME     -   64-bit
  * DATETIME -   64-bit
  * VARCHAR  -   max 8000 characters ascii
  * TEXT     -   ????

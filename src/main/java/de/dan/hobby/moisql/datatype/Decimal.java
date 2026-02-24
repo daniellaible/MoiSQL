@@ -1,9 +1,9 @@
 package de.dan.hobby.moisql.datatype;
 
-public class SmallInt extends NumericDataType {
+public class Decimal extends NumericDataType {
 
-  public SmallInt(Number value) {
-    super(value, DataType.SMALLINT);
+  public Decimal(Number value) {
+    super(value, DataType.DECIMAL);
   }
 
   public Number getValue() {
@@ -12,6 +12,6 @@ public class SmallInt extends NumericDataType {
 
   @Override
   public String getName() {
-    return "SMALLINT";
+    return "DECIMAL";
   }
 }
