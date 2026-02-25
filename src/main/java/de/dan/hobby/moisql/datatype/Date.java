@@ -10,10 +10,10 @@ import java.time.format.DateTimeFormatter;
  * @author Daniel Laible
  * @since 0.0.2
  *q
- * This class represents a Date in the database. All dates are stored with certain
+ * This class represents a Date in the database. All dates are stored with a certain
  * timezone. If no timezone is given it will default to UTC.
  * All Date datatypes e.g. Date, Time and DateTime use epoch-millis to store the
- * instant. The only difference is how getDate() or getTime() method
+ * instant. The only difference is how getDate() / getTime() / getDateTime method
  * format the underlying data. If you want to retrieve the long value then you
  * need to use the getValue() method.
  */
@@ -39,9 +39,6 @@ public class Date extends DateDataType{
     return zonedDateTime.format(formatter);
   }
 
-  public ZoneId getZone() {
-    return zoneId;
-  }
 
   @Override
   public DataType getDataType() {
