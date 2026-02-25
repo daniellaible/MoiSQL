@@ -8,8 +8,8 @@ import java.util.List;
  * @since 0.0.1
  *
  * Abstract class of a Node. Implementations are:
- * @see de.dan.hobby.moisql.tree.InternalNode
- * @see de.dan.hobby.moisql.tree.LeafNode
+ * {@link de.dan.hobby.moisql.tree.InternalNode}
+ * {@link de.dan.hobby.moisql.tree.LeafNode}
  */
 public abstract class Node {
 
