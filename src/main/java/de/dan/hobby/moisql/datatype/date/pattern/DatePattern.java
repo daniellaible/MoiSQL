@@ -1,4 +1,4 @@
-package de.dan.hobby.moisql.datatype.pattern;
+package de.dan.hobby.moisql.datatype.date.pattern;
 
 public enum DatePattern {
   YYYYMMDD("YYYYMMDD"),

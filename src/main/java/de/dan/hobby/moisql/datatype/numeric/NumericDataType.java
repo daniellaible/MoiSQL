@@ -22,6 +22,7 @@ public abstract class NumericDataType implements IDataType {
   private static final Logger logger = LoggerFactory.getLogger(NumericDataType.class);
 
   private Number value;
+
   private DataType datatype;
 
   public NumericDataType(Number value, DataType dataType) {

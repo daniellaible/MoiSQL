@@ -1,4 +1,4 @@
-package de.dan.hobby.moisql.datatype.pattern;
+package de.dan.hobby.moisql.datatype.date.pattern;
 
 public enum DateTimePatterm {
   YYYYMMDDTHH_MM_SS_SSS("YYYYMMDDThh:mm:ss:SSS"),

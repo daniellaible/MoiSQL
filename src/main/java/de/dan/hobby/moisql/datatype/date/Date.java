@@ -1,7 +1,7 @@
 package de.dan.hobby.moisql.datatype.date;
 
 import de.dan.hobby.moisql.datatype.DataType;
-import de.dan.hobby.moisql.datatype.pattern.DatePattern;
+import de.dan.hobby.moisql.datatype.date.pattern.DatePattern;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

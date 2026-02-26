@@ -57,6 +57,14 @@ public class BPTree {
     this.columnNames = columnNames;
   }
 
+  public IDataType[] getDataStructure() {
+    return dataStructure;
+  }
+
+  public String[] getColumnNames() {
+    return columnNames;
+  }
+
 
   /**
    * Inserts a key to the datastructure
