@@ -3,11 +3,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-de/
-index-files/
-legal/
-resources/
-script-dir/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
