@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.datatype;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
+import de.dan.hobby.moisql.datatype.numeric.BigInt;
 import org.junit.jupiter.api.Test;
 
 class BigIntTest {

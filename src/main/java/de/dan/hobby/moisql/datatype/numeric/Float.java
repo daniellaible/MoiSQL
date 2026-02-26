@@ -1,6 +1,8 @@
-package de.dan.hobby.moisql.datatype;
+package de.dan.hobby.moisql.datatype.numeric;
 
-public class Float extends NumericDataType{
+import de.dan.hobby.moisql.datatype.DataType;
+
+public class Float extends NumericDataType {
 
   public Float(Number value) {
     super(value, DataType.FLOAT);

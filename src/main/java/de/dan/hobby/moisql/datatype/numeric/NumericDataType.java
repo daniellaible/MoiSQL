@@ -1,5 +1,7 @@
-package de.dan.hobby.moisql.datatype;
+package de.dan.hobby.moisql.datatype.numeric;
 
+import de.dan.hobby.moisql.datatype.DataType;
+import de.dan.hobby.moisql.datatype.IDataType;
 import de.dan.hobby.moisql.tool.parser.TryParseBigInt;
 import de.dan.hobby.moisql.tool.parser.TryParseDecimal;
 import de.dan.hobby.moisql.tool.parser.TryParseFloat;

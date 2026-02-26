@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.datatype;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import de.dan.hobby.moisql.datatype.numeric.SmallInt;
 import org.junit.jupiter.api.Test;
 
 public class SmallIntTest {

@@ -1,5 +1,7 @@
-package de.dan.hobby.moisql.datatype;
+package de.dan.hobby.moisql.datatype.date;
 
+import de.dan.hobby.moisql.datatype.DataType;
+import de.dan.hobby.moisql.datatype.pattern.DatePattern;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -17,7 +19,7 @@ import java.time.format.DateTimeFormatter;
  * format the underlying data. If you want to retrieve the long value then you
  * need to use the getValue() method.
  */
-public class Date extends DateDataType{
+public class Date extends DateDataType {
 
   public Date(long value) {
     super(value, DataType.DATE);

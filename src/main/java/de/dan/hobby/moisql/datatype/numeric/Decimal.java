@@ -1,4 +1,6 @@
-package de.dan.hobby.moisql.datatype;
+package de.dan.hobby.moisql.datatype.numeric;
+
+import de.dan.hobby.moisql.datatype.DataType;
 
 public class Decimal extends NumericDataType {
 

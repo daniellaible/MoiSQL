@@ -1,8 +1,10 @@
-package de.dan.hobby.moisql.datatype;
+package de.dan.hobby.moisql.datatype.date;
 
+import de.dan.hobby.moisql.datatype.DataType;
+import de.dan.hobby.moisql.datatype.IDataType;
 import java.time.ZoneId;
 
-public abstract class DateDataType implements IDataType{
+public abstract class DateDataType implements IDataType {
 
   Long value;
   DataType datatype;

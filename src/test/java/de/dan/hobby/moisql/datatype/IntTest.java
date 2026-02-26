@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.datatype;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import de.dan.hobby.moisql.datatype.numeric.Int;
 import org.junit.jupiter.api.Test;
 
 class IntTest {

@@ -1,4 +1,4 @@
-package de.dan.hobby.moisql.datatype;
+package de.dan.hobby.moisql.datatype.pattern;
 
 public enum TimePattern {
   hh_mm("hh:mm"),
