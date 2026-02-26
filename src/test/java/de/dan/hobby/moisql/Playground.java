@@ -1,4 +1,4 @@
-package de.dan.hobby.moisql.datatype;
+package de.dan.hobby.moisql;
 
 import java.time.ZoneId;
 import java.util.Set;

@@ -2,14 +2,23 @@ package de.dan.hobby.moisql.datatype.numeric;
 
 import de.dan.hobby.moisql.datatype.DataType;
 
+/**
+ * @author Daniel Laible
+ * @since 0.0.2
+ *
+ * SmallInt is the wrapper class of a short value.
+ * Be careful of widening primitive conversions
+ * the Java compiler does.
+ */
 public class SmallInt extends NumericDataType {
 
   public SmallInt(Number value) {
     super(value, DataType.SMALLINT);
   }
 
-  public Number getValue() {
-    return super.getValue();
+  public Short getValue()
+  {
+    return value.shortValue();
   }
 
   @Override

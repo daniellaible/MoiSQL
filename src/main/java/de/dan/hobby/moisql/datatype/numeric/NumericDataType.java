@@ -21,7 +21,7 @@ public abstract class NumericDataType implements IDataType {
 
   private static final Logger logger = LoggerFactory.getLogger(NumericDataType.class);
 
-  private Number value;
+  Number value;
 
   private DataType datatype;
 
@@ -63,22 +63,6 @@ public abstract class NumericDataType implements IDataType {
       }
       this.value = parsed.get();
     }
-  }
-
-
-  public Number getValue() {
-    if (datatype.equals(DataType.BIGINT)) {
-      return value.longValue();
-    } else if (datatype.equals(DataType.INT)) {
-      return value.intValue();
-    } else if (datatype.equals(DataType.SMALLINT)) {
-      return value.shortValue();
-    } else if (datatype.equals(DataType.DECIMAL)) {
-      return value.floatValue();
-    } else if (datatype.equals(DataType.FLOAT)) {
-      return value.doubleValue();
-    }
-    return 0;
   }
 
   public abstract String getName();
