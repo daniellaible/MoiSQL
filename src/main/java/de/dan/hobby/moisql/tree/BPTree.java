@@ -79,6 +79,10 @@ public class BPTree {
     return columnNames;
   }
 
+  public String getTableName(){
+    return tableName.getValue();
+  }
+
   /**
    * Inserts a key to the datastructure
    * @param key

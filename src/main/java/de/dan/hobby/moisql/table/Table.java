@@ -40,4 +40,27 @@ public class Table {
 
   //TODO needs implementation
   public void removeFromMemory(){}
+
+  public String getTableName(){
+    return tree.getTableName();
+  }
+
+  public String getRowNames(){
+    var names = tree.getColumnNames();
+    StringBuilder sb = new StringBuilder();
+    for(VarChar name : names){
+      sb.append(name.getValue()+ " ");
+    }
+    return sb.toString().trim();
+  }
+
+  public String getColumnTypes() {
+    final IDataType[] dataStructure = tree.getDataStructure();
+    StringBuilder sb = new StringBuilder();
+    for (IDataType dataType : dataStructure) {
+      String type = dataType.getName();
+      sb.append(type + " ");
+    }
+    return sb.toString().trim();
+  }
 }

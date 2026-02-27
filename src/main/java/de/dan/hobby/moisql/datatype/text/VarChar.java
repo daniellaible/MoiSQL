@@ -33,7 +33,8 @@ public class VarChar implements IDataType {
   }
 
   public String getValue() {
-    return String.valueOf(value);
+    String returnValue =  String.valueOf(value);
+    return returnValue.trim();
   }
 
   public String getName() {
