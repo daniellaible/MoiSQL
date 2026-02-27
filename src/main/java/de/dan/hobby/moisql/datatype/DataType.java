@@ -2,7 +2,7 @@ package de.dan.hobby.moisql.datatype;
 
 /**
  * @author Daniel Laible
- * @since 0.0.1
+ * @since 0.0.2
  *
  * These are the datatypes we will support
  * BIGINT   -   64-bit signed
@@ -13,13 +13,13 @@ package de.dan.hobby.moisql.datatype;
  * DATE     -   64-bit
  * TIME     -   64-bit
  * DATETIME -   64-bit
- * VARCHAR  -   max 8000 characters ascii
- * TEXT     -   ????
+ * VARCHAR  -   max 255 characters ascii
+ * TEXT     -   max 8000 characters ascii
  * BINARY   -   ????
  * BOOL     -    1-bit ?
  *
  * Implemented Datatypes:
- *  - none
+ *
  */
 public enum DataType {
   BIGINT,

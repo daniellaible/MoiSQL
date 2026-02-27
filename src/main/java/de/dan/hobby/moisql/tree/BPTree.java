@@ -40,6 +40,7 @@ public class BPTree {
    * The minimum magnitude is 3
    *
    * @param magnitude
+   * @param tableName
    */
   public BPTree(int magnitude, VarChar tableName) throws IllegalArgumentException {
     if (magnitude < 3) {
@@ -52,6 +53,15 @@ public class BPTree {
     logger.trace("New tree with magnitude {} was created", magnitude);
   }
 
+  /**
+   * Tables need a header row containing the datatype of the data stored in that column and
+   * the columns need a name. In the dataStruct field you define the datatype and in the
+   * columnsNames you define the columnma,es.
+   *
+   * @param dataStruct
+   * @param columnNames
+   * @throws IllegalArgumentException
+   */
   public void specifyDataStructure(@NotNull IDataType[] dataStruct, @NotNull VarChar[] columnNames)
       throws IllegalArgumentException {
     if(dataStruct.length != columnNames.length){
@@ -68,7 +78,6 @@ public class BPTree {
   public VarChar[] getColumnNames() {
     return columnNames;
   }
-
 
   /**
    * Inserts a key to the datastructure

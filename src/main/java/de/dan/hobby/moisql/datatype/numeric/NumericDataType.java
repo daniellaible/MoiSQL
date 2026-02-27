@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Daniel Laible
- * @since 0.0.1
+ * @since 0.0.2
  * <p>
  * An abstract class that represents all different datatypes of this application
  */
