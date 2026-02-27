@@ -336,7 +336,7 @@ public class BPTree {
   }
 
 
-  //for debugging
+  //TODO needs a real printMethod() or an overriden toString()
   public void printTree() {
     printNode(root, 0);
   }
