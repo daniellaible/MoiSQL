@@ -1,5 +1,7 @@
 package de.dan.hobby.moisql.tree;
 
+import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,9 +25,15 @@ public class BPTree {
 
   private static final Logger logger = LoggerFactory.getLogger(BPTree.class);
 
+  private VarChar tableName;
+
   private int magnitude;
 
   private Node root;
+
+  private IDataType[] dataStructure;
+
+  private VarChar[] columnNames;
 
   /**
    * Initialize a new B+Tree with a certain magnitude.
@@ -33,14 +41,32 @@ public class BPTree {
    *
    * @param magnitude
    */
-  public BPTree(int magnitude) throws IllegalArgumentException {
+  public BPTree(int magnitude, VarChar tableName) throws IllegalArgumentException {
     if (magnitude < 3) {
       logger.warn("Magnitude needs to be bigger 3 but was: {}", magnitude);
       throw new IllegalArgumentException("Illegal value for magnitude");
     }
     this.magnitude = magnitude;
+    this.tableName = tableName;
     this.root = new LeafNode();
     logger.trace("New tree with magnitude {} was created", magnitude);
+  }
+
+  public void specifyDataStructure(@NotNull IDataType[] dataStruct, @NotNull VarChar[] columnNames)
+      throws IllegalArgumentException {
+    if(dataStruct.length != columnNames.length){
+      throw new IllegalArgumentException("Data size mismatch");
+    }
+    this.dataStructure = dataStruct;
+    this.columnNames = columnNames;
+  }
+
+  public IDataType[] getDataStructure() {
+    return dataStructure;
+  }
+
+  public VarChar[] getColumnNames() {
+    return columnNames;
   }
 
 
@@ -56,7 +82,6 @@ public class BPTree {
       splitLeaf(leaf);
     }
   }
-
 
   /**
    * Deletes a key from the datastructure
@@ -311,7 +336,7 @@ public class BPTree {
   }
 
 
-  //for debugging
+  //TODO needs a real printMethod() or an overriden toString()
   public void printTree() {
     printNode(root, 0);
   }

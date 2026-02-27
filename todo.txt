@@ -1,0 +1,19 @@
+how to save text ?
+
+add rows to the tree
+table needs a name - what are the rules for the name
+what about multiple tables
+do we index numerical data by default - at least in memory?
+datarecovery?
+
+
+
+implementing a ledger as backup
+save a table to disc
+read a table from disc
+
+implement a server serversocket? ...
+implement a sql parser
+
+think about shards
+think about clusters

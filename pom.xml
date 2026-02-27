@@ -6,7 +6,7 @@
 
   <groupId>de.dan.hobby.moisql</groupId>
   <artifactId>MoiSql</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
@@ -45,7 +45,7 @@
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
-      <version>RELEASE</version>
+      <version>26.1.0</version>
       <scope>compile</scope>
     </dependency>
 
