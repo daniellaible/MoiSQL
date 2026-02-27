@@ -3,23 +3,26 @@ package de.dan.hobby.moisql.datatype.text;
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
 
-
+/**
+ * @author Daniel Laible
+ * @since 0.0.2
+ * <p>
+ * VarChar is a wrapper class for a char[255].
+ * VarChar always uses 255 characters.
+ */
 public class VarChar implements IDataType {
 
   private char[] value;
 
-  private DataType datatype;
+  private DataType datatype = DataType.VARCHAR;
 
   public VarChar(String value) {
-    if(value.length() >255){
+    if (value.length() > 255) {
       return;
     }
+
     this.value = new char[255];
     char[] chars = value.toCharArray();
-
-    for(int i = 0; i < 256; i++){
-      this.value[i] = '0';
-    }
 
     for (int i = 0; i < chars.length; i++) {
       if (chars[i] > 127) {
@@ -27,6 +30,10 @@ public class VarChar implements IDataType {
       }
       this.value[i] = chars[i];
     }
+  }
+
+  public String getValue() {
+    return String.valueOf(value);
   }
 
   public String getName() {
