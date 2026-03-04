@@ -15,7 +15,7 @@ class SmallIntTest {
   @Test
   void testName() {
     SmallInt number = new SmallInt(100);
-    assertEquals("SMALLINT", number.getName());
+    assertEquals("SMALLINT", number.getDataType());
   }
 
 

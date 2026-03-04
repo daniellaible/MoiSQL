@@ -15,6 +15,6 @@ class BigIntTest {
   @Test
   void testName() {
     BigInt number = new BigInt(100L);
-    assertEquals("BIGINT", number.getName());
+    assertEquals("BIGINT", number.getDataType());
   }
 }

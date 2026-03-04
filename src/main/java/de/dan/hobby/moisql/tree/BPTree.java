@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.tree;
 
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.numeric.Int;
 import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,9 +86,11 @@ public class BPTree {
 
   /**
    * Inserts a key to the datastructure
-   * @param key
+   * @param row
    */
-  public void insert(int key) {
+  public void insertRow(IDataType[] row) {
+    var tempKey = (Int)row[0];
+    int key = tempKey.getValue();
     LeafNode leaf = findLeaf(root, key);
     insertSorted(leaf.keys, key);
 
@@ -326,7 +329,7 @@ public class BPTree {
   }
 
 
-  private LeafNode findLeaf(@NotNull Node node, int key) {
+  private LeafNode findLeaf(@NotNull Node node, long key) {
     while (!node.isLeaf()) {
       InternalNode in = (InternalNode) node;
       int i = 0;

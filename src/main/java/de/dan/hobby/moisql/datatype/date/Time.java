@@ -43,18 +43,13 @@ public class Time extends DateDataType {
   }
 
   @Override
-  public DataType getDataType() {
-    return DataType.TIME;
-  }
+  public String getDataType() {
+    return "TIME";  }
 
   @Override
   public ZoneId getTimeZone() {
     return zoneId;
   }
 
-  @Override
-  public String getName() {
-    return "TIME";
-  }
 }
 

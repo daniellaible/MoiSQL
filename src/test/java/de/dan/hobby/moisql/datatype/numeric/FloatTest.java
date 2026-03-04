@@ -15,7 +15,7 @@ class FloatTest {
   @Test
   void testName() {
     Float number = new Float(100);
-    assertEquals("FLOAT", number.getName());
+    assertEquals("FLOAT", number.getDataType());
   }
 
 }

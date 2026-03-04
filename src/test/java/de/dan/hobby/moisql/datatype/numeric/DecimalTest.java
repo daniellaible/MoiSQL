@@ -15,7 +15,7 @@ class DecimalTest {
   @Test
   void testName() {
     Decimal number = new Decimal(100);
-    assertEquals("DECIMAL", number.getName());
+    assertEquals("DECIMAL", number.getDataType());
   }
 
 }

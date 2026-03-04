@@ -15,6 +15,6 @@ class IntTest {
   @Test
   void testName() {
     Int number = new Int(100);
-    assertEquals("INT", number.getName());
+    assertEquals("INT", number.getDataType());
   }
 }

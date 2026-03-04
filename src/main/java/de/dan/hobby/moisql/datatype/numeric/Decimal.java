@@ -21,7 +21,7 @@ public class Decimal extends NumericDataType {
   }
 
   @Override
-  public String getName() {
+  public String getDataType() {
     return "DECIMAL";
   }
 }

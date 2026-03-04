@@ -1,5 +1,7 @@
 package de.dan.hobby.moisql.tree;
 
+import de.dan.hobby.moisql.datatype.IDataType;
+
 /**
  * @author Daniel Laible
  * @since 0.0.1
@@ -13,6 +15,8 @@ package de.dan.hobby.moisql.tree;
 public class LeafNode extends Node {
 
   LeafNode next;
+
+  IDataType[] row;
 
   @Override
   boolean isLeaf() {

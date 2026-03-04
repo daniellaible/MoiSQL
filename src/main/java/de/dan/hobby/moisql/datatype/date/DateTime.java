@@ -30,17 +30,12 @@ public class DateTime extends DateDataType{
   }
 
   @Override
-  public DataType getDataType() {
-    return DataType.DATETIME;
-  }
-
-  @Override
   public ZoneId getTimeZone() {
     return zoneId;
   }
 
   @Override
-  public String getName() {
+  public String getDataType() {
     return "DATETIME";
   }
 }

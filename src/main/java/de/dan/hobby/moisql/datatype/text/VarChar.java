@@ -37,7 +37,7 @@ public class VarChar implements IDataType {
     return returnValue.trim();
   }
 
-  public String getName() {
+  public String getDataType() {
     return "VARCHAR";
   }
 }

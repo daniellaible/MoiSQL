@@ -21,7 +21,7 @@ public class Float extends NumericDataType {
   }
 
   @Override
-  public String getName() {
+  public String getDataType() {
     return "FLOAT";
   }
 }

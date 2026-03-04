@@ -65,6 +65,6 @@ public abstract class NumericDataType implements IDataType {
     }
   }
 
-  public abstract String getName();
+  public abstract String getDataType();
 
 }

@@ -21,10 +21,15 @@ public class Table {
   }
 
   //TODO needs implementation
-  public void insertInto(){}
+  public void insertInto(IDataType[] dataRow){
+    Inserter inserter = new Inserter(dataRow, tree);
+  }
 
   //TODO needs implementaion
   public void deleteFrom(){}
+
+  //TODO needs implementation
+  public void edit(int key, String rowName, IDataType newValue){}
 
   //TODO need implementation
   public IDataType find(int key){return null;}
@@ -58,7 +63,7 @@ public class Table {
     final IDataType[] dataStructure = tree.getDataStructure();
     StringBuilder sb = new StringBuilder();
     for (IDataType dataType : dataStructure) {
-      String type = dataType.getName();
+      String type = dataType.getDataType();
       sb.append(type + " ");
     }
     return sb.toString().trim();

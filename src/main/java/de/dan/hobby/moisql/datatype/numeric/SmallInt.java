@@ -22,7 +22,7 @@ public class SmallInt extends NumericDataType {
   }
 
   @Override
-  public String getName() {
+  public String getDataType() {
     return "SMALLINT";
   }
 }

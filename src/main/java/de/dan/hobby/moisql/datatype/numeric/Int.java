@@ -21,7 +21,7 @@ public class Int extends NumericDataType {
   }
 
   @Override
-  public String getName() {
+  public String getDataType() {
     return "INT";
   }
 
