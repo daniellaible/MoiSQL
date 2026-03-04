@@ -51,4 +51,8 @@ public class Date extends DateDataType {
   public String getDataType() {
     return "DATE";
   }
+
+  public String toString(){
+    return String.valueOf(value.longValue());
+  }
 }

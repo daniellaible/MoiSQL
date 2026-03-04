@@ -51,5 +51,10 @@ public class Time extends DateDataType {
     return zoneId;
   }
 
+  @Override
+  public String toString(){
+    return String.valueOf(value.longValue());
+  }
+
 }
 

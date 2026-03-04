@@ -25,5 +25,9 @@ public class Int extends NumericDataType {
     return "INT";
   }
 
+  @Override
+  public String toString(){
+    return String.valueOf(value.intValue());
+  }
 
 }

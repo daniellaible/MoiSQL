@@ -24,4 +24,9 @@ public class Decimal extends NumericDataType {
   public String getDataType() {
     return "DECIMAL";
   }
+
+  @Override
+  public String toString(){
+    return String.valueOf(value.floatValue());
+  }
 }

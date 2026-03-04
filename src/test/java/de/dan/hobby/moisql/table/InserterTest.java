@@ -42,4 +42,11 @@ class InserterTest {
     assertThrows(IllegalArgumentException.class, () -> new Inserter(dataRow, tree));
   }
 
+  @Test
+  void testInsertionSingleRow(){
+    IDataType[] dataRow = new IDataType[]{new Int(1), new VarChar("Bob"), new VarChar("Seeger")};
+    Inserter inserter = new Inserter(dataRow, tree);
+    tree.printTree();
+  }
+
 }

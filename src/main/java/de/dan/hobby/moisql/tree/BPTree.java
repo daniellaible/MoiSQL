@@ -85,14 +85,14 @@ public class BPTree {
   }
 
   /**
-   * Inserts a key to the datastructure
+   * Inserts a row to the datastructure using the id as key
    * @param row
    */
   public void insertRow(IDataType[] row) {
     var tempKey = (Int)row[0];
     int key = tempKey.getValue();
     LeafNode leaf = findLeaf(root, key);
-    insertSorted(leaf.keys, key);
+    insertSorted(leaf, row, key);
 
     if (leaf.keys.size() > maxKeys()) {
       splitLeaf(leaf);
@@ -100,7 +100,7 @@ public class BPTree {
   }
 
   /**
-   * Deletes a key from the datastructure
+   * Deletes a row from the datastructure
    * @param key
    */
   public void delete(int key) {
@@ -320,11 +320,13 @@ public class BPTree {
   }
 
 
-  private void insertSorted(@NotNull List<Integer> keys, int key) {
+  private void insertSorted(@NotNull LeafNode leaf, @NotNull IDataType[] row, @NotNull int key) {
+    List<Integer> keys = leaf.keys;
     int i = 0;
     while (i < keys.size() && keys.get(i) < key) {
       i++;
     }
+    leaf.rows.add(i, row);
     keys.add(i, key);
   }
 
@@ -359,11 +361,15 @@ public class BPTree {
 
 
   private void printNode(Node node, int level) {
+
     System.out.println("Level " + level + ": " + node.keys);
+
     if (!(node instanceof LeafNode)) {
       for (Node child : ((InternalNode) node).children) {
         printNode(child, level + 1);
       }
+    }else{
+      System.out.println(((LeafNode) node).rows);
     }
   }
 }

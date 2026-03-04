@@ -25,4 +25,9 @@ public class SmallInt extends NumericDataType {
   public String getDataType() {
     return "SMALLINT";
   }
+
+  @Override
+  public String toString(){
+    return String.valueOf(value.shortValue());
+  }
 }

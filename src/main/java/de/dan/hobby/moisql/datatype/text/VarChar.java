@@ -40,4 +40,9 @@ public class VarChar implements IDataType {
   public String getDataType() {
     return "VARCHAR";
   }
+
+  @Override
+  public String toString(){
+    return getValue();
+  }
 }

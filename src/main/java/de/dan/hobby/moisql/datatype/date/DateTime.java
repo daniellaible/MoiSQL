@@ -38,4 +38,8 @@ public class DateTime extends DateDataType{
   public String getDataType() {
     return "DATETIME";
   }
+
+  public String toString(){
+    return String.valueOf(value.longValue());
+  }
 }

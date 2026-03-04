@@ -22,4 +22,9 @@ public class BigInt extends NumericDataType {
   public String getDataType() {
     return "BIGINT";
   }
+
+  @Override
+  public String toString(){
+    return String.valueOf(value.longValue());
+  }
 }

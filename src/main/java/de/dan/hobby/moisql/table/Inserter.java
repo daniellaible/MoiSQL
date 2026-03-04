@@ -12,6 +12,7 @@ public class Inserter {
       if(!checkDataTypes(tableRow, tree)){
         throw new IllegalArgumentException("datatypes are not consistent with table");
       }
+      tree.insertRow(tableRow);
   }
 
   private boolean checkDataTypes(IDataType[] tableRow, BPTree tree) {

@@ -1,6 +1,8 @@
 package de.dan.hobby.moisql.tree;
 
 import de.dan.hobby.moisql.datatype.IDataType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Daniel Laible
@@ -16,7 +18,7 @@ public class LeafNode extends Node {
 
   LeafNode next;
 
-  IDataType[] row;
+  List<IDataType[]> rows = new ArrayList<>();
 
   @Override
   boolean isLeaf() {
