@@ -369,7 +369,14 @@ public class BPTree {
         printNode(child, level + 1);
       }
     }else{
-      System.out.println(((LeafNode) node).rows);
+      LeafNode tempNode = (LeafNode) node;
+      for(IDataType[] row : tempNode.rows){
+        System.out.print("[");
+        for(IDataType rowElem : row){
+          System.out.print(rowElem + " ");
+        }
+        System.out.print("]");
+      }
     }
   }
 }
