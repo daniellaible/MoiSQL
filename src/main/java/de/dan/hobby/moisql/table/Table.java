@@ -32,7 +32,7 @@ public class Table {
   public void edit(int key, String rowName, IDataType newValue){}
 
   //TODO need implementation
-  public IDataType find(int key){return null;}
+  public IDataType[] find(int key){return null;}
 
   //TODO need implementation
   public void save(){}

@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
  * The magnitude defines how many keys a node can hold and how many children an
  * InternalNode can have.
  */
-
-//TODO implementation of data, not just the keys in the leaf node
 public class BPTree {
 
   private static final Logger logger = LoggerFactory.getLogger(BPTree.class);
@@ -38,6 +36,11 @@ public class BPTree {
 
   /**
    * Initialize a new B+Tree with a certain magnitude.
+   * This structure is used to build a table for a database.
+   * The id of a row is the element the tree is structured upon.
+   * Within a leaf of this tree the row data is saved. The row data
+   * is of the type IDataType[]. IDataType is the interface all sql
+   * datatype wrappers are using.
    * The minimum magnitude is 3
    *
    * @param magnitude
@@ -148,6 +151,7 @@ public class BPTree {
 
   //TODO This needs to be tested
   private IDataType[] nodeRunner(Node node, int key) {
+    //This won't word - we need the range and not if the list contains the element
     if (node.keys.contains(key) && node.isLeaf()) {
       LeafNode leaf = (LeafNode) node;
       for (IDataType[] row : leaf.rows) {
@@ -401,9 +405,7 @@ public class BPTree {
 
 
   private void printNode(Node node, int level) {
-
     System.out.println("Level " + level + ": " + node.keys);
-
     if (!(node instanceof LeafNode)) {
       for (Node child : ((InternalNode) node).children) {
         printNode(child, level + 1);
