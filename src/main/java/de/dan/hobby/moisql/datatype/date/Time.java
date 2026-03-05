@@ -43,9 +43,8 @@ public class Time extends DateDataType {
   }
 
   @Override
-  public DataType getDataType() {
-    return DataType.TIME;
-  }
+  public String getDataType() {
+    return "TIME";  }
 
   @Override
   public ZoneId getTimeZone() {
@@ -53,8 +52,9 @@ public class Time extends DateDataType {
   }
 
   @Override
-  public String getName() {
-    return "TIME";
+  public String toString(){
+    return String.valueOf(value.longValue());
   }
+
 }
 

@@ -8,4 +8,6 @@ package de.dan.hobby.moisql.datatype;
  * This way a db row is just an array of IDataType
  */
 public interface IDataType {
+
+  String getDataType();
 }

@@ -19,7 +19,12 @@ public class BigInt extends NumericDataType {
     return value.longValue();
   }
 
-  public String getName() {
+  public String getDataType() {
     return "BIGINT";
+  }
+
+  @Override
+  public String toString(){
+    return String.valueOf(value.longValue());
   }
 }

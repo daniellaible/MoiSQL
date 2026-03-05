@@ -21,13 +21,19 @@ public class Table {
   }
 
   //TODO needs implementation
-  public void insertInto(){}
+  public void insertInto(IDataType[] dataRow){
+    Inserter inserter = new Inserter(dataRow, tree);
+  }
 
   //TODO needs implementaion
   public void deleteFrom(){}
 
-  //TODO need implementation
-  public IDataType find(int key){return null;}
+  //TODO needs implementation
+  public void edit(int key, String rowName, IDataType newValue){}
+
+  public IDataType[] find(int id){
+    return tree.findRow(id);
+  }
 
   //TODO need implementation
   public void save(){}
@@ -40,4 +46,27 @@ public class Table {
 
   //TODO needs implementation
   public void removeFromMemory(){}
+
+  public String getTableName(){
+    return tree.getTableName();
+  }
+
+  public String getRowNames(){
+    var names = tree.getColumnNames();
+    StringBuilder sb = new StringBuilder();
+    for(VarChar name : names){
+      sb.append(name.getValue()+ " ");
+    }
+    return sb.toString().trim();
+  }
+
+  public String getColumnTypes() {
+    final IDataType[] dataStructure = tree.getDataStructure();
+    StringBuilder sb = new StringBuilder();
+    for (IDataType dataType : dataStructure) {
+      String type = dataType.getDataType();
+      sb.append(type + " ");
+    }
+    return sb.toString().trim();
+  }
 }

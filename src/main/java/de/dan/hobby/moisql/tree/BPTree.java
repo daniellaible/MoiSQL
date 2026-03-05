@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.tree;
 
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.numeric.Int;
 import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,15 +13,13 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Daniel Laible
  * @since 0.0.1
- *
+ * <p>
  * Basic datastructure of a B+Tree to retrieve keys in a fast way.
  * While creating a new B+Tree you need to provide the magnitude of the tree.
  * Some refer to the magnitude also as order or degree of the tree.
  * The magnitude defines how many keys a node can hold and how many children an
  * InternalNode can have.
  */
-
-//TODO implementation of data, not just the keys in the leaf node
 public class BPTree {
 
   private static final Logger logger = LoggerFactory.getLogger(BPTree.class);
@@ -37,6 +36,11 @@ public class BPTree {
 
   /**
    * Initialize a new B+Tree with a certain magnitude.
+   * This structure is used to build a table for a database.
+   * The id of a row is the element the tree is structured upon.
+   * Within a leaf of this tree the row data is saved. The row data
+   * is of the type IDataType[]. IDataType is the interface all sql
+   * datatype wrappers are using.
    * The minimum magnitude is 3
    *
    * @param magnitude
@@ -64,7 +68,7 @@ public class BPTree {
    */
   public void specifyDataStructure(@NotNull IDataType[] dataStruct, @NotNull VarChar[] columnNames)
       throws IllegalArgumentException {
-    if(dataStruct.length != columnNames.length){
+    if (dataStruct.length != columnNames.length) {
       throw new IllegalArgumentException("Data size mismatch");
     }
     this.dataStructure = dataStruct;
@@ -79,13 +83,20 @@ public class BPTree {
     return columnNames;
   }
 
+  public String getTableName() {
+    return tableName.getValue();
+  }
+
   /**
-   * Inserts a key to the datastructure
-   * @param key
+   * Inserts a row to the datastructure using the id as key
+   *
+   * @param row
    */
-  public void insert(int key) {
-    LeafNode leaf = findLeaf(root, key);
-    insertSorted(leaf.keys, key);
+  public void insertRow(IDataType[] row) {
+    var tempKey = (Int) row[0];
+    int key = tempKey.getValue();
+    LeafNode leaf = findLeafToInsert(root, key);
+    insertSorted(leaf, row, key);
 
     if (leaf.keys.size() > maxKeys()) {
       splitLeaf(leaf);
@@ -93,7 +104,8 @@ public class BPTree {
   }
 
   /**
-   * Deletes a key from the datastructure
+   * Deletes a row from the datastructure
+   *
    * @param key
    */
   public void delete(int key) {
@@ -101,7 +113,7 @@ public class BPTree {
       return;
     }
 
-    LeafNode leaf = findLeaf(root, key);
+    LeafNode leaf = findLeafToInsert(root, key);
     int idx = Collections.binarySearch(leaf.keys, key);
 
     if (idx < 0) {
@@ -122,6 +134,40 @@ public class BPTree {
     } else {
       updateParentKeyAfterDeletion(leaf);
     }
+  }
+
+  //TODO This needs to be tested
+
+  /**
+   * @param key
+   * @return row of the table, if no element is found null is returned
+   */
+  public IDataType[] findRow(int key) {
+    return findNode(root, key);
+  }
+
+  //TODO This needs to be tested
+  private IDataType[] findNode(Node node, int key) {
+    if (node.isLeaf()) {
+      LeafNode leaf = (LeafNode) node;
+      for (IDataType[] row : leaf.rows) {
+        Int temp = (Int) row[0];
+        int currentId = temp.getValue();
+        if (currentId == key) {
+          return row;
+        }
+      }
+
+    } else if (!node.isLeaf()) {
+      int i = 0;
+      while (i < node.keys.size() && node.keys.get(i) < key) {
+        i++;
+      }
+      InternalNode intern = (InternalNode) node;
+      Node newNode = intern.children.get(i);
+      return findNode(newNode, key);
+    }
+    return null;
   }
 
 
@@ -163,21 +209,21 @@ public class BPTree {
       InternalNode parent, int sepIndex) {
 
     if (left.isLeaf()) {
-      LeafNode l = (LeafNode) left;
-      LeafNode r = (LeafNode) right;
+      LeafNode newLeft = (LeafNode) left;
+      LeafNode newRight = (LeafNode) right;
 
-      l.keys.addAll(r.keys);
-      l.next = r.next;
+      newLeft.keys.addAll(newRight.keys);
+      newLeft.next = newRight.next;
     } else {
-      InternalNode l = (InternalNode) left;
-      InternalNode r = (InternalNode) right;
+      InternalNode newLeft = (InternalNode) left;
+      InternalNode newRight = (InternalNode) right;
 
-      l.keys.add(parent.keys.get(sepIndex));
-      l.keys.addAll(r.keys);
+      newLeft.keys.add(parent.keys.get(sepIndex));
+      newLeft.keys.addAll(newRight.keys);
 
-      for (Node child : r.children) {
-        l.children.add(child);
-        child.parent = l;
+      for (Node child : newRight.children) {
+        newLeft.children.add(child);
+        child.parent = newLeft;
       }
     }
 
@@ -263,7 +309,11 @@ public class BPTree {
     int mid = (leaf.keys.size() + 1) / 2;
     LeafNode newLeaf = new LeafNode();
     newLeaf.keys.addAll(leaf.keys.subList(mid, leaf.keys.size()));
+    newLeaf.rows.addAll(leaf.rows.subList(mid, leaf.rows.size()));
+
     leaf.keys = new ArrayList<>(leaf.keys.subList(0, mid));
+    leaf.rows = new ArrayList<>(leaf.rows.subList(0, mid));
+
     newLeaf.next = leaf.next;
     leaf.next = newLeaf;
 
@@ -313,16 +363,18 @@ public class BPTree {
   }
 
 
-  private void insertSorted(@NotNull List<Integer> keys, int key) {
+  private void insertSorted(@NotNull LeafNode leaf, @NotNull IDataType[] row, @NotNull int key) {
+    List<Integer> keys = leaf.keys;
     int i = 0;
     while (i < keys.size() && keys.get(i) < key) {
       i++;
     }
+    leaf.rows.add(i, row);
     keys.add(i, key);
   }
 
 
-  private LeafNode findLeaf(@NotNull Node node, int key) {
+  private LeafNode findLeafToInsert(@NotNull Node node, long key) {
     while (!node.isLeaf()) {
       InternalNode in = (InternalNode) node;
       int i = 0;
@@ -331,6 +383,7 @@ public class BPTree {
       }
       node = in.children.get(i);
     }
+
     return (LeafNode) node;
   }
 
@@ -345,17 +398,26 @@ public class BPTree {
   }
 
 
-  //TODO needs a real printMethod() or an overriden toString()
+  //TODO needs a real printMethod() or an override toString()
   public void printTree() {
     printNode(root, 0);
   }
 
 
   private void printNode(Node node, int level) {
-    System.out.println("Level " + level + ": " + node.keys);
+    System.out.println(System.lineSeparator() + "Level " + level + ": " + node.keys);
     if (!(node instanceof LeafNode)) {
       for (Node child : ((InternalNode) node).children) {
         printNode(child, level + 1);
+      }
+    } else {
+      LeafNode tempNode = (LeafNode) node;
+      for (IDataType[] row : tempNode.rows) {
+        System.out.print("[");
+        for (IDataType rowElem : row) {
+          System.out.print(rowElem + " ");
+        }
+        System.out.print("]");
       }
     }
   }

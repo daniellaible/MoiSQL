@@ -21,9 +21,13 @@ public class Int extends NumericDataType {
   }
 
   @Override
-  public String getName() {
+  public String getDataType() {
     return "INT";
   }
 
+  @Override
+  public String toString(){
+    return String.valueOf(value.intValue());
+  }
 
 }
