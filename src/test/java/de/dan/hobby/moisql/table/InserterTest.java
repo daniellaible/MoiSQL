@@ -49,4 +49,15 @@ class InserterTest {
     tree.printTree();
   }
 
+  @Test
+  void testInsertionTwoRows(){
+    IDataType[] dataRow = new IDataType[]{new Int(1), new VarChar("Bob"), new VarChar("Seeger")};
+    IDataType[] dataRow2 = new IDataType[]{new Int(2), new VarChar("Keith"), new VarChar("Richards")};
+    IDataType[] dataRow3 = new IDataType[]{new Int(3), new VarChar("David"), new VarChar("Bowie")};
+    Inserter inserter = new Inserter(dataRow, tree);
+    Inserter inserter2 = new Inserter(dataRow2, tree);
+
+    tree.printTree();
+  }
+
 }

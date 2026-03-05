@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Daniel Laible
  * @since 0.0.1
- *
+ * <p>
  * Basic datastructure of a B+Tree to retrieve keys in a fast way.
  * While creating a new B+Tree you need to provide the magnitude of the tree.
  * Some refer to the magnitude also as order or degree of the tree.
@@ -65,7 +65,7 @@ public class BPTree {
    */
   public void specifyDataStructure(@NotNull IDataType[] dataStruct, @NotNull VarChar[] columnNames)
       throws IllegalArgumentException {
-    if(dataStruct.length != columnNames.length){
+    if (dataStruct.length != columnNames.length) {
       throw new IllegalArgumentException("Data size mismatch");
     }
     this.dataStructure = dataStruct;
@@ -80,18 +80,19 @@ public class BPTree {
     return columnNames;
   }
 
-  public String getTableName(){
+  public String getTableName() {
     return tableName.getValue();
   }
 
   /**
    * Inserts a row to the datastructure using the id as key
+   *
    * @param row
    */
   public void insertRow(IDataType[] row) {
-    var tempKey = (Int)row[0];
+    var tempKey = (Int) row[0];
     int key = tempKey.getValue();
-    LeafNode leaf = findLeaf(root, key);
+    LeafNode leaf = findLeafToInsert(root, key);
     insertSorted(leaf, row, key);
 
     if (leaf.keys.size() > maxKeys()) {
@@ -101,6 +102,7 @@ public class BPTree {
 
   /**
    * Deletes a row from the datastructure
+   *
    * @param key
    */
   public void delete(int key) {
@@ -108,7 +110,7 @@ public class BPTree {
       return;
     }
 
-    LeafNode leaf = findLeaf(root, key);
+    LeafNode leaf = findLeafToInsert(root, key);
     int idx = Collections.binarySearch(leaf.keys, key);
 
     if (idx < 0) {
@@ -129,6 +131,43 @@ public class BPTree {
     } else {
       updateParentKeyAfterDeletion(leaf);
     }
+  }
+
+  //TODO This needs to be tested
+  /**
+   *
+   * @throws UnsupportedOperationException
+   * @param key
+   * @return row of the table, if no element is found null is returned
+   */
+  public IDataType[] findRow(int key) {
+    throw new UnsupportedOperationException("Needs to be tested first");
+/*    nodeRunner(root, key);
+      return null;*/
+  }
+
+  //TODO This needs to be tested
+  private IDataType[] nodeRunner(Node node, int key) {
+    if (node.keys.contains(key) && node.isLeaf()) {
+      LeafNode leaf = (LeafNode) node;
+      for (IDataType[] row : leaf.rows) {
+        Int temp = (Int) row[0];
+        int currentId = temp.getValue();
+        if (currentId == key) {
+          return row;
+        }
+      }
+
+    } else if (!node.isLeaf()) {
+      int i = 0;
+      while (i < node.keys.size() && node.keys.get(i) < key) {
+        i++;
+      }
+      InternalNode intern = (InternalNode) node;
+      Node newNode = intern.children.get(i);
+      return nodeRunner(newNode, key);
+    }
+    return null;
   }
 
 
@@ -170,21 +209,21 @@ public class BPTree {
       InternalNode parent, int sepIndex) {
 
     if (left.isLeaf()) {
-      LeafNode l = (LeafNode) left;
-      LeafNode r = (LeafNode) right;
+      LeafNode newLeft = (LeafNode) left;
+      LeafNode newRight = (LeafNode) right;
 
-      l.keys.addAll(r.keys);
-      l.next = r.next;
+      newLeft.keys.addAll(newRight.keys);
+      newLeft.next = newRight.next;
     } else {
-      InternalNode l = (InternalNode) left;
-      InternalNode r = (InternalNode) right;
+      InternalNode newLeft = (InternalNode) left;
+      InternalNode newRight = (InternalNode) right;
 
-      l.keys.add(parent.keys.get(sepIndex));
-      l.keys.addAll(r.keys);
+      newLeft.keys.add(parent.keys.get(sepIndex));
+      newLeft.keys.addAll(newRight.keys);
 
-      for (Node child : r.children) {
-        l.children.add(child);
-        child.parent = l;
+      for (Node child : newRight.children) {
+        newLeft.children.add(child);
+        child.parent = newLeft;
       }
     }
 
@@ -331,7 +370,7 @@ public class BPTree {
   }
 
 
-  private LeafNode findLeaf(@NotNull Node node, long key) {
+  private LeafNode findLeafToInsert(@NotNull Node node, long key) {
     while (!node.isLeaf()) {
       InternalNode in = (InternalNode) node;
       int i = 0;
@@ -340,6 +379,7 @@ public class BPTree {
       }
       node = in.children.get(i);
     }
+
     return (LeafNode) node;
   }
 
@@ -354,7 +394,7 @@ public class BPTree {
   }
 
 
-  //TODO needs a real printMethod() or an overriden toString()
+  //TODO needs a real printMethod() or an override toString()
   public void printTree() {
     printNode(root, 0);
   }
@@ -368,11 +408,11 @@ public class BPTree {
       for (Node child : ((InternalNode) node).children) {
         printNode(child, level + 1);
       }
-    }else{
+    } else {
       LeafNode tempNode = (LeafNode) node;
-      for(IDataType[] row : tempNode.rows){
+      for (IDataType[] row : tempNode.rows) {
         System.out.print("[");
-        for(IDataType rowElem : row){
+        for (IDataType rowElem : row) {
           System.out.print(rowElem + " ");
         }
         System.out.print("]");
