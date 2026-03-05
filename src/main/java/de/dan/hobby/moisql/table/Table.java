@@ -31,8 +31,9 @@ public class Table {
   //TODO needs implementation
   public void edit(int key, String rowName, IDataType newValue){}
 
-  //TODO need implementation
-  public IDataType[] find(int key){return null;}
+  public IDataType[] find(int id){
+    return tree.findRow(id);
+  }
 
   //TODO need implementation
   public void save(){}

@@ -309,7 +309,11 @@ public class BPTree {
     int mid = (leaf.keys.size() + 1) / 2;
     LeafNode newLeaf = new LeafNode();
     newLeaf.keys.addAll(leaf.keys.subList(mid, leaf.keys.size()));
+    newLeaf.rows.addAll(leaf.rows.subList(mid, leaf.rows.size()));
+
     leaf.keys = new ArrayList<>(leaf.keys.subList(0, mid));
+    leaf.rows = new ArrayList<>(leaf.rows.subList(0, mid));
+
     newLeaf.next = leaf.next;
     leaf.next = newLeaf;
 
@@ -401,7 +405,7 @@ public class BPTree {
 
 
   private void printNode(Node node, int level) {
-    System.out.println("Level " + level + ": " + node.keys);
+    System.out.println(System.lineSeparator() + "Level " + level + ": " + node.keys);
     if (!(node instanceof LeafNode)) {
       for (Node child : ((InternalNode) node).children) {
         printNode(child, level + 1);

@@ -50,13 +50,18 @@ class InserterTest {
   }
 
   @Test
-  void testInsertionTwoRows(){
+  void testInsertionMultiRows(){
     IDataType[] dataRow = new IDataType[]{new Int(1), new VarChar("Bob"), new VarChar("Seeger")};
     IDataType[] dataRow2 = new IDataType[]{new Int(2), new VarChar("Keith"), new VarChar("Richards")};
     IDataType[] dataRow3 = new IDataType[]{new Int(3), new VarChar("David"), new VarChar("Bowie")};
+    IDataType[] dataRow4 = new IDataType[]{new Int(4), new VarChar("Paul"), new VarChar("Young")};
+    IDataType[] dataRow5 = new IDataType[]{new Int(5), new VarChar("Elton"), new VarChar("John")};
+
     Inserter inserter = new Inserter(dataRow, tree);
     Inserter inserter2 = new Inserter(dataRow2, tree);
-
+    Inserter inserter3 = new Inserter(dataRow3, tree);
+    Inserter inserter4 = new Inserter(dataRow4, tree);
+    Inserter inserter5 = new Inserter(dataRow5, tree);
     tree.printTree();
   }
 
