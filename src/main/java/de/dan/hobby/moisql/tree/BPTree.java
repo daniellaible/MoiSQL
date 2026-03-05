@@ -137,22 +137,18 @@ public class BPTree {
   }
 
   //TODO This needs to be tested
+
   /**
-   *
-   * @throws UnsupportedOperationException
    * @param key
    * @return row of the table, if no element is found null is returned
    */
   public IDataType[] findRow(int key) {
-    throw new UnsupportedOperationException("Needs to be tested first");
-/*    nodeRunner(root, key);
-      return null;*/
+    return findNode(root, key);
   }
 
   //TODO This needs to be tested
-  private IDataType[] nodeRunner(Node node, int key) {
-    //This won't word - we need the range and not if the list contains the element
-    if (node.keys.contains(key) && node.isLeaf()) {
+  private IDataType[] findNode(Node node, int key) {
+    if (node.isLeaf()) {
       LeafNode leaf = (LeafNode) node;
       for (IDataType[] row : leaf.rows) {
         Int temp = (Int) row[0];
@@ -169,7 +165,7 @@ public class BPTree {
       }
       InternalNode intern = (InternalNode) node;
       Node newNode = intern.children.get(i);
-      return nodeRunner(newNode, key);
+      return findNode(newNode, key);
     }
     return null;
   }
