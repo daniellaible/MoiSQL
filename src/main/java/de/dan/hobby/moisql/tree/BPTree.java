@@ -93,10 +93,10 @@ public class BPTree {
    * @param row
    */
   public void insertRow(IDataType[] row) {
-    var tempKey = (Int) row[0];
-    int key = tempKey.getValue();
-    LeafNode leaf = findLeafToInsert(root, key);
-    insertSorted(leaf, row, key);
+    Int tempId = (Int) row[0];
+    int id = tempId.getValue();
+    LeafNode leaf = findLeafToInsert(root, id);
+    insertSorted(leaf, row, id);
 
     if (leaf.keys.size() > maxKeys()) {
       splitLeaf(leaf);
@@ -121,6 +121,7 @@ public class BPTree {
     }
 
     leaf.keys.remove(idx);
+    leaf.rows.remove(idx);
 
     if (leaf == root) {
       if (leaf.keys.isEmpty()) {
@@ -136,18 +137,18 @@ public class BPTree {
     }
   }
 
-  //TODO This needs to be tested
 
+  //TODO This needs to be tested
   /**
    * @param key
    * @return row of the table, if no element is found null is returned
    */
   public IDataType[] findRow(int key) {
-    return findNode(root, key);
+    return retriveRowData(root, key);
   }
 
   //TODO This needs to be tested
-  private IDataType[] findNode(Node node, int key) {
+  private IDataType[] retriveRowData(Node node, int key) {
     if (node.isLeaf()) {
       LeafNode leaf = (LeafNode) node;
       for (IDataType[] row : leaf.rows) {
@@ -164,8 +165,8 @@ public class BPTree {
         i++;
       }
       InternalNode intern = (InternalNode) node;
-      Node newNode = intern.children.get(i);
-      return findNode(newNode, key);
+      Node child = intern.children.get(i);
+      return retriveRowData(child, key);
     }
     return null;
   }
@@ -213,6 +214,7 @@ public class BPTree {
       LeafNode newRight = (LeafNode) right;
 
       newLeft.keys.addAll(newRight.keys);
+      newLeft.rows.addAll(newRight.rows);
       newLeft.next = newRight.next;
     } else {
       InternalNode newLeft = (InternalNode) left;
@@ -250,7 +252,7 @@ public class BPTree {
       LeafNode right = (LeafNode) rightSibling;
 
       leaf.keys.add(right.keys.remove(0));
-      leaf.keys.add(right.keys.remove(0));
+      leaf.rows.add(right.rows.remove(0));
 
       parent.keys.set(sepIndex, right.keys.get(0));
     } else {
@@ -275,6 +277,8 @@ public class BPTree {
       LeafNode left = (LeafNode) leftSibling;
 
       leaf.keys.add(0, left.keys.remove(left.keys.size() - 1));
+      leaf.rows.add(0, left.rows.remove(left.rows.size() - 1));
+      //Here with rows
 
       parent.keys.set(sepIndex, leaf.keys.get(0));
     } else {
@@ -363,7 +367,7 @@ public class BPTree {
   }
 
 
-  private void insertSorted(@NotNull LeafNode leaf, @NotNull IDataType[] row, @NotNull int key) {
+  private void insertSorted(@NotNull LeafNode leaf, @NotNull IDataType[] row, int key) {
     List<Integer> keys = leaf.keys;
     int i = 0;
     while (i < keys.size() && keys.get(i) < key) {

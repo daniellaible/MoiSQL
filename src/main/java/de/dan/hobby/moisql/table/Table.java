@@ -7,55 +7,59 @@ import de.dan.hobby.moisql.tree.BPTree;
 /**
  * @author Daniel Laible
  * @since 0.0.3
- *
+ * <p>
  * This class represents the interface of a table.
- *
  */
 public class Table {
 
   private BPTree tree;
 
-  public Table(String tableName, IDataType[] typeRow, VarChar[] rownames) {
+  public Table(String tableName, IDataType[] typeRow, VarChar[] columnNames) {
     tree = new BPTree(3, new VarChar(tableName));
-    tree.specifyDataStructure(typeRow, rownames);
+    tree.specifyDataStructure(typeRow, columnNames);
   }
 
-  //TODO needs implementation
-  public void insertInto(IDataType[] dataRow){
+  public void insert(IDataType[] dataRow) {
     Inserter inserter = new Inserter(dataRow, tree);
   }
 
-  //TODO needs implementaion
-  public void deleteFrom(){}
+  public void delete(int id) {
+    Deleter deleter = new Deleter(tree, id);
+  }
 
   //TODO needs implementation
-  public void edit(int key, String rowName, IDataType newValue){}
+  public void edit(IDataType newValue, String rowName, int key ) {
+  }
 
-  public IDataType[] find(int id){
+  public IDataType[] find(int id) {
     return tree.findRow(id);
   }
 
   //TODO need implementation
-  public void save(){}
+  public void save() {
+  }
 
   //TODO needs implementation
-  public void load(){}
+  public void load() {
+  }
 
   //TODO needs implementation
-  public void flush(){}
+  public void flush() {
+  }
 
   //TODO needs implementation
-  public void removeFromMemory(){}
+  public void removeFromMemory() {
+  }
 
-  public String getTableName(){
+  public String getTableName() {
     return tree.getTableName();
   }
 
-  public String getRowNames(){
+  public String getRowNames() {
     var names = tree.getColumnNames();
     StringBuilder sb = new StringBuilder();
-    for(VarChar name : names){
-      sb.append(name.getValue()+ " ");
+    for (VarChar name : names) {
+      sb.append(name.getValue() + " ");
     }
     return sb.toString().trim();
   }

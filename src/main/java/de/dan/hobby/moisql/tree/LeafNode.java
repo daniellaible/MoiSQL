@@ -13,7 +13,6 @@ import java.util.List;
  *
  * This class represents the leaf a B+Tree and therefor will hold the data
  */
-//TODO Here will the actual data be stored
 public class LeafNode extends Node {
 
   LeafNode next;

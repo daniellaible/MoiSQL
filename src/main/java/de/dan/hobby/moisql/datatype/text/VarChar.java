@@ -12,6 +12,8 @@ import de.dan.hobby.moisql.datatype.IDataType;
  */
 public class VarChar implements IDataType {
 
+  //TODO: add logger for value.length > 255;
+
   private char[] value;
 
   private DataType datatype = DataType.VARCHAR;
