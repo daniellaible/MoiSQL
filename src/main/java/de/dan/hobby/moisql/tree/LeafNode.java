@@ -23,4 +23,12 @@ public class LeafNode extends Node {
   boolean isLeaf() {
     return true;
   }
+
+  public LeafNode getNext() {
+    return next;
+  }
+
+  public List<IDataType[]> getRows() {
+    return rows;
+  }
 }

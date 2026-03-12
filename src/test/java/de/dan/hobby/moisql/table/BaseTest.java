@@ -1,7 +1,6 @@
 package de.dan.hobby.moisql.table;
 
 import de.dan.hobby.moisql.datatype.IDataType;
-import de.dan.hobby.moisql.datatype.numeric.BigInt;
 import de.dan.hobby.moisql.datatype.numeric.Decimal;
 import de.dan.hobby.moisql.datatype.numeric.Int;
 import de.dan.hobby.moisql.datatype.text.VarChar;
@@ -17,9 +16,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class WorldCitiesTest {
+public class BaseTest {
 
-  private static List<City> cities = new ArrayList<>();
+  static List<City> cities = new ArrayList<>();
+
+  static Table table;
 
   @BeforeAll
   static void readCitiesCsv() {
@@ -51,33 +52,26 @@ public class WorldCitiesTest {
       }
       in.close();
 
+      IDataType[] typeRow = new IDataType[] {new Int(0),new VarChar(""),new Decimal(0f), new Decimal(0f),new VarChar(""), new Int(0)};
+      VarChar[] columns = new VarChar[]{new VarChar("id"), new VarChar("name"), new VarChar("lat"), new VarChar("lng"), new VarChar(
+          "country"), new VarChar(
+          "population")};
+      table = new Table("cities", typeRow, columns);
+
+      int idCounter = 1;
+      for(City city : cities) {
+        IDataType[] row = new IDataType[]{new Int(idCounter), new VarChar(city.name()),new Decimal(city.lat()), new Decimal(city.lng()),
+            new VarChar(city.country()), new Int(city.population())};
+        table.insert(row);
+        idCounter++;
+      }
+
     } catch (FileNotFoundException e) {
       throw new RuntimeException(e);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
-
-  @Test
-  void importCities() {
-    IDataType[] typeRow = new IDataType[] {new Int(0),new VarChar(""),new Decimal(0f), new Decimal(0f),new VarChar(""), new Int(0)};
-    VarChar[] columns = new VarChar[]{new VarChar("id"), new VarChar("name"), new VarChar("lat"), new VarChar("lng"), new VarChar(
-        "country"), new VarChar(
-        "population")};
-    Table table = new Table("cities", typeRow, columns);
-
-    int counter = 1;
-    for(City city : cities) {
-      IDataType[] row = new IDataType[]{new Int(counter), new VarChar(city.name()),new Decimal(city.lat()), new Decimal(city.lng()),
-          new VarChar(city.country()), new Int(city.population())};
-      table.insert(row);
-      counter++;
-    }
-    table.print();
-  }
-
 }
 
-record City(String name, float lat, float lng, String country, int population) {
-
-}
+record City(String name, float lat, float lng, String country, int population) {}

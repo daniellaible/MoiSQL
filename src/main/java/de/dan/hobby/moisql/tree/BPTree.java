@@ -137,6 +137,15 @@ public class BPTree {
     }
   }
 
+  public LeafNode findFirstLeaf(){
+    Node node = root;
+    while(!node.isLeaf()) {
+      InternalNode intern = (InternalNode) node;
+      node = intern.children.get(0);
+    }
+    return (LeafNode) node;
+  }
+
 
   //TODO This needs to be tested
   /**

@@ -3,6 +3,7 @@ package de.dan.hobby.moisql.table;
 import de.dan.hobby.moisql.datatype.IDataType;
 import de.dan.hobby.moisql.datatype.text.VarChar;
 import de.dan.hobby.moisql.tree.BPTree;
+import de.dan.hobby.moisql.tree.LeafNode;
 
 /**
  * @author Daniel Laible
@@ -33,6 +34,10 @@ public class Table {
 
   public IDataType[] find(int id) {
     return tree.findRow(id);
+  }
+
+  public LeafNode findFirstLeaf(){
+    return tree.findFirstLeaf();
   }
 
   //TODO need implementation
