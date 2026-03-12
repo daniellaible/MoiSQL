@@ -1,10 +1,9 @@
 how to save text ?
 
-add rows to the tree
-table needs a name - what are the rules for the name
+testing --- https://simplemaps.com/data/world-cities.
+
 what about multiple tables
 datarecovery?
-
 
 save a table to disc
 read a table from disc

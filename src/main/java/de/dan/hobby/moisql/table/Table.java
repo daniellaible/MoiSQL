@@ -51,6 +51,10 @@ public class Table {
   public void removeFromMemory() {
   }
 
+  public void print(){
+    tree.printTree();
+  }
+
   public String getTableName() {
     return tree.getTableName();
   }
