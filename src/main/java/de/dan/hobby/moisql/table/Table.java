@@ -5,6 +5,7 @@ import de.dan.hobby.moisql.datatype.text.VarChar;
 import de.dan.hobby.moisql.tree.BPTree;
 import de.dan.hobby.moisql.tree.LeafNode;
 
+
 /**
  * @author Daniel Laible
  * @since 0.0.3
@@ -13,19 +14,20 @@ import de.dan.hobby.moisql.tree.LeafNode;
  */
 public class Table {
 
-  private BPTree tree;
+  private BPTree tableTree;
+
 
   public Table(String tableName, IDataType[] typeRow, VarChar[] columnNames) {
-    tree = new BPTree(3, new VarChar(tableName));
-    tree.specifyDataStructure(typeRow, columnNames);
+    tableTree = new BPTree(3, new VarChar(tableName));
+    tableTree.specifyDataStructure(typeRow, columnNames);
   }
 
   public void insert(IDataType[] dataRow) {
-    Inserter inserter = new Inserter(dataRow, tree);
+    Inserter inserter = new Inserter(dataRow, tableTree);
   }
 
   public void delete(int id) {
-    Deleter deleter = new Deleter(tree, id);
+    Deleter deleter = new Deleter(tableTree, id);
   }
 
   //TODO needs implementation
@@ -33,11 +35,11 @@ public class Table {
   }
 
   public IDataType[] find(int id) {
-    return tree.findRow(id);
+    return tableTree.findRow(id);
   }
 
   public LeafNode findFirstLeaf(){
-    return tree.findFirstLeaf();
+    return tableTree.findFirstLeaf();
   }
 
   //TODO need implementation
@@ -57,15 +59,15 @@ public class Table {
   }
 
   public void print(){
-    tree.printTree();
+    tableTree.printTree();
   }
 
   public String getTableName() {
-    return tree.getTableName();
+    return tableTree.getTableName();
   }
 
   public String getRowNames() {
-    var names = tree.getColumnNames();
+    var names = tableTree.getColumnNames();
     StringBuilder sb = new StringBuilder();
     for (VarChar name : names) {
       sb.append(name.getValue() + " ");
@@ -74,7 +76,7 @@ public class Table {
   }
 
   public String getColumnTypes() {
-    final IDataType[] dataStructure = tree.getDataStructure();
+    final IDataType[] dataStructure = tableTree.getDataStructure();
     StringBuilder sb = new StringBuilder();
     for (IDataType dataType : dataStructure) {
       String type = dataType.getDataType();

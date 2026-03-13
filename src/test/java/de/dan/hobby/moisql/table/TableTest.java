@@ -1,7 +1,7 @@
 package de.dan.hobby.moisql.table;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.dan.hobby.moisql.datatype.IDataType;
 import de.dan.hobby.moisql.datatype.numeric.BigInt;
@@ -36,6 +36,7 @@ class TableTest extends BaseTest{
 
   @Test
   public void findFirstLeafTest(){
+
     LeafNode firstLeaf = table.findFirstLeaf();
     if(firstLeaf != null && !firstLeaf.getRows().isEmpty()) {
       final IDataType[] row = firstLeaf.getRows().get(0);
