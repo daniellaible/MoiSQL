@@ -2,6 +2,12 @@ package de.dan.hobby.moisql.datatype.bool;
 
 import de.dan.hobby.moisql.datatype.IDataType;
 
+/**
+ * @author Daniel Laible
+ * @since 0.1.4
+ *
+ * Int is the wrapper class of a boolean value.
+ */
 public class Bool implements IDataType {
 
   private boolean value;
