@@ -1,8 +1,6 @@
-how to save text ?
-
 testing --- https://simplemaps.com/data/world-cities.
 
-what about multiple tables
+what about multiple trees in a table
 datarecovery?
 
 save a table to disc
@@ -11,3 +9,4 @@ read a table from disc
 implement a server serversocket? ...
 implement a sql parser
 
+how to implement a sql interpreter?
