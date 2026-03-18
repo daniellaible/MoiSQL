@@ -21,6 +21,7 @@ public class BaseTest {
 
   static Table table;
 
+
   @BeforeAll
   static void readCitiesCsv() {
     File citiesFile = new File("C:\\temp\\simplemaps\\worldcities_short.csv");
@@ -53,8 +54,7 @@ public class BaseTest {
 
       IDataType[] typeRow = new IDataType[] {new Int(0),new VarChar(""),new Decimal(0f), new Decimal(0f),new VarChar(""), new Int(0)};
       VarChar[] columns = new VarChar[]{new VarChar("id"), new VarChar("name"), new VarChar("lat"), new VarChar("lng"), new VarChar(
-          "country"), new VarChar(
-          "population")};
+          "country"), new VarChar("population")};
       table = new Table("cities", typeRow, columns);
 
       int idCounter = 1;
@@ -65,7 +65,6 @@ public class BaseTest {
         idCounter++;
       }
 
-
     } catch (FileNotFoundException e) {
       throw new RuntimeException(e);
     } catch (IOException e) {
@@ -73,5 +72,6 @@ public class BaseTest {
     }
   }
 }
+
 
 record City(String name, float lat, float lng, String country, int population) {}

@@ -3,7 +3,6 @@ package de.dan.hobby.moisql.tree;
 import de.dan.hobby.moisql.datatype.IDataType;
 import de.dan.hobby.moisql.datatype.numeric.Int;
 import de.dan.hobby.moisql.datatype.text.VarChar;
-import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -96,7 +95,7 @@ public class BPTree {
   public void insertRow(IDataType[] row) {
     Int tempId = (Int) row[0];
     int id = tempId.getValue();
-    LeafNode leaf = findLeafToInsert(root, id);
+    LeafNode leaf = findLeaf(root, id);
     insertSorted(leaf, row, id);
 
     if (leaf.keys.size() > maxKeys()) {
@@ -107,22 +106,22 @@ public class BPTree {
   /**
    * Deletes a row from the datastructure
    *
-   * @param key
+   * @param id
    */
-  public void delete(int key) {
+  public void delete(int id) {
     if (root == null) {
       return;
     }
 
-    LeafNode leaf = findLeafToInsert(root, key);
-    int idx = Collections.binarySearch(leaf.keys, key);
+    LeafNode leaf = findLeaf(root, id);
+    int index = Collections.binarySearch(leaf.keys, id);
 
-    if (idx < 0) {
+    if (index < 0) {
       return;
     }
 
-    leaf.keys.remove(idx);
-    leaf.rows.remove(idx);
+    leaf.keys.remove(index);
+    leaf.rows.remove(index);
 
     if (leaf == root) {
       if (leaf.keys.isEmpty()) {
@@ -151,33 +150,33 @@ public class BPTree {
 
   //TODO This needs to be tested
   /**
-   * @param key
+   * @param id
    * @return row of the table, if no element is found null is returned
    */
-  public IDataType[] findRow(int key) {
-    return retriveRowData(root, key);
+  public IDataType[] findRow(int id) {
+    return retriveRowData(root, id);
   }
 
   //TODO This needs to be tested
-  private IDataType[] retriveRowData(Node node, int key) {
+  private IDataType[] retriveRowData(Node node, int id) {
     if (node.isLeaf()) {
       LeafNode leaf = (LeafNode) node;
       for (IDataType[] row : leaf.rows) {
         Int temp = (Int) row[0];
         int currentId = temp.getValue();
-        if (currentId == key) {
+        if (currentId == id) {
           return row;
         }
       }
 
     } else if (!node.isLeaf()) {
       int i = 0;
-      while (i < node.keys.size() && node.keys.get(i) < key) {
+      while (i < node.keys.size() && node.keys.get(i) < id) {
         i++;
       }
       InternalNode intern = (InternalNode) node;
       Node child = intern.children.get(i);
-      return retriveRowData(child, key);
+      return retriveRowData(child, id);
     }
     return null;
   }
@@ -389,7 +388,7 @@ public class BPTree {
   }
 
 
-  private LeafNode findLeafToInsert(@NotNull Node node, long key) {
+  private LeafNode findLeaf(@NotNull Node node, long key) {
     while (!node.isLeaf()) {
       InternalNode in = (InternalNode) node;
       int i = 0;

@@ -25,6 +25,7 @@ class TableTest extends BaseTest{
     assertThat(table.getColumnTypes()).isEqualTo("BIGINT VARCHAR VARCHAR VARCHAR");
   }
 
+
   @Test
   public void dataStructureMishapTable(){
     String name = new String("Test-Table");
@@ -33,6 +34,7 @@ class TableTest extends BaseTest{
 
     assertThrows(IllegalArgumentException.class, () -> new Table(name, types, names));
   }
+
 
   @Test
   public void findFirstLeafTest(){
@@ -51,6 +53,7 @@ class TableTest extends BaseTest{
     }
   }
 
+
   @Test
   public void nextLeafTest(){
     LeafNode firstLeaf = table.findFirstLeaf();
@@ -65,5 +68,4 @@ class TableTest extends BaseTest{
     }
     System.out.println(sb);
   }
-
 }
