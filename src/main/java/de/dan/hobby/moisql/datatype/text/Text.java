@@ -20,7 +20,7 @@ public class Text implements IDataType {
   }
 
 
-  public String getValue() {
+  public String getText() {
     return value;
   }
 
@@ -34,5 +34,10 @@ public class Text implements IDataType {
   @Override
   public String getDataType() {
     return "TEXT";
+  }
+
+
+  public Number getValue() {
+    return value.hashCode();
   }
 }

@@ -14,12 +14,19 @@ import de.dan.hobby.moisql.tree.LeafNode;
  */
 public class Table {
 
+  private String tableName;
+
   private BPTree tableTree;
 
 
-  public Table(String tableName, IDataType[] typeRow, VarChar[] columnNames) {
-    tableTree = new BPTree(3, new VarChar(tableName));
+  public Table(IDataType[] typeRow, VarChar[] columnNames, String tableName) {
+    this.tableName = tableName;
+    tableTree = new BPTree(3);
     tableTree.specifyDataStructure(typeRow, columnNames);
+  }
+
+  public String getTableName(){
+    return tableName;
   }
 
   public void insert(IDataType[] dataRow) {
@@ -62,9 +69,6 @@ public class Table {
     tableTree.printTree();
   }
 
-  public String getTableName() {
-    return tableTree.getTableName();
-  }
 
   public String getRowNames() {
     var names = tableTree.getColumnNames();

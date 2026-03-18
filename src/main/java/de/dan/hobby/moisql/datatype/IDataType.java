@@ -10,4 +10,5 @@ package de.dan.hobby.moisql.datatype;
 public interface IDataType {
 
   String getDataType();
+
 }

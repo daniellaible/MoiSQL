@@ -2,7 +2,6 @@ package de.dan.hobby.moisql.tree;
 
 import de.dan.hobby.moisql.datatype.IDataType;
 import de.dan.hobby.moisql.datatype.numeric.BigInt;
-import de.dan.hobby.moisql.datatype.numeric.Int;
 import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,9 +24,7 @@ public class BPTree {
 
   private static final Logger logger = LoggerFactory.getLogger(BPTree.class);
 
-  private VarChar tableName;
-
-  private int magnitude;
+  private final int magnitude;
 
   private Node root;
 
@@ -45,15 +42,13 @@ public class BPTree {
    * The minimum magnitude is 3
    *
    * @param magnitude
-   * @param tableName
    */
-  public BPTree(int magnitude, VarChar tableName) throws IllegalArgumentException {
+  public BPTree(int magnitude) throws IllegalArgumentException {
     if (magnitude < 3) {
       logger.warn("Magnitude needs to be bigger 3 but was: {}", magnitude);
       throw new IllegalArgumentException("Illegal value for magnitude");
     }
     this.magnitude = magnitude;
-    this.tableName = tableName;
     this.root = new LeafNode();
     logger.trace("New tree with magnitude {} was created", magnitude);
   }
@@ -82,10 +77,6 @@ public class BPTree {
 
   public VarChar[] getColumnNames() {
     return columnNames;
-  }
-
-  public String getTableName() {
-    return tableName.getValue();
   }
 
   /**
@@ -138,9 +129,9 @@ public class BPTree {
     }
   }
 
-  public LeafNode findFirstLeaf(){
+  public LeafNode findFirstLeaf() {
     Node node = root;
-    while(!node.isLeaf()) {
+    while (!node.isLeaf()) {
       InternalNode intern = (InternalNode) node;
       node = intern.children.get(0);
     }
@@ -148,8 +139,8 @@ public class BPTree {
     return (LeafNode) node;
   }
 
-
   //TODO This needs to be tested
+
   /**
    * @param id
    * @return row of the table, if no element is found null is returned
@@ -336,7 +327,7 @@ public class BPTree {
   }
 
 
-  private void insertIntoParent(@NotNull Node left, long key,@NotNull Node right) {
+  private void insertIntoParent(@NotNull Node left, long key, @NotNull Node right) {
     if (left.parent == null) {
       InternalNode newRoot = new InternalNode();
       newRoot.keys.add(key);
@@ -421,12 +412,11 @@ public class BPTree {
 
   private void printNode(Node node, int level) {
     System.out.println(System.lineSeparator() + "Level " + level + ": " + node.keys);
-    if (!(node instanceof LeafNode)) {
+    if (!(node instanceof LeafNode tempNode)) {
       for (Node child : ((InternalNode) node).children) {
         printNode(child, level + 1);
       }
     } else {
-      LeafNode tempNode = (LeafNode) node;
       for (IDataType[] row : tempNode.rows) {
         System.out.print("[");
         for (IDataType rowElem : row) {

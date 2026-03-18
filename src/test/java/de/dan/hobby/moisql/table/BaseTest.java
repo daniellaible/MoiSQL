@@ -56,7 +56,7 @@ public class BaseTest {
       IDataType[] typeRow = new IDataType[] {new BigInt(0L),new VarChar(""),new Decimal(0f), new Decimal(0f),new VarChar(""), new Int(0)};
       VarChar[] columns = new VarChar[]{new VarChar("id"), new VarChar("name"), new VarChar("lat"), new VarChar("lng"), new VarChar(
           "country"), new VarChar("population")};
-      table = new Table("cities", typeRow, columns);
+      table = new Table(typeRow, columns, "cities");
 
       int idCounter = 1;
       for(City city : cities) {
