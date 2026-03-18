@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.table;
 
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.numeric.BigInt;
 import de.dan.hobby.moisql.datatype.numeric.Decimal;
 import de.dan.hobby.moisql.datatype.numeric.Int;
 import de.dan.hobby.moisql.datatype.text.VarChar;
@@ -52,14 +53,15 @@ public class BaseTest {
       }
       in.close();
 
-      IDataType[] typeRow = new IDataType[] {new Int(0),new VarChar(""),new Decimal(0f), new Decimal(0f),new VarChar(""), new Int(0)};
+      IDataType[] typeRow = new IDataType[] {new BigInt(0L),new VarChar(""),new Decimal(0f), new Decimal(0f),new VarChar(""), new Int(0)};
       VarChar[] columns = new VarChar[]{new VarChar("id"), new VarChar("name"), new VarChar("lat"), new VarChar("lng"), new VarChar(
           "country"), new VarChar("population")};
       table = new Table("cities", typeRow, columns);
 
       int idCounter = 1;
       for(City city : cities) {
-        IDataType[] row = new IDataType[]{new Int(idCounter), new VarChar(city.name()),new Decimal(city.lat()), new Decimal(city.lng()),
+        IDataType[] row = new IDataType[]{new BigInt((long)idCounter), new VarChar(city.name()),new Decimal(city.lat()),
+            new Decimal(city.lng()),
             new VarChar(city.country()), new Int(city.population())};
         table.insert(row);
         idCounter++;

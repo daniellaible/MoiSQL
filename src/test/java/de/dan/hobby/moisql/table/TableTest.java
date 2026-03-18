@@ -42,7 +42,7 @@ class TableTest extends BaseTest{
     LeafNode firstLeaf = table.findFirstLeaf();
     if(firstLeaf != null && !firstLeaf.getRows().isEmpty()) {
       final IDataType[] row = firstLeaf.getRows().get(0);
-      Int id = (Int) row[0];
+      BigInt id = (BigInt) row[0];
       assertThat(id.getValue()).isEqualTo(1);
 
       StringBuilder sb = new StringBuilder();

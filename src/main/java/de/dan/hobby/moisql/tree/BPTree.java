@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.tree;
 
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.numeric.BigInt;
 import de.dan.hobby.moisql.datatype.numeric.Int;
 import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.util.ArrayList;
@@ -93,8 +94,8 @@ public class BPTree {
    * @param row
    */
   public void insertRow(IDataType[] row) {
-    Int tempId = (Int) row[0];
-    int id = tempId.getValue();
+    BigInt tempId = (BigInt) row[0];
+    long id = tempId.getValue();
     LeafNode leaf = findLeaf(root, id);
     insertSorted(leaf, row, id);
 
@@ -108,7 +109,7 @@ public class BPTree {
    *
    * @param id
    */
-  public void delete(int id) {
+  public void delete(long id) {
     if (root == null) {
       return;
     }
@@ -153,17 +154,17 @@ public class BPTree {
    * @param id
    * @return row of the table, if no element is found null is returned
    */
-  public IDataType[] findRow(int id) {
+  public IDataType[] findRow(long id) {
     return retriveRowData(root, id);
   }
 
   //TODO This needs to be tested
-  private IDataType[] retriveRowData(Node node, int id) {
+  private IDataType[] retriveRowData(Node node, long id) {
     if (node.isLeaf()) {
       LeafNode leaf = (LeafNode) node;
       for (IDataType[] row : leaf.rows) {
-        Int temp = (Int) row[0];
-        int currentId = temp.getValue();
+        BigInt temp = (BigInt) row[0];
+        long currentId = temp.getValue();
         if (currentId == id) {
           return row;
         }
@@ -320,7 +321,7 @@ public class BPTree {
 
 
   private void splitLeaf(@NotNull LeafNode leaf) {
-    int mid = (leaf.keys.size() + 1) / 2;
+    var mid = (leaf.keys.size() + 1) / 2;
     LeafNode newLeaf = new LeafNode();
     newLeaf.keys.addAll(leaf.keys.subList(mid, leaf.keys.size()));
     newLeaf.rows.addAll(leaf.rows.subList(mid, leaf.rows.size()));
@@ -335,7 +336,7 @@ public class BPTree {
   }
 
 
-  private void insertIntoParent(Node left, @NotNull Integer key, Node right) {
+  private void insertIntoParent(@NotNull Node left, long key,@NotNull Node right) {
     if (left.parent == null) {
       InternalNode newRoot = new InternalNode();
       newRoot.keys.add(key);
@@ -360,8 +361,8 @@ public class BPTree {
 
 
   private void splitInternal(@NotNull InternalNode node) {
-    int mid = node.keys.size() / 2;
-    int upKey = node.keys.get(mid);
+    var mid = node.keys.size() / 2;
+    var upKey = node.keys.get(mid);
 
     InternalNode newNode = new InternalNode();
     newNode.keys.addAll(node.keys.subList(mid + 1, node.keys.size()));
@@ -377,8 +378,8 @@ public class BPTree {
   }
 
 
-  private void insertSorted(@NotNull LeafNode leaf, @NotNull IDataType[] row, int key) {
-    List<Integer> keys = leaf.keys;
+  private void insertSorted(@NotNull LeafNode leaf, @NotNull IDataType[] row, long key) {
+    List<Long> keys = leaf.keys;
     int i = 0;
     while (i < keys.size() && keys.get(i) < key) {
       i++;
