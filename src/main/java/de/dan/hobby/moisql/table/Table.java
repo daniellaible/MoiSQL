@@ -4,13 +4,17 @@ import de.dan.hobby.moisql.datatype.IDataType;
 import de.dan.hobby.moisql.datatype.text.VarChar;
 import de.dan.hobby.moisql.tree.BPTree;
 import de.dan.hobby.moisql.tree.LeafNode;
+import java.io.File;
+import java.nio.file.NoSuchFileException;
+import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
  * @author Daniel Laible
  * @since 0.0.3
- * <p>
- * This class represents the interface of a table.
+ *
+ * This class represents a table.
  */
 public class Table {
 
@@ -18,58 +22,122 @@ public class Table {
 
   private BPTree tableTree;
 
+  private UUID uuid;
 
-  public Table(IDataType[] typeRow, VarChar[] columnNames, String tableName) {
+
+  /**
+   * With this constructor a new table in the database is created
+   *
+   * @param typeRow an array of IDataType which specifies the datatype of each column
+   * @param columnNames an array of VarChar the names each column and is used as an identifier
+   * @param tableName how this table is named
+   */
+  //TODO check that there are no duplicates in the columnNames
+  public Table(@NotNull IDataType[] typeRow,@NotNull VarChar[] columnNames, @NotNull String tableName) {
     this.tableName = tableName;
     tableTree = new BPTree(3);
     tableTree.specifyDataStructure(typeRow, columnNames);
+    this.uuid = generateUUID(tableName);
   }
 
+
+  /**
+   * This retrives the name of the table
+   *
+   * @return the unique name of this table
+   */
   public String getTableName(){
     return tableName;
   }
 
+
+  /**
+   * This retrieves the uuid of the table. The uuid is a combination of the timestamp when the
+   * table was created and the name of the table.
+   *
+   * @return the uuid of the table
+   */
+  public UUID getUuid(){
+    return uuid;
+  }
+
+
+  /**
+   * This is used to insert a whole new row into the table
+   * Make sure that the IDataRow[] has the same specification as the table
+   * Also ensure that the first element of the row is its id and that it is
+   * of type BigInt
+   * @param dataRow
+   */
+  //TODO check that the datarow has the same spec as the table
   public void insert(IDataType[] dataRow) {
     Inserter inserter = new Inserter(dataRow, tableTree);
   }
 
+
+  /**
+   * Use this method to delete a row in the table
+   * @param id
+   */
   public void delete(int id) {
     Deleter deleter = new Deleter(tableTree, id);
   }
+
 
   //TODO needs implementation
   public void edit(IDataType newValue, String rowName, int key ) {
   }
 
-  public IDataType[] find(int id) {
+
+  /**
+   * You can use this method to find a row in the table by providing the id
+   *
+   * @param id of the row you are looking for
+   * @return a row of the table or null if nothing has been found
+   */
+  public IDataType[] find(long id) {
     return tableTree.findRow(id);
   }
+
+
 
   public LeafNode findFirstLeaf(){
     return tableTree.findFirstLeaf();
   }
 
-  //TODO need implementation
-  public void save() {
+
+  public void save(File directory) throws NoSuchFileException {
+    Saver saver = new Saver(directory, tableTree, uuid);
   }
+
 
   //TODO needs implementation
   public void load() {
   }
 
+
   //TODO needs implementation
   public void flush() {
   }
+
 
   //TODO needs implementation
   public void removeFromMemory() {
   }
 
+
+  /**
+   * Prints out the tree that stores the data of the table
+   */
   public void print(){
     tableTree.printTree();
   }
 
 
+  /**
+   * This method retrieves the named identifier of each column
+   * @return a String representation of the column names
+   */
   public String getRowNames() {
     var names = tableTree.getColumnNames();
     StringBuilder sb = new StringBuilder();
@@ -79,6 +147,10 @@ public class Table {
     return sb.toString().trim();
   }
 
+  /**
+   *
+   * @return
+   */
   public String getColumnTypes() {
     final IDataType[] dataStructure = tableTree.getDataStructure();
     StringBuilder sb = new StringBuilder();
@@ -87,5 +159,12 @@ public class Table {
       sb.append(type + " ");
     }
     return sb.toString().trim();
+  }
+
+  private UUID generateUUID(String tableName) {
+    byte[] time = Long.toString(System.currentTimeMillis()).getBytes();
+    byte[] nameAsBytes = tableName.getBytes();
+    byte[] concat = new byte[nameAsBytes.length + time.length];
+    return UUID.nameUUIDFromBytes(concat);
   }
 }

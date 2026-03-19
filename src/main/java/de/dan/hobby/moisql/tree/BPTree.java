@@ -129,6 +129,14 @@ public class BPTree {
     }
   }
 
+  /**
+   * If you look at a tree graphically, this method returns the
+   * leaf that is the furthest to the left. It contains the row
+   * with the lowest id. From this point traversing through all
+   * elements of the table can be achived by using the getNext()
+   * method.
+   * @return the leaf with the elements with the lowest id
+   */
   public LeafNode findFirstLeaf() {
     Node node = root;
     while (!node.isLeaf()) {

@@ -24,10 +24,18 @@ public class LeafNode extends Node {
     return true;
   }
 
+  /**
+   *
+   * @return the next leaf node in a B+Tree
+   */
   public LeafNode getNext() {
     return next;
   }
 
+  /**
+   *
+   * @return
+   */
   public List<IDataType[]> getRows() {
     return rows;
   }
