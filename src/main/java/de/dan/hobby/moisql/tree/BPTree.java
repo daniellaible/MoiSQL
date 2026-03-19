@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Daniel Laible
  * @since 0.0.1
- * <p>
+ *
  * Basic datastructure of a B+Tree to retrieve keys in a fast way.
  * While creating a new B+Tree you need to provide the magnitude of the tree.
  * Some refer to the magnitude also as order or degree of the tree.
@@ -71,10 +71,20 @@ public class BPTree {
     this.columnNames = columnNames;
   }
 
+  /**
+   * returns the datastructure of this table
+   *
+   * @return IDataType[] array of all columns of this table
+   */
   public IDataType[] getDataStructure() {
     return dataStructure;
   }
 
+  /**
+   * Returns all the named identifiers of this table
+   *
+   * @return VarChar array of all the columns names
+   */
   public VarChar[] getColumnNames() {
     return columnNames;
   }
@@ -82,7 +92,7 @@ public class BPTree {
   /**
    * Inserts a row to the datastructure using the id as key
    *
-   * @param row
+   * @param row that will be inserted
    */
   public void insertRow(IDataType[] row) {
     BigInt tempId = (BigInt) row[0];
@@ -98,7 +108,7 @@ public class BPTree {
   /**
    * Deletes a row from the datastructure
    *
-   * @param id
+   * @param id of the row that will be deleted
    */
   public void delete(long id) {
     if (root == null) {
@@ -147,9 +157,9 @@ public class BPTree {
     return (LeafNode) node;
   }
 
-  //TODO This needs to be tested
-
   /**
+   * With this method you can find a row by its id
+   *
    * @param id
    * @return row of the table, if no element is found null is returned
    */
@@ -157,7 +167,18 @@ public class BPTree {
     return retriveRowData(root, id);
   }
 
-  //TODO This needs to be tested
+
+
+  //TODO needs a real printMethod() or an override toString()
+
+  /**
+   * Prints out the tree with all the data inside
+   */
+  public void printTree() {
+    printNode(root, 0);
+  }
+
+
   private IDataType[] retriveRowData(Node node, long id) {
     if (node.isLeaf()) {
       LeafNode leaf = (LeafNode) node;
@@ -411,11 +432,6 @@ public class BPTree {
     return (int) Math.ceil((magnitude - 1) / 2f);
   }
 
-
-  //TODO needs a real printMethod() or an override toString()
-  public void printTree() {
-    printNode(root, 0);
-  }
 
 
   private void printNode(Node node, int level) {

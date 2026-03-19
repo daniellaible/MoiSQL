@@ -19,12 +19,18 @@ public class LeafNode extends Node {
 
   List<IDataType[]> rows = new ArrayList<>();
 
+  /**
+   * returns true since this is a leaf
+   * @return
+   */
   @Override
   boolean isLeaf() {
     return true;
   }
 
+
   /**
+   * This is a pointer to the next leaf in a B+Tree
    *
    * @return the next leaf node in a B+Tree
    */
@@ -32,9 +38,11 @@ public class LeafNode extends Node {
     return next;
   }
 
+
   /**
+   * Returns the type definition of a table
    *
-   * @return
+   * @return the type the definition
    */
   public List<IDataType[]> getRows() {
     return rows;
