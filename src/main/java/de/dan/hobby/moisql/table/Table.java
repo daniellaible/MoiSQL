@@ -76,8 +76,9 @@ public class Table {
 
 
   /**
-   * Use this method to delete a row in the table
-   * @param id
+   *
+   *
+   * @param id the id of a row with this id
    */
   public void delete(int id) {
     Deleter deleter = new Deleter(tableTree, id);
@@ -100,12 +101,22 @@ public class Table {
   }
 
 
-
+  /**
+   * Find the leaf with the lowest id of the table
+   *
+   * @return the leaf with the lowest id
+   */
   public LeafNode findFirstLeaf(){
     return tableTree.findFirstLeaf();
   }
 
 
+  /**
+   * Saves the table / B+Tree on disc
+   *
+   * @param directory of a File Object that contains the directory where the table is saved
+   * @throws NoSuchFileException if File Object does not contain a directory
+   */
   public void save(File directory) throws NoSuchFileException {
     Saver saver = new Saver(directory, tableTree, uuid);
   }
@@ -149,7 +160,7 @@ public class Table {
 
   /**
    *
-   * @return
+   * @return a String with the definition of all the column types
    */
   public String getColumnTypes() {
     final IDataType[] dataStructure = tableTree.getDataStructure();
