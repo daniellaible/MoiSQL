@@ -16,7 +16,7 @@ import java.util.Optional;
 public class TryParseFloat {
 
   /**
-   * This parses a double wrapped in a Number and returns an optional
+   * This parses a double wrapped in a Number and returns an Optional
    *
    * @param Number that contains a double
    * @return an Optional that contains the Double if no NumberFormatException is thrown
@@ -29,6 +29,13 @@ public class TryParseFloat {
     }
   }
 
+
+  /**
+   * This parses a String representation of a double wrapped in a String and returns an Optional
+   *
+   * @param String that contains a short
+   * @return an Optional that contains the Double if no NumberFormatException is thrown
+   */
   public static Optional<Double> parse(String value){
     try{
       return Optional.of(Double.parseDouble(value));

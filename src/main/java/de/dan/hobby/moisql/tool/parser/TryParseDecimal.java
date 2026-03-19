@@ -16,7 +16,7 @@ import java.util.Optional;
 public class TryParseDecimal {
 
   /**
-   * This parses a float wrapped in a Number and returns an optional
+   * This parses a float wrapped in a Number and returns an Optional
    *
    * @param Number that contains a float
    * @return an Optional that contains the Float if no NumberFormatException is thrown
@@ -29,6 +29,13 @@ public class TryParseDecimal {
     }
   }
 
+
+  /**
+   * This parses a String representation of a float wrapped in a String and returns an Optional
+   *
+   * @param String that contains a short
+   * @return an Optional that contains the Float if no NumberFormatException is thrown
+   */
   public static Optional<Float> parse(String input) {
     try{
       return Optional.of(Float.parseFloat(input));

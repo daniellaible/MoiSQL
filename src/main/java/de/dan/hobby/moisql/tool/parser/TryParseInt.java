@@ -16,7 +16,7 @@ import java.util.Optional;
 public class TryParseInt {
 
   /**
-   * This parses an int wrapped in a Number and returns an optional
+   * This parses an int wrapped in a String and returns an Optional
    *
    * @param Number that contains an int
    * @return an Optional that contains the Integer if no NumberFormatException is thrown
@@ -29,6 +29,12 @@ public class TryParseInt {
     }
   }
 
+  /**
+   * This parses a String representation of an int wrapped in a String and returns an Optional
+   *
+   * @param String that contains a short
+   * @return an Optional that contains the short if no NumberFormatException is thrown
+   */
   public static Optional<Integer> parse(String value){
     try{
       return Optional.of(Integer.parseInt(value));

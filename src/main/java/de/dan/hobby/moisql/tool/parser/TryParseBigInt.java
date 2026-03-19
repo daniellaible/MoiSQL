@@ -16,7 +16,7 @@ import java.util.Optional;
 public class TryParseBigInt {
 
   /**
-   * This parses a long wrapped in a Number and returns an optional
+   * This parses a long wrapped in a Number and returns an Optional
    *
    * @param Number that contains a long
    * @return an Optional that contains the Long if no NumberFormatException is thrown
@@ -29,6 +29,13 @@ public class TryParseBigInt {
     }
   }
 
+
+  /**
+   * This parses a String representation of a long wrapped in a String and returns an Optional
+   *
+   * @param String that contains a long
+   * @return an Optional that contains the Long if no NumberFormatException is thrown
+   */
   public static Optional<Long> parse(String input) {
     try{
       return Optional.of(Long.parseLong(input));
