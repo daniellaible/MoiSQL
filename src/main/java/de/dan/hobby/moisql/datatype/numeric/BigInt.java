@@ -33,7 +33,7 @@ public class BigInt extends NumericDataType {
   @Override
   public byte[] toByteArray() {
     ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-    buffer.putLong(0, getValue());
+    buffer.putLong((long)getValue());
     return buffer.array();
   }
 
@@ -45,7 +45,8 @@ public class BigInt extends NumericDataType {
    */
   public Long fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-    buffer.flip();
+    buffer.put(bytes);
+    buffer.rewind();
     return buffer.getLong();
   }
 

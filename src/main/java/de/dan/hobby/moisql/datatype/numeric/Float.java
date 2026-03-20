@@ -36,7 +36,8 @@ public class Float extends NumericDataType {
 
   public Double fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(Double.BYTES);
-    buffer.flip();
+    buffer.put(bytes);
+    buffer.rewind();
     return buffer.getDouble();
   }
 

@@ -40,7 +40,8 @@ public class SmallInt extends NumericDataType {
 
   public Short fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(Short.BYTES);
-    buffer.flip();
+    buffer.put(bytes);
+    buffer.rewind();
     return buffer.getShort();
   }
 

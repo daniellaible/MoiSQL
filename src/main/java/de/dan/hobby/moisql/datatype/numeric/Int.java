@@ -39,13 +39,14 @@ public class Int extends NumericDataType {
 
   public Integer fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
-    buffer.flip();
+    buffer.put(bytes);
+    buffer.rewind();
     return buffer.getInt();
   }
 
 
   @Override
-  public String toString(){
+  public String toString() {
     return String.valueOf(value.intValue());
   }
 }

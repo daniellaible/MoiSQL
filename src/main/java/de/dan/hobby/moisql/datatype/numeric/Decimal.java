@@ -37,7 +37,8 @@ public class Decimal extends NumericDataType {
 
   public java.lang.Float fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(java.lang.Float.BYTES);
-    buffer.flip();
+    buffer.put(bytes);
+    buffer.rewind();
     return buffer.getFloat();
   }
 
