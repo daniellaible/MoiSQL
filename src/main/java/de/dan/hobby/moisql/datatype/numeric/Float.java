@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.datatype.numeric;
 
 import de.dan.hobby.moisql.datatype.DataType;
+import java.nio.ByteBuffer;
 
 /**
  * @author Daniel Laible
@@ -23,6 +24,13 @@ public class Float extends NumericDataType {
   @Override
   public String getDataType() {
     return "FLOAT";
+  }
+
+  @Override
+  public byte[] toByteArray() {
+    ByteBuffer buffer = ByteBuffer.allocate(Double.BYTES);
+    buffer.putDouble(value.doubleValue());
+    return buffer.array();
   }
 
   @Override

@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.datatype.numeric;
 
 import de.dan.hobby.moisql.datatype.DataType;
+import java.nio.ByteBuffer;
 
 /**
  * @author Daniel Laible
@@ -12,19 +13,31 @@ import de.dan.hobby.moisql.datatype.DataType;
  */
 public class SmallInt extends NumericDataType {
 
+
   public SmallInt(Number value) {
     super(value, DataType.SMALLINT);
   }
+
 
   public Short getValue()
   {
     return value.shortValue();
   }
 
+
   @Override
   public String getDataType() {
     return "SMALLINT";
   }
+
+
+  @Override
+  public byte[] toByteArray() {
+    ByteBuffer buffer = ByteBuffer.allocate(Short.BYTES);
+    buffer.putShort(0, getValue());
+    return buffer.array();
+  }
+
 
   @Override
   public String toString(){

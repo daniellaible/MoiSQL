@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.datatype.numeric;
 
 import de.dan.hobby.moisql.datatype.DataType;
+import java.nio.ByteBuffer;
 
 /**
  * @author Daniel Laible
@@ -15,14 +16,53 @@ public class BigInt extends NumericDataType {
     super(value, DataType.BIGINT);
   }
 
+
+  /**
+   * returns the numerical value as Long
+   * @return the value
+   */
   public Long getValue() {
     return value.longValue();
   }
 
+
+  /**
+   * returns the value as a byte array
+   * @return the value as byte array
+   */
+  @Override
+  public byte[] toByteArray() {
+    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+    buffer.putLong(0, getValue());
+    return buffer.array();
+  }
+
+
+  /**
+   * Reads the byte array as
+   * @param bytes that represent a BigInt value (Long in Java)
+   * @return the byte[] value as Long
+   */
+  public Long fromByteArray(byte[] bytes) {
+    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+    buffer.flip();
+    return buffer.getLong();
+  }
+
+
+  /**
+   * returns String representation of datatype
+   * @return "BIGINT"
+   */
   public String getDataType() {
     return "BIGINT";
   }
 
+
+  /**
+   * Returns the value as String
+   * @return the value as String
+   */
   @Override
   public String toString(){
     return String.valueOf(value.longValue());
