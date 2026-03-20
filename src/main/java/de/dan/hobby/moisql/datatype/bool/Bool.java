@@ -18,7 +18,7 @@ public class Bool implements IDataType {
   }
 
 
-  public boolean getValue() {
+  public Boolean getValue() {
     return value;
   }
 
@@ -32,5 +32,17 @@ public class Bool implements IDataType {
   @Override
   public String getDataType() {
     return "BOOL";
+  }
+
+  //TODO need implementation
+  @Override
+  public byte[] toByteArray() {
+    return new byte[0];
+  }
+
+  //TODO need implementation
+  @Override
+  public Object fromByteArray(byte[] bytes) {
+    return null;
   }
 }

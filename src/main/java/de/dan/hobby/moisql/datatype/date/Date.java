@@ -31,7 +31,7 @@ public class Date extends DateDataType {
   }
 
   @Override
-  public long getValue() {
+  public Long getValue() {
     return value;
   }
 
@@ -59,6 +59,7 @@ public class Date extends DateDataType {
     return new byte[0];
   }
 
+  //TODO need implementation
   @Override
   public Long fromByteArray(byte[] bytes) {
     return 0l;

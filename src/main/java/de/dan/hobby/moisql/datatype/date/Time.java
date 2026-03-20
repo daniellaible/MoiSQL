@@ -48,9 +48,8 @@ public class Time extends DateDataType {
     return 0l;
   }
 
-
   @Override
-  public long getValue() {
+  public Long getValue() {
     return value;
   }
 

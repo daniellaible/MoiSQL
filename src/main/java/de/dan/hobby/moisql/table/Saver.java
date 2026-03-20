@@ -1,34 +1,55 @@
 package de.dan.hobby.moisql.table;
 
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import de.dan.hobby.moisql.tree.BPTree;
-import de.dan.hobby.moisql.tree.LeafNode;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
-import java.util.List;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Daniel Laible
  * @since 0.1.5
- *
+ * <p>
  * This class is used to save a table onto the filesystem.
  */
 public class Saver {
 
-  public Saver(@NotNull File directory,@NotNull BPTree tree,@NotNull UUID uuid) throws IOException {
-      if(checkDirValid(directory)){
-        String temp = uuid.toString().replace("-", "");
-        String fileName = temp + ".moi";
-        String path = directory.getAbsolutePath() + File.separator + fileName;
-        BufferedOutputStream bufferedOutputStream=new BufferedOutputStream(new FileOutputStream(path));
+  public Saver(@NotNull File directory, @NotNull BPTree tree, @NotNull UUID uuid, @NotNull String name)
+      throws IOException {
+    if (checkDirValid(directory)) {
+      String temp = uuid.toString().replace("-", "");
+      String fileName = temp + ".moi";
+      String path = directory.getAbsolutePath() + File.separator + fileName;
+      BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(path));
 
-        final LeafNode firstLeaf = tree.findFirstLeaf();
+      VarChar tableName = new VarChar(name);
+      bufferedOutputStream.write(tableName.toByteArray());
+
+      final VarChar[] columnNames = tree.getColumnNames();
+      final IDataType[] dataStructure = tree.getDataStructure();
+
+      for(int i = 0; i < 65; i++) {
+        if(i < dataStructure.length) {
+          bufferedOutputStream.write(columnNames[i].toByteArray());
+        }else{
+          bufferedOutputStream.write(new VarChar("").toByteArray());
+        }
+      }
+
+      for(int i = 0; i < 65; i++) {
+        if(i < dataStructure.length) {
+          bufferedOutputStream.write(dataStructure[i].toByteArray());
+        }else{
+          bufferedOutputStream.write(new VarChar("").toByteArray());
+        }
+      }
+
+/*        final LeafNode firstLeaf = tree.findFirstLeaf();
         LeafNode currentLeaf = firstLeaf;
         while(currentLeaf.getNext() != null){
           final List<IDataType[]> rows = currentLeaf.getRows();
@@ -37,18 +58,16 @@ public class Saver {
 
             }
           }
-        }
+        }*/
 
-
-        bufferedOutputStream.write(2000);
-        bufferedOutputStream.close();
-      }else{
-        throw new NoSuchFileException("directory provided unavailable");
-      }
+      bufferedOutputStream.close();
+    } else {
+      throw new NoSuchFileException("directory provided unavailable");
+    }
   }
 
   private boolean checkDirValid(File directory) {
-    if(directory.exists() && directory.isDirectory()){
+    if (directory.exists() && directory.isDirectory()) {
       return true;
     }
     return false;

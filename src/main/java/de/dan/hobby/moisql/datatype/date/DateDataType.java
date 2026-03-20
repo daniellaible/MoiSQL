@@ -22,8 +22,6 @@ public abstract class DateDataType implements IDataType {
     this.datatype = datatype;
   }
 
-  public abstract long getValue();
-
   public abstract ZoneId getTimeZone();
 
   public abstract String getDataType();

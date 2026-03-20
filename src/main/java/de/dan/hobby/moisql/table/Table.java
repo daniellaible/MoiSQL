@@ -111,7 +111,6 @@ public class Table {
     return tableTree.findFirstLeaf();
   }
 
-
   /**
    * Saves the table / B+Tree on disc
    *
@@ -119,24 +118,20 @@ public class Table {
    * @throws NoSuchFileException if File Object does not contain a directory
    */
   public void save(File directory) throws IOException {
-    Saver saver = new Saver(directory, tableTree, uuid);
+    Saver saver = new Saver(directory, tableTree, uuid, tableName);
   }
-
 
   //TODO needs implementation
   public void load() {
   }
 
-
   //TODO needs implementation
   public void flush() {
   }
 
-
   //TODO needs implementation
   public void removeFromMemory() {
   }
-
 
   /**
    * Prints out the tree that stores the data of the table
@@ -144,7 +139,6 @@ public class Table {
   public void print(){
     tableTree.printTree();
   }
-
 
   /**
    * This method retrieves the named identifier of each column
