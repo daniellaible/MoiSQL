@@ -5,6 +5,7 @@ import de.dan.hobby.moisql.datatype.text.VarChar;
 import de.dan.hobby.moisql.tree.BPTree;
 import de.dan.hobby.moisql.tree.LeafNode;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -117,7 +118,7 @@ public class Table {
    * @param directory of a File Object that contains the directory where the table is saved
    * @throws NoSuchFileException if File Object does not contain a directory
    */
-  public void save(File directory) throws NoSuchFileException {
+  public void save(File directory) throws IOException {
     Saver saver = new Saver(directory, tableTree, uuid);
   }
 

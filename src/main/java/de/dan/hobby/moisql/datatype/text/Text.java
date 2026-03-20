@@ -36,8 +36,21 @@ public class Text implements IDataType {
     return "TEXT";
   }
 
+  //TODO need implementation
+  @Override
+  public byte[] toByteArray() {
+    return new byte[0];
+  }
+
+  //TODO need implementation
+  @Override
+  public String fromByteArray(byte[] bytes) {
+    return "";
+  }
 
   public Number getValue() {
     return value.hashCode();
   }
+
+
 }

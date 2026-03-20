@@ -34,6 +34,7 @@ public class Float extends NumericDataType {
   }
 
 
+  @Override
   public Double fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(Double.BYTES);
     buffer.put(bytes);

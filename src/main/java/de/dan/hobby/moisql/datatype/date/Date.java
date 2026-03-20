@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 
 //TODO needs testing
 /**
@@ -50,6 +51,17 @@ public class Date extends DateDataType {
   @Override
   public String getDataType() {
     return "DATE";
+  }
+
+  //TODO need implementation
+  @Override
+  public byte[] toByteArray() {
+    return new byte[0];
+  }
+
+  @Override
+  public Long fromByteArray(byte[] bytes) {
+    return 0l;
   }
 
   public String toString(){

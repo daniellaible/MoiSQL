@@ -39,6 +39,17 @@ public class DateTime extends DateDataType{
     return "DATETIME";
   }
 
+  //TODO need implementation
+  @Override
+  public byte[] toByteArray() {
+    return new byte[0];
+  }
+
+  @Override
+  public Long fromByteArray(byte[] bytes) {
+    return 0l;
+  }
+
   public String toString(){
     return String.valueOf(value.longValue());
   }

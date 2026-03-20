@@ -37,6 +37,7 @@ public class Int extends NumericDataType {
   }
 
 
+  @Override
   public Integer fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
     buffer.put(bytes);

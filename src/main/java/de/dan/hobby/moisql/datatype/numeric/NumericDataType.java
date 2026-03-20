@@ -67,6 +67,5 @@ public abstract class NumericDataType implements IDataType {
 
   public abstract String getDataType();
 
-  public abstract byte[] toByteArray();
 
 }

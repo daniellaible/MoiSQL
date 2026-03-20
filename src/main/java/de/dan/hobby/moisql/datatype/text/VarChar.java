@@ -48,10 +48,12 @@ public class VarChar implements IDataType {
     return returnValue.trim();
   }
 
+  @Override
   public byte[] toByteArray() {
     return new String(value).getBytes(StandardCharsets.US_ASCII);
   }
 
+  @Override
   public char[] fromByteArray(byte[] data) {
     ByteBuffer byteBuffer = ByteBuffer.wrap(data);
     CharBuffer charBuffer = StandardCharsets.US_ASCII.decode(byteBuffer);

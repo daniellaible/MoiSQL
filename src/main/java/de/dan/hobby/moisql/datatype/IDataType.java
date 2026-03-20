@@ -7,8 +7,11 @@ package de.dan.hobby.moisql.datatype;
  * This is just a marker interface, all datatypes will inherit it.
  * This way a db row is just an array of IDataType
  */
-public interface IDataType {
+public interface IDataType<E> {
 
   String getDataType();
 
+  byte[] toByteArray();
+
+  <E> E fromByteArray(byte[] bytes);
 }

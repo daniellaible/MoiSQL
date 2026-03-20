@@ -37,6 +37,18 @@ public class Time extends DateDataType {
     return zonedDateTime.format(formatter);
   }
 
+  //TODO need implementation
+  @Override
+  public byte[] toByteArray() {
+    return new byte[0];
+  }
+
+  @Override
+  public Long fromByteArray(byte[] bytes) {
+    return 0l;
+  }
+
+
   @Override
   public long getValue() {
     return value;

@@ -43,6 +43,7 @@ public class BigInt extends NumericDataType {
    * @param bytes that represent a BigInt value (Long in Java)
    * @return the byte[] value as Long
    */
+  @Override
   public Long fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
     buffer.put(bytes);
