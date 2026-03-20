@@ -17,14 +17,17 @@ public class Int extends NumericDataType {
     super(value, DataType.INT);
   }
 
+
   public Integer getValue() {
     return value.intValue();
   }
+
 
   @Override
   public String getDataType() {
     return "INT";
   }
+
 
   @Override
   public byte[] toByteArray() {
@@ -33,9 +36,16 @@ public class Int extends NumericDataType {
     return buffer.array();
   }
 
+
+  public Integer fromByteArray(byte[] bytes) {
+    ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+    buffer.flip();
+    return buffer.getInt();
+  }
+
+
   @Override
   public String toString(){
     return String.valueOf(value.intValue());
   }
-
 }

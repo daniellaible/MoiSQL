@@ -33,6 +33,13 @@ public class Float extends NumericDataType {
     return buffer.array();
   }
 
+
+  public Double fromByteArray(byte[] bytes) {
+    ByteBuffer buffer = ByteBuffer.allocate(Double.BYTES);
+    buffer.flip();
+    return buffer.getDouble();
+  }
+
   @Override
   public String toString(){
     return String.valueOf(value.doubleValue());

@@ -38,6 +38,12 @@ public class SmallInt extends NumericDataType {
     return buffer.array();
   }
 
+  public Short fromByteArray(byte[] bytes) {
+    ByteBuffer buffer = ByteBuffer.allocate(Short.BYTES);
+    buffer.flip();
+    return buffer.getShort();
+  }
+
 
   @Override
   public String toString(){

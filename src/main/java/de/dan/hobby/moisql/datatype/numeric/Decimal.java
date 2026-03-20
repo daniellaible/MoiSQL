@@ -35,6 +35,13 @@ public class Decimal extends NumericDataType {
   }
 
 
+  public java.lang.Float fromByteArray(byte[] bytes) {
+    ByteBuffer buffer = ByteBuffer.allocate(java.lang.Float.BYTES);
+    buffer.flip();
+    return buffer.getFloat();
+  }
+
+
   @Override
   public String toString(){
     return String.valueOf(value.floatValue());
