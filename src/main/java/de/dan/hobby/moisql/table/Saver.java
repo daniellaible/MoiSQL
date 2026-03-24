@@ -33,17 +33,19 @@ public class Saver {
       final VarChar[] columnNames = tree.getColumnNames();
       final IDataType[] dataStructure = tree.getDataStructure();
 
+      int columnsLength = tree.getColumnNames().length;
       for(int i = 0; i < 65; i++) {
-        if(i < dataStructure.length) {
+        if(i < columnsLength -1 ) {
           bufferedOutputStream.write(columnNames[i].toByteArray());
         }else{
           bufferedOutputStream.write(new VarChar("").toByteArray());
         }
       }
 
+      int dataStructurLength = tree.getDataStructure().length;
       for(int i = 0; i < 65; i++) {
-        if(i < dataStructure.length) {
-          bufferedOutputStream.write(dataStructure[i].toByteArray());
+        if(i < dataStructurLength -1 ) {
+          bufferedOutputStream.write(dataStructure[i].getDataType().getBytes());
         }else{
           bufferedOutputStream.write(new VarChar("").toByteArray());
         }
