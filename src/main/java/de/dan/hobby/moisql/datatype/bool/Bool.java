@@ -1,6 +1,8 @@
 package de.dan.hobby.moisql.datatype.bool;
 
+import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 
 /**
  * @author Daniel Laible
@@ -30,8 +32,8 @@ public class Bool implements IDataType {
 
 
   @Override
-  public String getDataType() {
-    return "BOOL";
+  public DataType getDataType() {
+    return DataType.BOOL;
   }
 
   //TODO need implementation

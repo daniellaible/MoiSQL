@@ -2,11 +2,11 @@ package de.dan.hobby.moisql.datatype.date;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.date.pattern.DatePattern;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 
 //TODO needs testing
 /**
@@ -49,8 +49,8 @@ public class Date extends DateDataType {
   }
 
   @Override
-  public String getDataType() {
-    return "DATE";
+  public DataType getDataType() {
+    return DataType.DATE;
   }
 
   //TODO need implementation

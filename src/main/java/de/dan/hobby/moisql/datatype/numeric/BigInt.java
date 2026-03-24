@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.datatype.numeric;
 
 import de.dan.hobby.moisql.datatype.DataType;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.nio.ByteBuffer;
 
 /**
@@ -51,15 +52,14 @@ public class BigInt extends NumericDataType {
     return buffer.getLong();
   }
 
-
   /**
    * returns String representation of datatype
+   *
    * @return "BIGINT"
    */
-  public String getDataType() {
-    return "BIGINT";
+  public DataType getDataType() {
+    return DataType.BIGINT;
   }
-
 
   /**
    * Returns the value as String

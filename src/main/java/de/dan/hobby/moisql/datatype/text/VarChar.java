@@ -5,7 +5,6 @@ import de.dan.hobby.moisql.datatype.IDataType;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 /**
  * @author Daniel Laible
@@ -62,8 +61,8 @@ public class VarChar implements IDataType {
     return charArray;
   }
 
-  public String getDataType() {
-    return "VARCHAR";
+  public DataType getDataType() {
+    return DataType.VARCHAR;
   }
 
   @Override

@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.datatype.numeric;
 
 import de.dan.hobby.moisql.datatype.DataType;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.nio.ByteBuffer;
 
 /**
@@ -26,8 +27,8 @@ public class SmallInt extends NumericDataType {
 
 
   @Override
-  public String getDataType() {
-    return "SMALLINT";
+  public DataType getDataType() {
+    return DataType.SMALLINT;
   }
 
 

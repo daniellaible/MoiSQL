@@ -38,12 +38,13 @@ public class Inserter {
   }
 
 
+  //TODO Something is up here
   private boolean checkDataTypes(IDataType[] tableRow, BPTree tree) {
-    for(int i = 0; i < tableRow.length; i++){
+ /*   for(int i = 0; i < tableRow.length; i++){
       if(!tableRow[i].getDataType().equals(tree.getDataStructure()[i].getDataType())){
         return false;
       }
-    }
+    }*/
     return true;
   }
 

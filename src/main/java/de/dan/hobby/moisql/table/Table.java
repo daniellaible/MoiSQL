@@ -121,8 +121,9 @@ public class Table {
     Saver saver = new Saver(directory, tableTree, uuid, tableName);
   }
 
-  //TODO needs implementation
-  public void load() {
+
+  public void load(File directory, UUID uuid) throws IOException {
+    Loader load = new Loader(directory, uuid);
   }
 
   //TODO needs implementation
@@ -161,7 +162,7 @@ public class Table {
     final IDataType[] dataStructure = tableTree.getDataStructure();
     StringBuilder sb = new StringBuilder();
     for (IDataType dataType : dataStructure) {
-      String type = dataType.getDataType();
+      String type = dataType.getDataType().toString();
       sb.append(type + " ");
     }
     return sb.toString().trim();

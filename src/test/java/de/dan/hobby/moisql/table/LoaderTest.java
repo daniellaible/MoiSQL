@@ -4,18 +4,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-class SaverTest extends BaseTest{
+class LoaderTest extends BaseTest{
 
   @Test
-  public void writeToFile(){
+  void testLoadTable() throws IOException {
     File dir = new File("C:\\temp\\moi");
-    try {
-      table.save(dir);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    UUID uuid = UUID.fromString("0e6bce68-99fa-3841-b790-24afbdf7db1d");
+    Loader loader = new Loader(dir, uuid);
+
+
   }
 
 }

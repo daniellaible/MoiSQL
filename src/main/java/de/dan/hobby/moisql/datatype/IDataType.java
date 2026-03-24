@@ -1,5 +1,7 @@
 package de.dan.hobby.moisql.datatype;
 
+import de.dan.hobby.moisql.datatype.text.VarChar;
+
 /**
  * @author Daniel Laible
  * @since 0.0.2
@@ -11,7 +13,7 @@ public interface IDataType<E> {
 
   <E> E getValue();
 
-  String getDataType();
+  DataType getDataType();
 
   byte[] toByteArray();
 

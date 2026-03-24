@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.table;
 
+import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
 import de.dan.hobby.moisql.datatype.text.VarChar;
 import de.dan.hobby.moisql.tree.BPTree;
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,32 +24,43 @@ public class Saver {
   public Saver(@NotNull File directory, @NotNull BPTree tree, @NotNull UUID uuid, @NotNull String name)
       throws IOException {
     if (checkDirValid(directory)) {
-      String temp = uuid.toString().replace("-", "");
-      String fileName = temp + ".moi";
+      //String uuidAsString = uuid.toString().replace("-", "");
+      String fileName = uuid + ".moi";
       String path = directory.getAbsolutePath() + File.separator + fileName;
-      BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(path));
+      FileOutputStream out = new FileOutputStream(path);
 
       VarChar tableName = new VarChar(name);
-      bufferedOutputStream.write(tableName.toByteArray());
+
+      out.write(tableName.toByteArray());
 
       final VarChar[] columnNames = tree.getColumnNames();
       final IDataType[] dataStructure = tree.getDataStructure();
 
       int columnsLength = tree.getColumnNames().length;
       for(int i = 0; i < 65; i++) {
-        if(i < columnsLength -1 ) {
-          bufferedOutputStream.write(columnNames[i].toByteArray());
+        if(i < columnsLength ) {
+          out.write(columnNames[i].toByteArray());
         }else{
-          bufferedOutputStream.write(new VarChar("").toByteArray());
+          out.write(new VarChar("").toByteArray());
         }
       }
 
       int dataStructurLength = tree.getDataStructure().length;
       for(int i = 0; i < 65; i++) {
-        if(i < dataStructurLength -1 ) {
-          bufferedOutputStream.write(dataStructure[i].getDataType().getBytes());
+        if(i < dataStructurLength) {
+          DataType type = dataStructure[i].getDataType();
+          byte[] bytes = type.toString().getBytes();
+          if(bytes.length < 255){
+            byte[] temp = new byte[255];
+            for(int j = 0; j < bytes.length; j++) {
+              temp[j] = bytes[j];
+            }
+            bytes = temp;
+          }
+
+          out.write(bytes);
         }else{
-          bufferedOutputStream.write(new VarChar("").toByteArray());
+          out.write(new VarChar("").toByteArray());
         }
       }
 
@@ -62,7 +75,7 @@ public class Saver {
           }
         }*/
 
-      bufferedOutputStream.close();
+      out.close();
     } else {
       throw new NoSuchFileException("directory provided unavailable");
     }

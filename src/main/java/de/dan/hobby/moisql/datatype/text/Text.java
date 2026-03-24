@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.datatype.text;
 
+import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
 import java.nio.charset.StandardCharsets;
 
@@ -32,8 +33,8 @@ public class Text implements IDataType {
 
 
   @Override
-  public String getDataType() {
-    return "TEXT";
+  public DataType getDataType() {
+    return DataType.TEXT;
   }
 
   //TODO need implementation
