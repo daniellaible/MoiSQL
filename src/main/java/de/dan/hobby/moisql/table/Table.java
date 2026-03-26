@@ -25,7 +25,6 @@ public class Table {
 
   private UUID uuid;
 
-
   /**
    * With this constructor a new table in the database is created
    *
@@ -72,9 +71,8 @@ public class Table {
    */
   //TODO check that the datarow has the same spec as the table
   public void insert(IDataType[] dataRow) {
-    Inserter inserter = new Inserter(dataRow, tableTree);
+    new Inserter(dataRow, tableTree);
   }
-
 
   /**
    *
@@ -82,7 +80,7 @@ public class Table {
    * @param id the id of a row with this id
    */
   public void delete(int id) {
-    Deleter deleter = new Deleter(tableTree, id);
+    new Deleter(tableTree, id);
   }
 
 
@@ -118,12 +116,12 @@ public class Table {
    * @throws NoSuchFileException if File Object does not contain a directory
    */
   public void save(File directory) throws IOException {
-    Saver saver = new Saver(directory, tableTree, uuid, tableName);
+    new Saver(directory, tableTree, uuid, tableName);
   }
 
 
   public void load(File directory, UUID uuid) throws IOException {
-    Loader load = new Loader(directory, uuid);
+    new Loader(directory, uuid);
   }
 
   //TODO needs implementation

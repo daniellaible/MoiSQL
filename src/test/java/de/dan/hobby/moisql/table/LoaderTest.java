@@ -11,7 +11,7 @@ class LoaderTest extends BaseTest {
   void testLoadTable() throws IOException {
     File dir = new File("C:\\temp\\moi");
     UUID uuid = UUID.fromString("0e6bce68-99fa-3841-b790-24afbdf7db1d");
-    Loader loader = new Loader(dir, uuid);
+    new Loader(dir, uuid);
   }
 
 }

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Daniel Laible
  * @since 0.1.5
- * <p>
+ *
  * This class is used to save a table onto the filesystem.
  */
 public class Saver {
@@ -29,7 +29,7 @@ public class Saver {
       String path = directory.getAbsolutePath() + File.separator + fileName;
       FileOutputStream out = new FileOutputStream(path);
 
-      //This saves the
+      //This saves the tableName
       VarChar tableName = new VarChar(name);
       out.write(tableName.toByteArray());
 
@@ -40,8 +40,6 @@ public class Saver {
       int columnsLength = tree.getColumnNames().length;
       for (int i = 0; i < 64; i++) {
         if (i < columnsLength) {
-          final int length = columnNames[i].toByteArray().length;
-          System.out.println(length);
           out.write(columnNames[i].toByteArray());
         } else {
           out.write(new VarChar("").toByteArray());
@@ -66,23 +64,12 @@ public class Saver {
       while(currentLeaf.getNext() != null){
         final List<IDataType[]> rows = currentLeaf.getRows();
         for(IDataType[] row : rows){
-          for(IDataType type : row){
-            out.write(type.toByteArray());
+          for(IDataType cell : row){
+            out.write(cell.toByteArray());
           }
         }
         currentLeaf = currentLeaf.getNext();
       }
-
-/*        final LeafNode firstLeaf = tree.findFirstLeaf();
-        LeafNode currentLeaf = firstLeaf;
-        while(currentLeaf.getNext() != null){
-          final List<IDataType[]> rows = currentLeaf.getRows();
-          for(IDataType[] row : rows){
-            for(IDataType cell : row){
-
-            }
-          }
-        }*/
 
       out.close();
     } else {
