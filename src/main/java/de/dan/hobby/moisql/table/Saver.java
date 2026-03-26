@@ -38,8 +38,10 @@ public class Saver {
 
       //This saves the rowNames to the file
       int columnsLength = tree.getColumnNames().length;
-      for (int i = 0; i < 65; i++) {
+      for (int i = 0; i < 64; i++) {
         if (i < columnsLength) {
+          final int length = columnNames[i].toByteArray().length;
+          System.out.println(length);
           out.write(columnNames[i].toByteArray());
         } else {
           out.write(new VarChar("").toByteArray());
@@ -48,7 +50,7 @@ public class Saver {
 
       //This saves the dataTypes to the file
       int dataStructurLength = tree.getDataStructure().length;
-      for (int i = 0; i < 65; i++) {
+      for (int i = 0; i < 64; i++) {
         if (i < dataStructurLength) {
           DataType type = dataStructure[i].getDataType();
           VarChar varCharType = new VarChar(type.toString());
