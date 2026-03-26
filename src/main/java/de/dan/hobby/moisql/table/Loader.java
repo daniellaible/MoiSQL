@@ -18,42 +18,20 @@ import java.util.UUID;
  */
 public class Loader {
 
+  private List<VarChar> columnNames = new ArrayList<>();
+  private List<DataType> columnTypes = new ArrayList<>();
+  private String tablename;
+
   public Loader(File directory, UUID uuid) throws IOException {
-
-    String tablename;
-    List<VarChar> columnNames = new ArrayList<>();
-    List<DataType> columnTypes = new ArrayList<>();
-
     String fileName = uuid + ".moi";
     String path = directory.getAbsolutePath() + File.separator + fileName;
-
-    RandomAccessFile in = new RandomAccessFile(path, "r");
-
+    RandomAccessFile in = null;
     try {
-      byte[] byteName = new byte[255];
-      in.read(byteName, 0, 255);
-      tablename = new String(byteName).trim();
+      in = new RandomAccessFile(path, "r");
 
-      for (int i = 0; i < 64; i++) {
-        byte[] byteColumnName = new byte[255];
-        in.read(byteColumnName, 0, 255);
-        String columnName = new String(byteColumnName);
-        columnName = columnName.trim();
-        if (!columnName.isEmpty()) {
-          VarChar vcColumnName = new VarChar(columnName);
-          columnNames.add(vcColumnName);
-        }
-      }
-
-      for (int i = 0; i < 64; i++) {
-        byte[] byteColumnType = new byte[255];
-        in.read(byteColumnType, 0, 255);
-        String type = new String(byteColumnType);
-        type = type.trim();
-        if (!type.isEmpty()) {
-          columnTypes.add(DataType.valueOf(type));
-        }
-      }
+      extractTableName(in);
+      extracteColumnNames(in);
+      extractColumnDefinitions(in);
 
       System.out.println(tablename);
       System.out.println(Arrays.toString(columnNames.toArray()));
@@ -61,9 +39,43 @@ public class Loader {
 
       in.close();
     } catch (Exception e) {
-      System.out.println(e.getMessage());
       e.printStackTrace();
+    } finally {
+      if (in != null) {
+        in.close();
+      }
     }
 
+  }
+
+  private void extractTableName(RandomAccessFile in) throws IOException {
+    byte[] byteName = new byte[255];
+    in.read(byteName, 0, 255);
+    tablename = new String(byteName).trim();
+  }
+
+  private void extractColumnDefinitions(RandomAccessFile in) throws IOException {
+    for (int i = 0; i < 64; i++) {
+      byte[] byteColumnType = new byte[255];
+      in.read(byteColumnType, 0, 255);
+      String type = new String(byteColumnType);
+      type = type.trim();
+      if (!type.isEmpty()) {
+        columnTypes.add(DataType.valueOf(type));
+      }
+    }
+  }
+
+  private void extracteColumnNames(RandomAccessFile in) throws IOException {
+    for (int i = 0; i < 64; i++) {
+      byte[] byteColumnName = new byte[255];
+      in.read(byteColumnName, 0, 255);
+      String columnName = new String(byteColumnName);
+      columnName = columnName.trim();
+      if (!columnName.isEmpty()) {
+        VarChar vcColumnName = new VarChar(columnName);
+        columnNames.add(vcColumnName);
+      }
+    }
   }
 }
