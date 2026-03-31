@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Daniel Laible
  * @since 0.1.5
- * <p>
+ *
  * This class is used to load a table from the filesystem.
  */
 public class DiscImporter {

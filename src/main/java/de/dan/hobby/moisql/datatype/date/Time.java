@@ -44,6 +44,7 @@ public class Time extends DateDataType {
     return new byte[0];
   }
 
+  //TODO needs implementation
   @Override
   public Long fromByteArray(byte[] bytes) {
     return 0l;

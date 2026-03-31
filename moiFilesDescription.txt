@@ -92,7 +92,7 @@ The header of a moi file consists of eight fields. Those fields are:
                 The first part is the length of the char[] as a 2-byte short.
                 The second part is the ascii char[] array that contains the column datatype.
                 The max length of the char[] is 255.
-            All the column names together create this field.
+            All the column definitions together create this field.
             The array of all definitions must be the same size as field numberOfColumns.
 
 
