@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.datatype.date;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.date.pattern.DateTimePatterm;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -25,7 +26,7 @@ public class DateTime extends DateDataType{
   }
 
   @Override
-  public long getValue() {
+  public Long getValue() {
     return value;
   }
 
@@ -34,9 +35,25 @@ public class DateTime extends DateDataType{
     return zoneId;
   }
 
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
   @Override
-  public String getDataType() {
-    return "DATETIME";
+  public DataType getDataType() {
+    return DataType.DATETIME;
+  }
+
+  //TODO need implementation
+  @Override
+  public byte[] toByteArray() {
+    return new byte[0];
+  }
+
+  //TODO need implementation
+  @Override
+  public Long fromByteArray(byte[] bytes) {
+    return 0l;
   }
 
   public String toString(){

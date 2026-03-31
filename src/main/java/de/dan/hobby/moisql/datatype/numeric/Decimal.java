@@ -1,6 +1,8 @@
 package de.dan.hobby.moisql.datatype.numeric;
 
 import de.dan.hobby.moisql.datatype.DataType;
+import de.dan.hobby.moisql.datatype.text.VarChar;
+import java.nio.ByteBuffer;
 
 /**
  * @author Daniel Laible
@@ -20,10 +22,32 @@ public class Decimal extends NumericDataType {
     return value.floatValue();
   }
 
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
   @Override
-  public String getDataType() {
-    return "DECIMAL";
+  public DataType getDataType() {
+    return DataType.DECIMAL;
   }
+
+
+  @Override
+  public byte[] toByteArray() {
+    ByteBuffer buffer = ByteBuffer.allocate(java.lang.Float.BYTES);
+    buffer.putFloat(value.floatValue());
+    return buffer.array();
+  }
+
+
+  @Override
+  public java.lang.Float fromByteArray(byte[] bytes) {
+    ByteBuffer buffer = ByteBuffer.allocate(java.lang.Float.BYTES);
+    buffer.put(bytes);
+    buffer.rewind();
+    return buffer.getFloat();
+  }
+
 
   @Override
   public String toString(){

@@ -3,6 +3,7 @@ package de.dan.hobby.moisql.datatype.date;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.date.pattern.TimePattern;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -37,14 +38,29 @@ public class Time extends DateDataType {
     return zonedDateTime.format(formatter);
   }
 
+  //TODO need implementation
   @Override
-  public long getValue() {
-    return value;
+  public byte[] toByteArray() {
+    return new byte[0];
   }
 
   @Override
-  public String getDataType() {
-    return "TIME";  }
+  public Long fromByteArray(byte[] bytes) {
+    return 0l;
+  }
+
+  @Override
+  public Long getValue() {
+    return value;
+  }
+
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
+  @Override
+  public DataType getDataType() {
+    return DataType.TIME;  }
 
   @Override
   public ZoneId getTimeZone() {

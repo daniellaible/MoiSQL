@@ -13,7 +13,7 @@ package de.dan.hobby.moisql.datatype;
  * DATE     -   64-bit
  * TIME     -   64-bit
  * DATETIME -   64-bit
- * VARCHAR  -   255 characters ascii
+ * VARCHAR  -   255 characters ascii (16-bit)
  * TEXT     -   max 8000 characters ascii
  * BINARY   -   ????
  * BOOL     -    1-bit ?

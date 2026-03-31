@@ -17,7 +17,7 @@ public class Deleter {
    * @param tree
    * @param id
    */
-  public Deleter(@NotNull BPTree tree, int id) {
+  public Deleter(@NotNull BPTree tree, long id) {
     if(tree.findRow(id) != null) {
       tree.delete(id);
     }

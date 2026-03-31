@@ -2,6 +2,9 @@ package de.dan.hobby.moisql.datatype.text;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Daniel Laible
@@ -12,12 +15,15 @@ import de.dan.hobby.moisql.datatype.IDataType;
  */
 public class VarChar implements IDataType {
 
-  //TODO: add logger for value.length > 255;
-
   private char[] value;
 
   private DataType datatype = DataType.VARCHAR;
 
+  /**
+   * Basic constructor of a VarChar variable. Make sure only ascii characters are used
+   * and that the text is not longer than 255 characters
+   * @param value the text that will be stored in ascii
+   */
   public VarChar(String value) {
     if (value.length() > 255) {
       return;
@@ -39,8 +45,28 @@ public class VarChar implements IDataType {
     return returnValue.trim();
   }
 
-  public String getDataType() {
-    return "VARCHAR";
+  @Override
+  public byte[] toByteArray() {
+    return new String(value).getBytes(StandardCharsets.US_ASCII);
+  }
+
+  @Override
+  public char[] fromByteArray(byte[] data) {
+    ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+    CharBuffer charBuffer = StandardCharsets.US_ASCII.decode(byteBuffer);
+    char[] charArray = new char[charBuffer.remaining()];
+    charBuffer.get(charArray);
+    return charArray;
+  }
+
+
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
+  @Override
+  public DataType getDataType() {
+    return DataType.VARCHAR;
   }
 
   @Override
