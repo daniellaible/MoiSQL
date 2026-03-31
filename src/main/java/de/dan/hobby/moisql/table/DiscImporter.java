@@ -39,6 +39,9 @@ public class DiscImporter {
   private File directory;
   private UUID uuid;
   private float version;
+  private short numberofColumns;
+  private short part;
+  private short partOf;
 
   /**
    * Instanciates the Loader. The directory in which the database is stored
@@ -69,7 +72,21 @@ public class DiscImporter {
     RandomAccessFile in = null;
     try {
       in = new RandomAccessFile(path, "r");
+
+      byte[] loco = new byte[4];
+      in.read(loco, 0, 4);
+
       version = in.readFloat();
+      numberofColumns = in.readShort();
+      part = in.readShort();
+      partOf = in.readShort();
+
+      //read the next file;
+      short nextFileLength = in.readShort();
+      byte[] byteNextFile = new byte[nextFileLength];
+      in.read(byteNextFile, 0, nextFileLength);
+      String nextFile = new String(byteNextFile).trim();
+
       extractTableName(in);
       extracteColumnNames(in);
       extractColumnDefinitions(in);
@@ -82,6 +99,9 @@ public class DiscImporter {
       }
 
       logger.info("moi-data file version: {}",  version);
+      logger.info("number of columns: {}",  numberofColumns);
+      logger.info("part: {} of {}", part, partOf);
+      logger.info("nextFile: {} ", nextFile);
       logger.info("Table name: {}", tablename);
       logger.info("Column names: {}", Arrays.toString(columnNames.toArray()));
       logger.info("Column types: {}",  Arrays.toString(columnTypes.toArray()));

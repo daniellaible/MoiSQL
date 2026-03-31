@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.NoSuchFileException;
+import java.util.HexFormat;
 import java.util.List;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,10 @@ import org.slf4j.LoggerFactory;
  * @since 0.1.5
  *
  * This class is used to save a table onto the filesystem.
+ *
+ * Please look at the document moiFilesDescription.txt to find the definition of the structure of
+ * a file that is generated using this class.
+ * To this point no multipart files are supported.
  */
 public class Saver {
 
@@ -36,13 +41,42 @@ public class Saver {
       String path = directory.getAbsolutePath() + File.separator + fileName;
       FileOutputStream out = new FileOutputStream(path);
 
+      HexFormat hexFormat = HexFormat.of();
+      final byte[] locoBabe = hexFormat.parseHex("10C0BABE");
+      out.write(locoBabe);
+
+      //This saves the version
       Decimal decimalVersion = new Decimal(version);
       out.write(decimalVersion.toByteArray());
+
+      //This writes the number of columns
+      Short numberOfColumns = (short) tree.getDataStructure().length;
+      ByteBuffer numberOfColumnsBuffer = ByteBuffer.allocate(Short.BYTES);
+      numberOfColumnsBuffer.putShort(numberOfColumns);
+      out.write(numberOfColumnsBuffer.array());
+
+      //This saves the part
+      ByteBuffer partBuffer = ByteBuffer.allocate(Short.BYTES);
+      final byte[] partInBytes = partBuffer.putShort((short) 1).array();
+      out.write(partInBytes);
+
+      //This saves the partOf
+      ByteBuffer partOfBuffer = ByteBuffer.allocate(Short.BYTES);
+      final byte[] partOfInBytes = partOfBuffer.putShort((short) 1).array();
+      out.write(partOfInBytes);
+
+      //This saves the next file (part x of y)
+      VarChar nextFile = new VarChar("");
+      short nextFileLength = (short)nextFile.getValue().length();
+      ByteBuffer nextFileLengthBuffer = ByteBuffer.allocate(Short.BYTES);
+      final byte[] nextFileLengthBytes = nextFileLengthBuffer.putShort(nextFileLength).array();
+      out.write(nextFileLengthBytes);
+      out.write(nextFile.getValue().getBytes());
 
       //This saves the tableName
       VarChar tableName = new VarChar(name);
       short tableNameLength = (short)tableName.getValue().length();
-      ByteBuffer tableNameBuffer = ByteBuffer.allocate(2);
+      ByteBuffer tableNameBuffer = ByteBuffer.allocate(Short.BYTES);
       final byte[] tableLengthBytes = tableNameBuffer.putShort(tableNameLength).array();
       out.write(tableLengthBytes);
       out.write(tableName.getValue().getBytes());
@@ -50,7 +84,7 @@ public class Saver {
       final VarChar[] columnNames = tree.getColumnNames();
       final IDataType[] dataStructure = tree.getDataStructure();
 
-      //This saves the rowNames to the file
+      //This saves the columnNames to the file
       int columnsLength = tree.getColumnNames().length;
       for (int i = 0; i < 64; i++) {
         if (i < columnsLength) {

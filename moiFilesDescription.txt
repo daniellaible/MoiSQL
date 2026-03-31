@@ -1,0 +1,98 @@
+                                                                          D.Laible
+                                                                     30 March 2026
+
+                                Moi Files Protocol
+                                ------------------
+
+Introduction
+------------
+
+Table1:
++------------+--------------------+------+
+| file ident |      header        | data |
++------------+--------------------+------+
+| 0x10C0BABE | header description | data |
++------------+--------------------+------+
+
+A .moi file is structured binary data file that persists MoiSql data on physical devices.
+The first four byte are always 0x10C0BABE and should be used as a file type identifier.
+The header and the data part are always of variable length due to variable number of
+rows in a table.
+Some of the limitations of MoiSql are rooted in this file structure, e.g. not more than
+32.767 columns are allowed in one table. If this is a problem for your database design,
+please do something else for a living.
+
+Fields
+------
+
+Table2:
++---------+-----------------+-------+--------+------------------------+------------ ----------+---------------+-----------------------+
+| version | numberOfColumns | part  | partOf |      nextFile          |      tableName        | columnNames   | columnTypeDefinition  |
++---------+-----------------+-------+--------+---- -------------------+-----------------------+---------------+-----------------------+
+| float   |     short       | short | short  | length(short) | char[] | length(short) |char[] | Array[names]  |    Array[defintion]   |
++---------+-----------------+-------+--------+------------------------+-----------------------+---------------+-----------------------+
+
+The header of a moi file consists of eight fields. Those fields are:
+
+ * version:
+            To be able to improve the protocol in later iterations the first field
+            stores the version of file format.
+            At this point in time there is just version 1.0.
+            The datatype is a 4-byte float.
+
+ * numberOfColumns:
+            In this field the total number of columns are stored.
+            The datatype is a 2-byte short.
+
+ * part:
+            .moi files should not be bigger than ~4GB due to limitations in some
+            operating systems. This header field works together with the next
+            header field 'partOf' to form the information needed. The interpretation
+            of those to fields are: This file is part(x) of a total of (y) parts that
+            are saving this table e.g. This file is part 2 of total 4 files that all
+            are saving one particular table.
+            The datatype is a 2-byte short.
+
+* partOf:
+            The second part of the number of parts of a table. See the description
+            for field 'part'.
+            The datatype is a 2-byte short.
+
+* nextFile:
+            This field saves the filename of the next multipart file. The next file
+            needs to be in the same directory as the current file.
+            The datastructure is a compound.
+            The first part is the length of the char[] as a 2-byte short.
+            The second part is the ascii char[] array that contains the file name.
+            The max length of the char[] is 255.
+
+* tableName:
+            This field saves the name of the stored table.
+            The datastructure is a compound.
+            The first part is the length of the char[] as a 2-byte short.
+            The second part is the ascii char[] array that contains the table name.
+            The max length of the char[] is 255.
+
+* columnNames:
+            This field stores the names of all the columns of the table.
+            The datastructure is an array of a compound.
+            Each column name is of the following compound type:
+                The first part is the length of the char[] as a 2-byte short.
+                The second part is the ascii char[] array that contains the column name.
+                The max length of the char[] is 255.
+            All the column names together create this field.
+            The array of all names must be the same size as field numberOfColumns.
+
+* columnTypeDefinition:
+            This field stores the datatypes of all the columns of the table.
+            The datastructure is an array of a compound.
+            Each column name is of the following compound type:
+                The first part is the length of the char[] as a 2-byte short.
+                The second part is the ascii char[] array that contains the column datatype.
+                The max length of the char[] is 255.
+            All the column names together create this field.
+            The array of all definitions must be the same size as field numberOfColumns.
+
+
+
+*all the ACII tables are generated with: https://ozh.github.io/ascii-tables/

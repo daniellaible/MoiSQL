@@ -14,7 +14,7 @@ class DiscImporterTest extends BaseTest {
     File dir = new File("C:\\temp\\moi");
     UUID uuid = UUID.fromString("0e6bce68-99fa-3841-b790-24afbdf7db1d");
     DiscImporter loader = new DiscImporter(dir, uuid);
-    Table table = loader.loadTable();
+    Table table = loader. loadTable();
 
     assertThat(table.getTableName()).isEqualTo("cities");
   }
