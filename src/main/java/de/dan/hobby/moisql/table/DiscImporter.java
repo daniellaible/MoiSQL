@@ -142,8 +142,9 @@ public class DiscImporter {
           }else if(dts[i].getDataType().equals(DataType.DATETIME)){
             tempRow.add(new DateTime(in.readLong()));
           }else if(dts[i].getDataType().equals(DataType.VARCHAR)) {
-            byte[] byteName = new byte[255];
-            in.read(byteName, 0, 255);
+            final short lengthOfVarChar = in.readShort();
+            byte[] byteName = new byte[lengthOfVarChar];
+            in.read(byteName, 0, lengthOfVarChar);
             tempRow.add(new VarChar(new String(byteName).trim()));
           }
         }
@@ -188,9 +189,10 @@ public class DiscImporter {
   }
 
   private void extractColumnDefinitions(RandomAccessFile in) throws IOException {
-    for (int i = 0; i < 64; i++) {
-      byte[] byteColumnType = new byte[255];
-      in.read(byteColumnType, 0, 255);
+    for (int i = 0; i < numberofColumns; i++) {
+      short length = in.readShort();
+      byte[] byteColumnType = new byte[length];
+      in.read(byteColumnType, 0, length);
       String type = new String(byteColumnType);
       type = type.trim();
       if (!type.isEmpty()) {
@@ -200,9 +202,10 @@ public class DiscImporter {
   }
 
   private void extracteColumnNames(RandomAccessFile in) throws IOException {
-    for (int i = 0; i < 64; i++) {
-      byte[] byteColumnName = new byte[255];
-      in.read(byteColumnName, 0, 255);
+    for (int i = 0; i < numberofColumns; i++) {
+      short length = in.readShort();
+      byte[] byteColumnName = new byte[length];
+      in.read(byteColumnName, 0, length);
       String columnName = new String(byteColumnName);
       columnName = columnName.trim();
       if (!columnName.isEmpty()) {

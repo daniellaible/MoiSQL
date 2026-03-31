@@ -120,7 +120,7 @@ public class Table {
    * @throws NoSuchFileException if File Object does not contain a directory
    */
   public void save(File directory) throws IOException {
-    new Saver(directory, tableTree, uuid, tableName, 0.1f);
+    new Saver(directory, tableTree, uuid, tableName, 1.0f);
   }
 
 

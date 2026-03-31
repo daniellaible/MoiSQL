@@ -22,6 +22,8 @@ Some of the limitations of MoiSql are rooted in this file structure, e.g. not mo
 32.767 columns are allowed in one table. If this is a problem for your database design,
 please do something else for a living.
 
+
+
 Fields
 ------
 
@@ -29,7 +31,7 @@ Table2:
 +---------+-----------------+-------+--------+------------------------+------------ ----------+---------------+-----------------------+
 | version | numberOfColumns | part  | partOf |      nextFile          |      tableName        | columnNames   | columnTypeDefinition  |
 +---------+-----------------+-------+--------+---- -------------------+-----------------------+---------------+-----------------------+
-| float   |     short       | short | short  | length(short) | char[] | length(short) |char[] | Array[names]  |    Array[defintion]   |
+| float   |     short       | short | short  | length(short) | char[] | length(short) |char[] | Array[name]   |    Array[defintion]   |
 +---------+-----------------+-------+--------+------------------------+-----------------------+---------------+-----------------------+
 
 The header of a moi file consists of eight fields. Those fields are:
@@ -49,7 +51,7 @@ The header of a moi file consists of eight fields. Those fields are:
             operating systems. This header field works together with the next
             header field 'partOf' to form the information needed. The interpretation
             of those to fields are: This file is part(x) of a total of (y) parts that
-            are saving this table e.g. This file is part 2 of total 4 files that all
+            are saving this table e.g. this file is part 2 of total 4 files that all
             are saving one particular table.
             The datatype is a 2-byte short.
 
