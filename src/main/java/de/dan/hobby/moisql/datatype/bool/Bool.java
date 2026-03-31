@@ -31,15 +31,25 @@ public class Bool implements IDataType {
   }
 
 
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType} DataType.Bool
+   */
   @Override
   public DataType getDataType() {
     return DataType.BOOL;
   }
 
-  //TODO need implementation
+  /**
+   * This returns a byte[] with the length of 1. Only one element is in this array.
+   * It is implemented in the following manner: (byte)(value? 1: 0)
+   * @return array with length=1  containing either 0/1 as byte
+   */
   @Override
   public byte[] toByteArray() {
-    return new byte[0];
+    byte[] returnValue = new byte[1];
+    returnValue[0] = (byte)(value? 1: 0);
+    return returnValue;
   }
 
   //TODO need implementation

@@ -2,7 +2,6 @@ package de.dan.hobby.moisql.table;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
-import de.dan.hobby.moisql.datatype.bool.Bool;
 import de.dan.hobby.moisql.datatype.date.Date;
 import de.dan.hobby.moisql.datatype.date.DateTime;
 import de.dan.hobby.moisql.datatype.date.Time;
@@ -11,8 +10,9 @@ import de.dan.hobby.moisql.datatype.numeric.Decimal;
 import de.dan.hobby.moisql.datatype.numeric.Float;
 import de.dan.hobby.moisql.datatype.numeric.Int;
 import de.dan.hobby.moisql.datatype.numeric.SmallInt;
-import de.dan.hobby.moisql.datatype.text.Text;
 import de.dan.hobby.moisql.datatype.text.VarChar;
+import de.dan.hobby.moisql.tool.parser.DataTypeParser;
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -29,15 +29,16 @@ import org.slf4j.LoggerFactory;
  * <p>
  * This class is used to load a table from the filesystem.
  */
-public class Loader {
+public class DiscImporter {
 
-  private static final Logger logger = LoggerFactory.getLogger(Loader.class);
+  private static final Logger logger = LoggerFactory.getLogger(DiscImporter.class);
 
   private List<VarChar> columnNames = new ArrayList<>();
   private List<DataType> columnTypes = new ArrayList<>();
   private String tablename;
   private File directory;
   private UUID uuid;
+  private float version;
 
   /**
    * Instanciates the Loader. The directory in which the database is stored
@@ -48,7 +49,7 @@ public class Loader {
    * @param uuid      the uuid of the table
    * @throws IOException
    */
-  public Loader(File directory, UUID uuid) {
+  public DiscImporter(File directory, UUID uuid) {
     this.directory = directory;
     this.uuid = uuid;
   }
@@ -60,6 +61,7 @@ public class Loader {
    * @return The table with all the data
    * @throws IOException
    */
+  //TODO Unable to read Boolean and Text yet
   public Table loadTable() throws IOException {
     Table table = null;
     String fileName = uuid + ".moi";
@@ -67,15 +69,22 @@ public class Loader {
     RandomAccessFile in = null;
     try {
       in = new RandomAccessFile(path, "r");
-
+      version = in.readFloat();
       extractTableName(in);
       extracteColumnNames(in);
       extractColumnDefinitions(in);
       table = new Table(createTypeRows(), createColumnNames(), tablename);
+      List<IDataType[]> rows = new ArrayList<>();
+      readData(table, in, rows);
 
-      System.out.println(tablename);
-      System.out.println(Arrays.toString(columnNames.toArray()));
-      System.out.println(Arrays.toString(columnTypes.toArray()));
+      for(IDataType[] row : rows) {
+        table.insert(row);
+      }
+
+      logger.info("moi-data file version: {}",  version);
+      logger.info("Table name: {}", tablename);
+      logger.info("Column names: {}", Arrays.toString(columnNames.toArray()));
+      logger.info("Column types: {}",  Arrays.toString(columnTypes.toArray()));
 
       in.close();
     } catch (Exception e) {
@@ -87,6 +96,50 @@ public class Loader {
       }
     }
     return table;
+  }
+
+  private void readData(Table table, RandomAccessFile in, List<IDataType[]> rows) throws IOException {
+    try {
+      while (true) {
+        final IDataType[] dts = table.getColumnTypes();
+
+        List<IDataType> tempRow = new ArrayList<>(dts.length);
+        for(int i = 0; i < dts.length; i++) {
+          if(dts[i].getDataType().equals(DataType.BIGINT)) {
+            tempRow.add(new BigInt(in.readLong()));
+          }else if(dts[i].getDataType().equals(DataType.DECIMAL)) {
+            tempRow.add(new Decimal(in.readFloat()));
+          }else if(dts[i].getDataType().equals(DataType.FLOAT)) {
+            tempRow.add(new Float(in.readDouble()));
+          }else if(dts[i].getDataType().equals(DataType.INT)){
+            tempRow.add(new Int(in.readInt()));
+          }else if(dts[i].getDataType().equals(DataType.SMALLINT)){
+            tempRow.add(new SmallInt(in.readShort()));
+          }else if(dts[i].getDataType().equals(DataType.TIME)){
+            tempRow.add(new Time(in.readLong()));
+          }else if(dts[i].getDataType().equals(DataType.DATE)){
+            tempRow.add(new Date(in.readLong()));
+          }else if(dts[i].getDataType().equals(DataType.DATETIME)){
+            tempRow.add(new DateTime(in.readLong()));
+          }else if(dts[i].getDataType().equals(DataType.VARCHAR)) {
+            byte[] byteName = new byte[255];
+            in.read(byteName, 0, 255);
+            tempRow.add(new VarChar(new String(byteName).trim()));
+          }
+        }
+        IDataType[] row = new IDataType[tempRow.size()];
+        for(int i = 0; i < tempRow.size(); i++){
+          row[i] = tempRow.get(i);
+        }
+/*          for(IDataType cell : row){
+          System.out.print(cell);
+        }
+        System.out.println();*/
+        rows.add(row);
+      }
+    }catch(EOFException e) {
+      logger.info("file read completely");
+    }
   }
 
   private VarChar[] createColumnNames() {
@@ -101,32 +154,8 @@ public class Loader {
     IDataType[] dataTypes = new IDataType[columnTypes.size()];
     for (int i = 0; i < dataTypes.length; i++) {
       final DataType dataType = columnTypes.get(i);
-
-      if (dataType.equals(DataType.BIGINT)) {
-        dataTypes[i] = new BigInt(0l);
-      } else if (dataType.equals(DataType.DECIMAL)) {
-        dataTypes[i] = new Decimal(0f);
-      } else if (dataType.equals(DataType.FLOAT)) {
-        dataTypes[i] = new Float(0d);
-      } else if (dataType.equals(DataType.INT)) {
-        dataTypes[i] = new Int(0);
-      } else if (dataType.equals(DataType.SMALLINT)) {
-        dataTypes[i] = new SmallInt(0);
-      } else if (dataType.equals(DataType.VARCHAR)) {
-        dataTypes[i] = new VarChar("");
-      } else if (dataType.equals(DataType.TEXT)) {
-        dataTypes[i] = new Text("");
-      } else if (dataType.equals(DataType.BOOL)) {
-        dataTypes[i] = new Bool(false);
-      } else if (dataType.equals(DataType.DATE)) {
-        dataTypes[i] = new Date(0l);
-      } else if (dataType.equals(DataType.TIME)) {
-        dataTypes[i] = new Time(0l);
-      } else if (dataType.equals(DataType.DATETIME)) {
-        dataTypes[i] = new DateTime(0l);
-      } else {
-        logger.warn("Unable to parse datatype {}", dataType);
-      }
+      DataTypeParser dtParser = new DataTypeParser();
+      dataTypes[i] = dtParser.parseDataType(dataType);
     }
     return dataTypes;
   }

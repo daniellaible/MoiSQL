@@ -15,8 +15,6 @@ import java.nio.charset.StandardCharsets;
  */
 public class VarChar implements IDataType {
 
-  //TODO: add logger for value.length > 255;
-
   private char[] value;
 
   private DataType datatype = DataType.VARCHAR;
@@ -61,6 +59,11 @@ public class VarChar implements IDataType {
     return charArray;
   }
 
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
+  @Override
   public DataType getDataType() {
     return DataType.VARCHAR;
   }

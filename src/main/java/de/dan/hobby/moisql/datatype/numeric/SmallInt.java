@@ -25,7 +25,10 @@ public class SmallInt extends NumericDataType {
     return value.shortValue();
   }
 
-
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
   @Override
   public DataType getDataType() {
     return DataType.SMALLINT;

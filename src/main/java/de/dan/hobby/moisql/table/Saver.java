@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.table;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.numeric.Decimal;
 import de.dan.hobby.moisql.datatype.text.VarChar;
 import de.dan.hobby.moisql.tree.BPTree;
 import de.dan.hobby.moisql.tree.LeafNode;
@@ -12,6 +13,8 @@ import java.nio.file.NoSuchFileException;
 import java.util.List;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Daniel Laible
@@ -21,13 +24,19 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Saver {
 
-  public Saver(@NotNull File directory, @NotNull BPTree tree, @NotNull UUID uuid, @NotNull String name)
+  private static final Logger logger = LoggerFactory.getLogger(Saver.class);
+
+  public Saver(@NotNull File directory, @NotNull BPTree tree, @NotNull UUID uuid, @NotNull String name, float version)
       throws IOException {
+
     long start = System.currentTimeMillis();
     if (checkDirValid(directory)) {
       String fileName = uuid + ".moi";
       String path = directory.getAbsolutePath() + File.separator + fileName;
       FileOutputStream out = new FileOutputStream(path);
+
+      Decimal decimalVersion = new Decimal(version);
+      out.write(decimalVersion.toByteArray());
 
       //This saves the tableName
       VarChar tableName = new VarChar(name);
@@ -76,7 +85,7 @@ public class Saver {
       throw new NoSuchFileException("directory provided unavailable");
     }
     long stop = System.currentTimeMillis();
-    System.out.println("Save took " + (stop - start) + "ms");
+    logger.info("Save took {} ms", (stop - start));
   }
 
   private boolean checkDirValid(File directory) {

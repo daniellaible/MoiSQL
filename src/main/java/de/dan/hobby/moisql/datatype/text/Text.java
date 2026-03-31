@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.datatype.text;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -31,16 +32,20 @@ public class Text implements IDataType {
     return value;
   }
 
-
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
   @Override
   public DataType getDataType() {
     return DataType.TEXT;
   }
 
-  //TODO need implementation
+
   @Override
   public byte[] toByteArray() {
-    return new byte[0];
+    Charset charset = StandardCharsets.UTF_8;
+    return value.getBytes(charset);
   }
 
   //TODO need implementation

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -18,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
  * This class represents a table.
  */
 public class Table {
+
+  private static final Logger logger = LoggerFactory.getLogger(Table.class);
 
   private String tableName;
 
@@ -116,12 +120,13 @@ public class Table {
    * @throws NoSuchFileException if File Object does not contain a directory
    */
   public void save(File directory) throws IOException {
-    new Saver(directory, tableTree, uuid, tableName);
+    new Saver(directory, tableTree, uuid, tableName, 0.1f);
   }
 
 
   public void load(File directory, UUID uuid) throws IOException {
-    new Loader(directory, uuid);
+    final DiscImporter loader = new DiscImporter(directory, uuid);
+    loader.loadTable();
   }
 
   //TODO needs implementation
@@ -156,14 +161,8 @@ public class Table {
    *
    * @return a String with the definition of all the column types
    */
-  public String getColumnTypes() {
-    final IDataType[] dataStructure = tableTree.getDataStructure();
-    StringBuilder sb = new StringBuilder();
-    for (IDataType dataType : dataStructure) {
-      String type = dataType.getDataType().toString();
-      sb.append(type + " ");
-    }
-    return sb.toString().trim();
+  public IDataType[] getColumnTypes() {
+    return tableTree.getDataStructure();
   }
 
   private UUID generateUUID(String tableName) {

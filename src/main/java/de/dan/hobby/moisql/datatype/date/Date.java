@@ -48,6 +48,10 @@ public class Date extends DateDataType {
     return zoneId;
   }
 
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
   @Override
   public DataType getDataType() {
     return DataType.DATE;

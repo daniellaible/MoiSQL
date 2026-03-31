@@ -54,6 +54,10 @@ public class Time extends DateDataType {
     return value;
   }
 
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
   @Override
   public DataType getDataType() {
     return DataType.TIME;  }

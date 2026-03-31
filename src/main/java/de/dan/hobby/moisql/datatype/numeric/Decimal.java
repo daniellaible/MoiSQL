@@ -22,6 +22,10 @@ public class Decimal extends NumericDataType {
     return value.floatValue();
   }
 
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
   @Override
   public DataType getDataType() {
     return DataType.DECIMAL;

@@ -53,9 +53,8 @@ public class BigInt extends NumericDataType {
   }
 
   /**
-   * returns String representation of datatype
    *
-   * @return "BIGINT"
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
    */
   public DataType getDataType() {
     return DataType.BIGINT;

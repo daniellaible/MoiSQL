@@ -24,6 +24,10 @@ public class Int extends NumericDataType {
   }
 
 
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
   @Override
   public DataType getDataType() {
     return DataType.INT;
