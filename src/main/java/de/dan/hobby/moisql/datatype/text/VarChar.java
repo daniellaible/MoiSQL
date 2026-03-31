@@ -59,6 +59,7 @@ public class VarChar implements IDataType {
     return charArray;
   }
 
+
   /**
    *
    * @return {@link de.dan.hobby.moisql.datatype.DataType}

@@ -131,10 +131,10 @@ public class DiscImporter {
         for(int i = 0; i < tempRow.size(); i++){
           row[i] = tempRow.get(i);
         }
-/*          for(IDataType cell : row){
+          for(IDataType cell : row){
           System.out.print(cell);
         }
-        System.out.println();*/
+        System.out.println();
         rows.add(row);
       }
     }catch(EOFException e) {
@@ -161,8 +161,9 @@ public class DiscImporter {
   }
 
   private void extractTableName(RandomAccessFile in) throws IOException {
-    byte[] byteName = new byte[255];
-    in.read(byteName, 0, 255);
+    short length = in.readShort();
+    byte[] byteName = new byte[length];
+    in.read(byteName, 0, length);
     tablename = new String(byteName).trim();
   }
 

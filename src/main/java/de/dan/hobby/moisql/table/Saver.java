@@ -9,6 +9,7 @@ import de.dan.hobby.moisql.tree.LeafNode;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,11 @@ public class Saver {
 
       //This saves the tableName
       VarChar tableName = new VarChar(name);
-      out.write(tableName.toByteArray());
+      short tableNameLength = (short)tableName.getValue().length();
+      ByteBuffer tableNameBuffer = ByteBuffer.allocate(2);
+      final byte[] tableLengthBytes = tableNameBuffer.putShort(tableNameLength).array();
+      out.write(tableLengthBytes);
+      out.write(tableName.getValue().getBytes());
 
       final VarChar[] columnNames = tree.getColumnNames();
       final IDataType[] dataStructure = tree.getDataStructure();
