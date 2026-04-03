@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Daniel Laible
  * @since 0.1.5
- *
+ * <p>
  * This class is used to load a table from the filesystem.
  */
 public class DiscImporter {
@@ -94,17 +94,17 @@ public class DiscImporter {
       List<IDataType[]> rows = new ArrayList<>();
       readData(table, in, rows);
 
-      for(IDataType[] row : rows) {
+      for (IDataType[] row : rows) {
         table.insert(row);
       }
 
-      logger.info("moi-data file version: {}",  version);
-      logger.info("number of columns: {}",  numberofColumns);
+      logger.info("moi-data file version: {}", version);
+      logger.info("number of columns: {}", numberofColumns);
       logger.info("part: {} of {}", part, partOf);
       logger.info("nextFile: {} ", nextFile);
       logger.info("Table name: {}", tablename);
       logger.info("Column names: {}", Arrays.toString(columnNames.toArray()));
-      logger.info("Column types: {}",  Arrays.toString(columnTypes.toArray()));
+      logger.info("Column types: {}", Arrays.toString(columnTypes.toArray()));
 
       in.close();
     } catch (Exception e) {
@@ -124,24 +124,25 @@ public class DiscImporter {
         final IDataType[] dts = table.getColumnTypes();
 
         List<IDataType> tempRow = new ArrayList<>(dts.length);
-        for(int i = 0; i < dts.length; i++) {
-          if(dts[i].getDataType().equals(DataType.BIGINT)) {
+
+        for (int i = 0; i < dts.length; i++) {
+          if (dts[i].getDataType().equals(DataType.BIGINT)) {
             tempRow.add(new BigInt(in.readLong()));
-          }else if(dts[i].getDataType().equals(DataType.DECIMAL)) {
+          } else if (dts[i].getDataType().equals(DataType.DECIMAL)) {
             tempRow.add(new Decimal(in.readFloat()));
-          }else if(dts[i].getDataType().equals(DataType.FLOAT)) {
+          } else if (dts[i].getDataType().equals(DataType.FLOAT)) {
             tempRow.add(new Float(in.readDouble()));
-          }else if(dts[i].getDataType().equals(DataType.INT)){
+          } else if (dts[i].getDataType().equals(DataType.INT)) {
             tempRow.add(new Int(in.readInt()));
-          }else if(dts[i].getDataType().equals(DataType.SMALLINT)){
+          } else if (dts[i].getDataType().equals(DataType.SMALLINT)) {
             tempRow.add(new SmallInt(in.readShort()));
-          }else if(dts[i].getDataType().equals(DataType.TIME)){
+          } else if (dts[i].getDataType().equals(DataType.TIME)) {
             tempRow.add(new Time(in.readLong()));
-          }else if(dts[i].getDataType().equals(DataType.DATE)){
+          } else if (dts[i].getDataType().equals(DataType.DATE)) {
             tempRow.add(new Date(in.readLong()));
-          }else if(dts[i].getDataType().equals(DataType.DATETIME)){
+          } else if (dts[i].getDataType().equals(DataType.DATETIME)) {
             tempRow.add(new DateTime(in.readLong()));
-          }else if(dts[i].getDataType().equals(DataType.VARCHAR)) {
+          } else if (dts[i].getDataType().equals(DataType.VARCHAR)) {
             final short lengthOfVarChar = in.readShort();
             byte[] byteName = new byte[lengthOfVarChar];
             in.read(byteName, 0, lengthOfVarChar);
@@ -149,16 +150,16 @@ public class DiscImporter {
           }
         }
         IDataType[] row = new IDataType[tempRow.size()];
-        for(int i = 0; i < tempRow.size(); i++){
+        for (int i = 0; i < tempRow.size(); i++) {
           row[i] = tempRow.get(i);
         }
-          for(IDataType cell : row){
+        for (IDataType cell : row) {
           System.out.print(cell);
         }
         System.out.println();
         rows.add(row);
       }
-    }catch(EOFException e) {
+    } catch (EOFException e) {
       logger.info("file read completely");
     }
   }

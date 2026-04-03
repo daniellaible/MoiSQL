@@ -3,12 +3,13 @@ package de.dan.hobby.moisql.datatype.date;
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.date.pattern.DatePattern;
 import de.dan.hobby.moisql.datatype.text.VarChar;
+import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-//TODO needs testing
+
 /**
  * @author Daniel Laible
  * @since 0.0.2
@@ -57,16 +58,21 @@ public class Date extends DateDataType {
     return DataType.DATE;
   }
 
-  //TODO need implementation
+
   @Override
   public byte[] toByteArray() {
-    return new byte[0];
+    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+    buffer.putLong((long)getValue());
+    return buffer.array();
   }
 
   //TODO need implementation
   @Override
   public Long fromByteArray(byte[] bytes) {
-    return 0l;
+    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+    buffer.put(bytes);
+    buffer.rewind();
+    return buffer.getLong();
   }
 
   public String toString(){
