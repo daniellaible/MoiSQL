@@ -36,12 +36,25 @@ public class Table {
    * @param columnNames an array of VarChar the names each column and is used as an identifier
    * @param tableName how this table is named
    */
-  //TODO check that there are no duplicates in the columnNames
-  public Table(@NotNull IDataType[] typeRow,@NotNull VarChar[] columnNames, @NotNull String tableName) {
+  public Table(@NotNull IDataType[] typeRow,@NotNull VarChar[] columnNames, @NotNull String tableName) throws IllegalArgumentException {
     this.tableName = tableName;
     tableTree = new BPTree(3);
     tableTree.specifyDataStructure(typeRow, columnNames);
     this.uuid = generateUUID(tableName);
+    if(!checkDuplicatesInNames(columnNames)){
+      throw new IllegalArgumentException("Duplicate column names");
+    }
+  }
+
+  private boolean checkDuplicatesInNames(VarChar[] columnNames) {
+    for(int i = 0; i < columnNames.length; i++) {
+      for (int j = i + 1; j < columnNames.length; j++) {
+        if (columnNames[i].equals(columnNames[j]) && i != j) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
 
@@ -123,11 +136,6 @@ public class Table {
     new Saver(directory, tableTree, uuid, tableName, 1.0f);
   }
 
-
-  public void load(File directory, UUID uuid) throws IOException {
-    final DiscImporter loader = new DiscImporter(directory, uuid);
-    loader.loadTable();
-  }
 
   //TODO needs implementation
   public void flush() {

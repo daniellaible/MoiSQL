@@ -48,10 +48,9 @@ public class Text implements IDataType {
     return value.getBytes(charset);
   }
 
-  //TODO need implementation
   @Override
   public String fromByteArray(byte[] bytes) {
-    return "";
+    return new String(bytes, StandardCharsets.UTF_8);
   }
 
   public Number getValue() {

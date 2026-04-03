@@ -66,7 +66,6 @@ public class Date extends DateDataType {
     return buffer.array();
   }
 
-  //TODO need implementation
   @Override
   public Long fromByteArray(byte[] bytes) {
     ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);

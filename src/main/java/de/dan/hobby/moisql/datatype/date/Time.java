@@ -10,7 +10,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-//TODO needs Testing
+
 /**
  * @author Daniel Laible
  * @since 0.0.2
