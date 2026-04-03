@@ -22,10 +22,10 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Daniel Laible
  * @since 0.1.5
- * <p>
+ *
  * This class is used to save a table onto the filesystem.
- * <p>
- * Please look at the document moiFilesDescription.txt to find the definition of the structure of
+ *
+ * Please look at the document moi_files_description.txt to find the definition of the structure of
  * a file that is generated using this class.
  * To this point no multipart files are supported.
  */
@@ -43,8 +43,8 @@ public class Saver {
       FileOutputStream out = new FileOutputStream(path);
 
       HexFormat hexFormat = HexFormat.of();
-      final byte[] locoBabe = hexFormat.parseHex("10C0BABE");
-      out.write(locoBabe);
+      final byte[] locoloco = hexFormat.parseHex("10C010C0");
+      out.write(locoloco);
 
       //This saves the version
       Decimal decimalVersion = new Decimal(version);
