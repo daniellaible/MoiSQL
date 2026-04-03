@@ -86,7 +86,6 @@ public class Table {
    * of type BigInt
    * @param dataRow
    */
-  //TODO check that the datarow has the same spec as the table
   public void insert(IDataType[] dataRow) {
     new Inserter(dataRow, tableTree);
   }

@@ -25,6 +25,14 @@ public class Bool implements IDataType {
     this.value = value;
   }
 
+  public Bool(byte inBytes){
+    if(inBytes == 1){
+      this.value = true;
+    }else{
+      this.value = false;
+    }
+  }
+
 
   /**
    *

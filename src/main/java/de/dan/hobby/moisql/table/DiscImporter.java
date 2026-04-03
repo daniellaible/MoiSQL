@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.table;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.bool.Bool;
 import de.dan.hobby.moisql.datatype.date.Date;
 import de.dan.hobby.moisql.datatype.date.DateTime;
 import de.dan.hobby.moisql.datatype.date.Time;
@@ -61,10 +62,11 @@ public class DiscImporter {
    * To load a {@link de.dan.hobby.moisql.table.Table} from disc use this method. It loads the table
    * form disc and created a new B+Tree that the database can use.
    *
+   * Right now tables that occupy more than 4GB of disc space might not be supported
+   *
    * @return The table with all the data
    * @throws IOException
    */
-  //TODO Unable to read Boolean and Text yet
   public Table loadTable() throws IOException {
     Table table = null;
     String fileName = uuid + ".moi";
@@ -142,6 +144,10 @@ public class DiscImporter {
             tempRow.add(new Date(in.readLong()));
           } else if (dts[i].getDataType().equals(DataType.DATETIME)) {
             tempRow.add(new DateTime(in.readLong()));
+          }else if (dts[i].getDataType().equals(DataType.BOOL)) {
+            byte[] bool = new byte[1];
+            in.read(bool, 0, 1);
+            tempRow.add(new Bool(bool[0]));
           } else if (dts[i].getDataType().equals(DataType.VARCHAR)) {
             final short lengthOfVarChar = in.readShort();
             byte[] byteName = new byte[lengthOfVarChar];
