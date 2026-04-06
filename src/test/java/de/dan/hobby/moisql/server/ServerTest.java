@@ -10,7 +10,7 @@ class ServerTest extends DbmCreatorTest{
 
   @Test
   void testDbmFileAvailable() {
-    File file = new File("C:\\moidb\\moidb.dbm");
+    File file = new File("C:\\moidb\\moi.dbm");
     assertThat(file.exists()).isTrue();
   }
 

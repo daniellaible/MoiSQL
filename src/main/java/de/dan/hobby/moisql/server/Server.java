@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.server;
 
 import de.dan.hobby.moisql.server.startup.DbmImporter;
 import de.dan.hobby.moisql.server.startup.IStartupSequence;
+import de.dan.hobby.moisql.server.startup.MoiDirectoryCreator;
 import de.dan.hobby.moisql.server.startup.OSDetector;
 import de.dan.hobby.moisql.server.startup.StartupContext;
 import java.util.Arrays;
@@ -23,6 +24,7 @@ public class Server {
 
   private List<IStartupSequence> startupSequences = Arrays.asList(
       new OSDetector(),
+      new MoiDirectoryCreator(),
       new DbmImporter()
   );
 

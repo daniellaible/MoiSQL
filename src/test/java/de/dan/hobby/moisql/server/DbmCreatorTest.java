@@ -14,7 +14,7 @@ public class DbmCreatorTest {
     if (!dir.exists()) {
       dir.mkdir();
     }
-    File dbmFile = new File("C:\\moidb\\moidb.dbm");
+    File dbmFile = new File("C:\\moidb\\moi.dbm");
     byte[] bytesData = data.getBytes();
     Files.write(dbmFile.toPath(), bytesData);
   }
@@ -23,12 +23,12 @@ public class DbmCreatorTest {
   private static String createData() {
     return """
         <db>
-          <name>population</name>
-          <path>C:\\temp\\moi</path>
-          <table>
-            <tablename>cities</tablename>
-            <uuid>0e6bce68-99fa-3841-b790-24afbdf7db1d</uuid>
-          </table>
+        <name>population</name>
+        <path>C:\\temp\\moi</path>
+        <table>
+        <tablename>cities</tablename>
+        <uuid>0e6bce68-99fa-3841-b790-24afbdf7db1d</uuid>
+        </table>
         </db>
         """;
   }

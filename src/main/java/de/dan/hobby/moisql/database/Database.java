@@ -1,7 +1,7 @@
 package de.dan.hobby.moisql.database;
 
 import de.dan.hobby.moisql.datatype.text.VarChar;
-import de.dan.hobby.moisql.server.DbmFile;
+import de.dan.hobby.moisql.server.DbmFile.DbmFile;
 import de.dan.hobby.moisql.table.Table;
 import java.io.File;
 import java.util.List;
