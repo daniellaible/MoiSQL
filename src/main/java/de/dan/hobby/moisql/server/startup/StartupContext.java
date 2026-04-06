@@ -6,7 +6,7 @@ import de.dan.hobby.moisql.server.OSType;
  * @author Daniel Laible
  * @since 0.1.6
  *
- * Context POJO for StartupSequence startegy
+ * Context POJO for StartupSequence strategy
  */
 public class StartupContext {
 

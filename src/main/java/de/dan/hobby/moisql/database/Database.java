@@ -18,8 +18,6 @@ public class Database {
 
   private static final Logger logger = LoggerFactory.getLogger(Database.class);
 
-
-
   private VarChar dbName;
 
   private List<Table> tables;
@@ -33,16 +31,6 @@ public class Database {
    */
   public Database(VarChar dbName) {
     this.dbName = dbName;
-/*    Optional<DbmFile> dbmFile = loadDatabaseFile();
-    if(dbmFile.isPresent()) {
-      if(checkIfDbNameExists(dbmFile.get())){
-
-      }
-    }else{
-
-    }*/
-    //saveTheNewDb
-
   }
 
   private boolean checkIfDbNameExists(DbmFile dbmFile) {
@@ -58,13 +46,5 @@ public class Database {
   }
 
   public void saveDatabase() {
-    //TODO
   }
-
-
-  //TODO implement DbFile for Macs
-
-
-
-
 }

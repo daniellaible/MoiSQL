@@ -1,8 +1,6 @@
 package de.dan.hobby.moisql.server.startup;
 
 import de.dan.hobby.moisql.server.DbmFile;
-import de.dan.hobby.moisql.server.Server;
-import java.io.File;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +8,11 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Daniel Laible
  * @since 0.1.6
- *
+ * <p>
  * Part of the StartupSequence Strategy
  * Reads the .dbm file for already existing moi databases on disc
  */
-public class DbmImporter implements IStartupSequence{
+public class DbmImporter implements IStartupSequence {
 
   private static final Logger logger = LoggerFactory.getLogger(DbmImporter.class);
 
@@ -24,29 +22,19 @@ public class DbmImporter implements IStartupSequence{
 
   @Override
   public void commence(StartupContext context) {
-      Optional<DbmFile> dbmFile = Optional.empty();
-      switch (context.osType){
-        case WINDOWS:
-          dbmFile = loadDbmFile(DBM_PATH_WINDOWS);
-          break;
-        case LINUX:
-          dbmFile = loadDbmFile(DBM_PATH_LINUX);
-        default:
-          logger.warn("Unsupported os type");
-      }
+    Optional<DbmFile> dbmFile = Optional.empty();
+    switch (context.osType) {
+      case WINDOWS:
+        dbmFile = loadDbmFile(DBM_PATH_WINDOWS);
+        break;
+      case LINUX:
+        dbmFile = loadDbmFile(DBM_PATH_LINUX);
+      default:
+        logger.warn("Unsupported os type");
+    }
   }
 
   private Optional<DbmFile> loadDbmFile(String path) {
-/*    File file = new File("C:\\moidb\\dbs.dbm");
-    DbmFile dbmFile = null;
-    if (file.exists()) {
-      //dbmFile = importDbmFile(file);
-    }
-
-    if (dbmFile == null) {
-      return Optional.empty();
-    } else {
-      return Optional.of(dbmFile);
-    }
-  }*/
+    return Optional.empty();
+  }
 }

@@ -4,7 +4,6 @@ import de.dan.hobby.moisql.server.startup.DbmImporter;
 import de.dan.hobby.moisql.server.startup.IStartupSequence;
 import de.dan.hobby.moisql.server.startup.OSDetector;
 import de.dan.hobby.moisql.server.startup.StartupContext;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
@@ -13,7 +12,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Daniel Laible
  * @since 0.1.6
- *
+ * <p>
  * The startup class for the DB Server
  */
 public class Server {
@@ -22,10 +21,10 @@ public class Server {
 
   public static StartupContext context;
 
-  List<IStartupSequence> startupSequences = Arrays.asList(
+  private List<IStartupSequence> startupSequences = Arrays.asList(
       new OSDetector(),
       new DbmImporter()
-      );
+  );
 
 
   public static void main(String[] args) {
@@ -38,7 +37,7 @@ public class Server {
 
   private void runStartupSequence() {
     context = new StartupContext();
-    for(IStartupSequence sequence : startupSequences) {
+    for (IStartupSequence sequence : startupSequences) {
       sequence.commence(context);
     }
   }
