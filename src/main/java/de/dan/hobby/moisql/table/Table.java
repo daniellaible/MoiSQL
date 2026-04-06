@@ -57,7 +57,6 @@ public class Table {
     return true;
   }
 
-
   /**
    * This retrives the name of the table
    *
@@ -66,7 +65,6 @@ public class Table {
   public String getTableName(){
     return tableName;
   }
-
 
   /**
    * This retrieves the uuid of the table. The uuid is a combination of the timestamp when the
@@ -77,7 +75,6 @@ public class Table {
   public UUID getUuid(){
     return uuid;
   }
-
 
   /**
    * This is used to insert a whole new row into the table
@@ -99,11 +96,9 @@ public class Table {
     new Deleter(tableTree, id);
   }
 
-
   //TODO needs implementation
   public void edit(IDataType newValue, String rowName, int key ) {
   }
-
 
   /**
    * You can use this method to find a row in the table by providing the id
@@ -114,7 +109,6 @@ public class Table {
   public IDataType[] find(long id) {
     return tableTree.findRow(id);
   }
-
 
   /**
    * Find the leaf with the lowest id of the table
@@ -134,7 +128,6 @@ public class Table {
   public void save(File directory) throws IOException {
     new Saver(directory, tableTree, uuid, tableName, 1.0f);
   }
-
 
   //TODO needs implementation
   public void flush() {

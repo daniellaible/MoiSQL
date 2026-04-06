@@ -1,23 +1,39 @@
-package de.dan.hobby.moisql.server;
+package de.dan.hobby.moisql.server.startup;
 
+import de.dan.hobby.moisql.server.OSType;
+import de.dan.hobby.moisql.server.Server;
 import java.util.Locale;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class OSDetector {
+/**
+ * @author Daniel Laible
+ * @since 0.1.6
+ *
+ * Part of the StartupSequence Strategy
+ * Determines the operating system the server is working with
+ */
+public class OSDetector implements IStartupSequence{
 
-  public static OSType detectOS() {
+  private static final Logger logger = LoggerFactory.getLogger(OSDetector.class);
+
+  public void commence(StartupContext context) {
     String os = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
     if (os.contains("win")) {
-      return OSType.WINDOWS;
+      context.osType = OSType.WINDOWS;
     } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-      return OSType.LINUX;
+      context.osType = OSType.LINUX;
     } else if (os.contains("mac")) {
-      return OSType.MAC;
+      context.osType = OSType.MAC;
     } else if (os.contains("sunos")) {
-      return OSType.SOLARIS;
+      context.osType = OSType.SOLARIS;
     } else {
-      return OSType.OTHER;
+      context.osType = OSType.OTHER;
     }
+    logger.info("Detected OS is: {}", context.osType);
   }
+
+
 
 /*  private Optional<DbmFile> checkDbFileMac() {
     logger.warn("MacOS is not yet supported");
@@ -46,18 +62,6 @@ public class OSDetector {
   }
 
 
-  private Optional<DbmFile> checkDbFileWin() {
-    File file = new File("C:\\moidb\\dbs.dbm");
-    DbmFile dbmFile = null;
-    if (file.exists()) {
-      dbmFile = importDbmFile(file);
-    }
-
-    if (dbmFile == null) {
-      return Optional.empty();
-    } else {
-      return Optional.of(dbmFile);
-    }
-  }*/
+*/
 
 }

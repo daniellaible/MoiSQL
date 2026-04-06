@@ -1,5 +1,12 @@
 package de.dan.hobby.moisql.server;
 
+import de.dan.hobby.moisql.server.startup.DbmImporter;
+import de.dan.hobby.moisql.server.startup.IStartupSequence;
+import de.dan.hobby.moisql.server.startup.OSDetector;
+import de.dan.hobby.moisql.server.startup.StartupContext;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,42 +20,26 @@ public class Server {
 
   private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
-  public static OSType detectedOS;
+  public static StartupContext context;
+
+  List<IStartupSequence> startupSequences = Arrays.asList(
+      new OSDetector(),
+      new DbmImporter()
+      );
+
 
   public static void main(String[] args) {
     Server server = new Server();
   }
 
   public Server() {
-    detectedOS = OSDetector.detectOS();
-    logger.info("Detected OS: " + detectedOS);
-
-    DbmImporter dbmImporter = new DbmImporter();
+    runStartupSequence();
   }
 
-
-/*  private Optional<DbmFile> loadDatabaseFile() {
-    detectOperatingSystem();
-    Optional<DbmFile> dbmFile = Optional.empty();
-
-    switch (detectedOS) {
-      case WINDOWS:
-        dbmFile = checkDbFileWin();
-        break;
-      case LINUX:
-        dbmFile = checkDbFileLinux();
-        break;
-      case SOLARIS:
-        dbmFile = checkDbFileSolaris();
-        break;
-      case MAC:
-        dbmFile = checkDbFileMac();
-        break;
-      default:
-        logger.warn("Unable to detect operating system: " + detectedOS);
+  private void runStartupSequence() {
+    context = new StartupContext();
+    for(IStartupSequence sequence : startupSequences) {
+      sequence.commence(context);
     }
-
-    return dbmFile;
-  }*/
-
+  }
 }

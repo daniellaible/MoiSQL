@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 public class Saver {
 
   private static final Logger logger = LoggerFactory.getLogger(Saver.class);
+  private static final String LOCOLOCO = "10C010C0";
 
   public Saver(@NotNull File directory, @NotNull BPTree tree, @NotNull UUID uuid, @NotNull String name, float version)
       throws IOException {
@@ -43,7 +44,7 @@ public class Saver {
       FileOutputStream out = new FileOutputStream(path);
 
       HexFormat hexFormat = HexFormat.of();
-      final byte[] locoloco = hexFormat.parseHex("10C010C0");
+      final byte[] locoloco = hexFormat.parseHex(LOCOLOCO);
       out.write(locoloco);
 
       //This saves the version

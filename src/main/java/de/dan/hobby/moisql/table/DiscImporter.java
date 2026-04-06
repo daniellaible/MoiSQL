@@ -34,6 +34,16 @@ public class DiscImporter {
 
   private static final Logger logger = LoggerFactory.getLogger(DiscImporter.class);
 
+  private static final String LOGGER_FILE_VERSION = "moi-data file version: {}";
+  private static final String LOGGER_NUMBER_OF_COLUMNS = "number of columns: {}";
+  private static final String LOGGER_PART_X_OF = "part: {} of {}";
+  private static final String LOGGER_NEXT_FILE_NAME = "nextFile: {} ";
+  private static final String LOGGER_TABLE_NAME = "Table name: {}";
+  private static final String LOGGER_COLUMN_NAMES = "Column names: {}";
+  private static final String LOGGER_COLUMN_TYPES = "Column types: {}";
+  private static final String LOGGER_UNKNOWN_LOADING_EXCEPTION = "Something went wrong loading the table {}.moi from disc";
+  private static final String LOGGER_FILE_READ_COMPLETELY = "file read completely";
+
   private List<VarChar> columnNames = new ArrayList<>();
   private List<DataType> columnTypes = new ArrayList<>();
   private String tablename;
@@ -101,17 +111,17 @@ public class DiscImporter {
         table.insert(row);
       }
 
-      logger.info("moi-data file version: {}", version);
-      logger.info("number of columns: {}", numberofColumns);
-      logger.info("part: {} of {}", part, partOf);
-      logger.info("nextFile: {} ", nextFile);
-      logger.info("Table name: {}", tablename);
-      logger.info("Column names: {}", Arrays.toString(columnNames.toArray()));
-      logger.info("Column types: {}", Arrays.toString(columnTypes.toArray()));
+      logger.info(LOGGER_FILE_VERSION, version);
+      logger.info(LOGGER_NUMBER_OF_COLUMNS, numberofColumns);
+      logger.info(LOGGER_PART_X_OF, part, partOf);
+      logger.info(LOGGER_NEXT_FILE_NAME, nextFile);
+      logger.info(LOGGER_TABLE_NAME, tablename);
+      logger.info(LOGGER_COLUMN_NAMES, Arrays.toString(columnNames.toArray()));
+      logger.info(LOGGER_COLUMN_TYPES, Arrays.toString(columnTypes.toArray()));
 
       in.close();
     } catch (Exception e) {
-      logger.warn("Something went wrong loading the table {}.moi from disc", uuid);
+      logger.warn(LOGGER_UNKNOWN_LOADING_EXCEPTION, uuid);
       e.printStackTrace();
     } finally {
       if (in != null) {
@@ -168,7 +178,7 @@ public class DiscImporter {
         rows.add(row);
       }
     } catch (EOFException e) {
-      logger.info("file read completely");
+      logger.info(LOGGER_FILE_READ_COMPLETELY);
     }
   }
 
