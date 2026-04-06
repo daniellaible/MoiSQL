@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server.startup;
 
+import de.dan.hobby.moisql.server.DbmFile.DbmFile;
 import de.dan.hobby.moisql.server.OSType;
 
 /**
@@ -11,5 +12,6 @@ import de.dan.hobby.moisql.server.OSType;
 public class StartupContext {
 
   public OSType osType;
+  public DbmFile dbmFile;
 
 }
