@@ -1,7 +1,9 @@
 package de.dan.hobby.moisql.database;
 
 import de.dan.hobby.moisql.datatype.text.VarChar;
+import de.dan.hobby.moisql.server.DbmFile;
 import de.dan.hobby.moisql.table.Table;
+import java.io.File;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +18,13 @@ public class Database {
 
   private static final Logger logger = LoggerFactory.getLogger(Database.class);
 
+
+
   private VarChar dbName;
 
   private List<Table> tables;
+
+  private File tableDir;
 
   /**
    * creates a new database
@@ -27,6 +33,20 @@ public class Database {
    */
   public Database(VarChar dbName) {
     this.dbName = dbName;
+/*    Optional<DbmFile> dbmFile = loadDatabaseFile();
+    if(dbmFile.isPresent()) {
+      if(checkIfDbNameExists(dbmFile.get())){
+
+      }
+    }else{
+
+    }*/
+    //saveTheNewDb
+
+  }
+
+  private boolean checkIfDbNameExists(DbmFile dbmFile) {
+    return false;
   }
 
   public void addTable(Table table) {
@@ -40,5 +60,11 @@ public class Database {
   public void saveDatabase() {
     //TODO
   }
+
+
+  //TODO implement DbFile for Macs
+
+
+
 
 }

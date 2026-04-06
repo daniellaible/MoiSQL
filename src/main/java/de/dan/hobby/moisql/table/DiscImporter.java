@@ -93,6 +93,7 @@ public class DiscImporter {
       extracteColumnNames(in);
       extractColumnDefinitions(in);
       table = new Table(createTypeRows(), createColumnNames(), tablename);
+
       List<IDataType[]> rows = new ArrayList<>();
       readData(table, in, rows);
 
@@ -159,8 +160,9 @@ public class DiscImporter {
         for (int i = 0; i < tempRow.size(); i++) {
           row[i] = tempRow.get(i);
         }
+
         for (IDataType cell : row) {
-          System.out.print(cell);
+          System.out.print(cell + " ");
         }
         System.out.println();
         rows.add(row);
