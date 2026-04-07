@@ -9,8 +9,9 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author Daniel Laible
  * @since 0.0.2
- * <p>
+ *
  * VarChar is a wrapper class for a char[255].
+ * All characters in the char[] have to be ascii.
  * VarChar always uses 255 characters.
  */
 public class VarChar implements IDataType {
@@ -40,11 +41,19 @@ public class VarChar implements IDataType {
     }
   }
 
+  /**
+   *
+   * @return the value of this instance as String
+   */
   public String getValue() {
     String returnValue =  String.valueOf(value);
     return returnValue.trim();
   }
 
+  /**
+   * Transforms the value of this instance to an byte[] containing ascii
+   * @return
+   */
   @Override
   public byte[] toByteArray() {
     return new String(value).getBytes(StandardCharsets.US_ASCII);
@@ -69,6 +78,10 @@ public class VarChar implements IDataType {
     return DataType.VARCHAR;
   }
 
+  /**
+   *
+   * @return the value of the instance as String
+   */
   @Override
   public String toString(){
     return getValue();

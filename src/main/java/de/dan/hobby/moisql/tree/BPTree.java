@@ -56,7 +56,7 @@ public class BPTree {
   /**
    * Tables need a header row containing the datatype of the data stored in that column and
    * the columns need a name. In the dataStruct field you define the datatype and in the
-   * columnsNames you define the columnma,es.
+   * columnsNames you define the names of the columns.
    *
    * @param dataStruct
    * @param columnNames
@@ -143,7 +143,7 @@ public class BPTree {
    * If you look at a tree graphically, this method returns the
    * leaf that is the furthest to the left. It contains the row
    * with the lowest id. From this point traversing through all
-   * elements of the table can be achived by using the getNext()
+   * elements of the table can be achieved by using the getNext()
    * method.
    * @return the leaf with the elements with the lowest id
    */
@@ -164,13 +164,12 @@ public class BPTree {
    * @return row of the table, if no element is found null is returned
    */
   public IDataType[] findRow(long id) {
-    return retriveRowData(root, id);
+    return retrieveRowData(root, id);
   }
 
 
 
   //TODO needs a real printMethod() or an override toString()
-
   /**
    * Prints out the tree with all the data inside
    */
@@ -179,7 +178,7 @@ public class BPTree {
   }
 
 
-  private IDataType[] retriveRowData(Node node, long id) {
+  private IDataType[] retrieveRowData(Node node, long id) {
     if (node.isLeaf()) {
       LeafNode leaf = (LeafNode) node;
       for (IDataType[] row : leaf.rows) {
@@ -197,7 +196,7 @@ public class BPTree {
       }
       InternalNode intern = (InternalNode) node;
       Node child = intern.children.get(i);
-      return retriveRowData(child, id);
+      return retrieveRowData(child, id);
     }
     return null;
   }

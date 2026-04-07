@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.table;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.bool.Bool;
 import de.dan.hobby.moisql.datatype.date.Date;
 import de.dan.hobby.moisql.datatype.date.DateTime;
 import de.dan.hobby.moisql.datatype.date.Time;
@@ -33,6 +34,16 @@ public class DiscImporter {
 
   private static final Logger logger = LoggerFactory.getLogger(DiscImporter.class);
 
+  private static final String LOGGER_FILE_VERSION = "moi-data file version: {}";
+  private static final String LOGGER_NUMBER_OF_COLUMNS = "number of columns: {}";
+  private static final String LOGGER_PART_X_OF = "part: {} of {}";
+  private static final String LOGGER_NEXT_FILE_NAME = "nextFile: {} ";
+  private static final String LOGGER_TABLE_NAME = "Table name: {}";
+  private static final String LOGGER_COLUMN_NAMES = "Column names: {}";
+  private static final String LOGGER_COLUMN_TYPES = "Column types: {}";
+  private static final String LOGGER_UNKNOWN_LOADING_EXCEPTION = "Something went wrong loading the table {}.moi from disc";
+  private static final String LOGGER_FILE_READ_COMPLETELY = "file read completely";
+
   private List<VarChar> columnNames = new ArrayList<>();
   private List<DataType> columnTypes = new ArrayList<>();
   private String tablename;
@@ -61,10 +72,11 @@ public class DiscImporter {
    * To load a {@link de.dan.hobby.moisql.table.Table} from disc use this method. It loads the table
    * form disc and created a new B+Tree that the database can use.
    *
+   * Right now tables that occupy more than 4GB of disc space might not be supported
+   *
    * @return The table with all the data
    * @throws IOException
    */
-  //TODO Unable to read Boolean and Text yet
   public Table loadTable() throws IOException {
     Table table = null;
     String fileName = uuid + ".moi";
@@ -91,24 +103,25 @@ public class DiscImporter {
       extracteColumnNames(in);
       extractColumnDefinitions(in);
       table = new Table(createTypeRows(), createColumnNames(), tablename);
+
       List<IDataType[]> rows = new ArrayList<>();
       readData(table, in, rows);
 
-      for(IDataType[] row : rows) {
+      for (IDataType[] row : rows) {
         table.insert(row);
       }
 
-      logger.info("moi-data file version: {}",  version);
-      logger.info("number of columns: {}",  numberofColumns);
-      logger.info("part: {} of {}", part, partOf);
-      logger.info("nextFile: {} ", nextFile);
-      logger.info("Table name: {}", tablename);
-      logger.info("Column names: {}", Arrays.toString(columnNames.toArray()));
-      logger.info("Column types: {}",  Arrays.toString(columnTypes.toArray()));
+      logger.info(LOGGER_FILE_VERSION, version);
+      logger.info(LOGGER_NUMBER_OF_COLUMNS, numberofColumns);
+      logger.info(LOGGER_PART_X_OF, part, partOf);
+      logger.info(LOGGER_NEXT_FILE_NAME, nextFile);
+      logger.info(LOGGER_TABLE_NAME, tablename);
+      logger.info(LOGGER_COLUMN_NAMES, Arrays.toString(columnNames.toArray()));
+      logger.info(LOGGER_COLUMN_TYPES, Arrays.toString(columnTypes.toArray()));
 
       in.close();
     } catch (Exception e) {
-      logger.warn("Something went wrong loading the table {}.moi from disc", uuid);
+      logger.warn(LOGGER_UNKNOWN_LOADING_EXCEPTION, uuid);
       e.printStackTrace();
     } finally {
       if (in != null) {
@@ -124,24 +137,29 @@ public class DiscImporter {
         final IDataType[] dts = table.getColumnTypes();
 
         List<IDataType> tempRow = new ArrayList<>(dts.length);
-        for(int i = 0; i < dts.length; i++) {
-          if(dts[i].getDataType().equals(DataType.BIGINT)) {
+
+        for (int i = 0; i < dts.length; i++) {
+          if (dts[i].getDataType().equals(DataType.BIGINT)) {
             tempRow.add(new BigInt(in.readLong()));
-          }else if(dts[i].getDataType().equals(DataType.DECIMAL)) {
+          } else if (dts[i].getDataType().equals(DataType.DECIMAL)) {
             tempRow.add(new Decimal(in.readFloat()));
-          }else if(dts[i].getDataType().equals(DataType.FLOAT)) {
+          } else if (dts[i].getDataType().equals(DataType.FLOAT)) {
             tempRow.add(new Float(in.readDouble()));
-          }else if(dts[i].getDataType().equals(DataType.INT)){
+          } else if (dts[i].getDataType().equals(DataType.INT)) {
             tempRow.add(new Int(in.readInt()));
-          }else if(dts[i].getDataType().equals(DataType.SMALLINT)){
+          } else if (dts[i].getDataType().equals(DataType.SMALLINT)) {
             tempRow.add(new SmallInt(in.readShort()));
-          }else if(dts[i].getDataType().equals(DataType.TIME)){
+          } else if (dts[i].getDataType().equals(DataType.TIME)) {
             tempRow.add(new Time(in.readLong()));
-          }else if(dts[i].getDataType().equals(DataType.DATE)){
+          } else if (dts[i].getDataType().equals(DataType.DATE)) {
             tempRow.add(new Date(in.readLong()));
-          }else if(dts[i].getDataType().equals(DataType.DATETIME)){
+          } else if (dts[i].getDataType().equals(DataType.DATETIME)) {
             tempRow.add(new DateTime(in.readLong()));
-          }else if(dts[i].getDataType().equals(DataType.VARCHAR)) {
+          }else if (dts[i].getDataType().equals(DataType.BOOL)) {
+            byte[] bool = new byte[1];
+            in.read(bool, 0, 1);
+            tempRow.add(new Bool(bool[0]));
+          } else if (dts[i].getDataType().equals(DataType.VARCHAR)) {
             final short lengthOfVarChar = in.readShort();
             byte[] byteName = new byte[lengthOfVarChar];
             in.read(byteName, 0, lengthOfVarChar);
@@ -149,17 +167,18 @@ public class DiscImporter {
           }
         }
         IDataType[] row = new IDataType[tempRow.size()];
-        for(int i = 0; i < tempRow.size(); i++){
+        for (int i = 0; i < tempRow.size(); i++) {
           row[i] = tempRow.get(i);
         }
-          for(IDataType cell : row){
-          System.out.print(cell);
+
+        for (IDataType cell : row) {
+          System.out.print(cell + " ");
         }
         System.out.println();
         rows.add(row);
       }
-    }catch(EOFException e) {
-      logger.info("file read completely");
+    } catch (EOFException e) {
+      logger.info(LOGGER_FILE_READ_COMPLETELY);
     }
   }
 

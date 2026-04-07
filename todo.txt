@@ -1,12 +1,15 @@
-testing --- https://simplemaps.com/data/world-cities.
+
+how to implement a sql interpreter?
+implement a sql parser
 
 what about multiple trees in a table
 datarecovery?
 
-save a table to disc
-read a table from disc
+do we want a ledger that acts a backup for crashes?
 
 implement a server serversocket? ...
-implement a sql parser
 
-how to implement a sql interpreter?
+we want all tables in memory(speed) but how to load or unload from memory?
+    how much space in ram does a datastructure occupy
+
+

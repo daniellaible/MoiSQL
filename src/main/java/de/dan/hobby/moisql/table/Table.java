@@ -36,14 +36,26 @@ public class Table {
    * @param columnNames an array of VarChar the names each column and is used as an identifier
    * @param tableName how this table is named
    */
-  //TODO check that there are no duplicates in the columnNames
-  public Table(@NotNull IDataType[] typeRow,@NotNull VarChar[] columnNames, @NotNull String tableName) {
+  public Table(@NotNull IDataType[] typeRow,@NotNull VarChar[] columnNames, @NotNull String tableName) throws IllegalArgumentException {
     this.tableName = tableName;
     tableTree = new BPTree(3);
     tableTree.specifyDataStructure(typeRow, columnNames);
     this.uuid = generateUUID(tableName);
+    if(!checkDuplicatesInNames(columnNames)){
+      throw new IllegalArgumentException("Duplicate column names");
+    }
   }
 
+  private boolean checkDuplicatesInNames(VarChar[] columnNames) {
+    for(int i = 0; i < columnNames.length; i++) {
+      for (int j = i + 1; j < columnNames.length; j++) {
+        if (columnNames[i].equals(columnNames[j]) && i != j) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
   /**
    * This retrives the name of the table
@@ -53,7 +65,6 @@ public class Table {
   public String getTableName(){
     return tableName;
   }
-
 
   /**
    * This retrieves the uuid of the table. The uuid is a combination of the timestamp when the
@@ -65,7 +76,6 @@ public class Table {
     return uuid;
   }
 
-
   /**
    * This is used to insert a whole new row into the table
    * Make sure that the IDataRow[] has the same specification as the table
@@ -73,7 +83,6 @@ public class Table {
    * of type BigInt
    * @param dataRow
    */
-  //TODO check that the datarow has the same spec as the table
   public void insert(IDataType[] dataRow) {
     new Inserter(dataRow, tableTree);
   }
@@ -87,11 +96,9 @@ public class Table {
     new Deleter(tableTree, id);
   }
 
-
   //TODO needs implementation
   public void edit(IDataType newValue, String rowName, int key ) {
   }
-
 
   /**
    * You can use this method to find a row in the table by providing the id
@@ -102,7 +109,6 @@ public class Table {
   public IDataType[] find(long id) {
     return tableTree.findRow(id);
   }
-
 
   /**
    * Find the leaf with the lowest id of the table
@@ -121,12 +127,6 @@ public class Table {
    */
   public void save(File directory) throws IOException {
     new Saver(directory, tableTree, uuid, tableName, 1.0f);
-  }
-
-
-  public void load(File directory, UUID uuid) throws IOException {
-    final DiscImporter loader = new DiscImporter(directory, uuid);
-    loader.loadTable();
   }
 
   //TODO needs implementation

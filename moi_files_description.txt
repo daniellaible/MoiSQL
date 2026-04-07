@@ -11,7 +11,7 @@ Table1:
 +------------+--------------------+------+
 | file ident |      header        | data |
 +------------+--------------------+------+
-| 0x10C0BABE | header description | data |
+| 0x10C010C0 | header description | data |
 +------------+--------------------+------+
 
 A .moi file is structured binary data file that persists MoiSql data on physical devices.
@@ -28,11 +28,11 @@ Fields
 ------
 
 Table2:
-+---------+-----------------+-------+--------+------------------------+------------ ----------+---------------+-----------------------+
-| version | numberOfColumns | part  | partOf |      nextFile          |      tableName        | columnNames   | columnTypeDefinition  |
-+---------+-----------------+-------+--------+---- -------------------+-----------------------+---------------+-----------------------+
-| float   |     short       | short | short  | length(short) | char[] | length(short) |char[] | Array[name]   |    Array[defintion]   |
-+---------+-----------------+-------+--------+------------------------+-----------------------+---------------+-----------------------+
++---------+-----------------+-------+--------+------------+-------------+---------------+-----------------------+
+| version | numberOfColumns | part  | partOf |  nextFile  |  tableName  | columnNames   | columnTypeDefinition  |
++---------+-----------------+-------+--------+---- -------+-------------+---------------+-----------------------+
+| float   |     short       | short | short  |  VarChar   |   VarChar   |   VarChar[]   |       VarChar[]       |
++---------+-----------------+-------+--------+------------+-------------+---------------+-----------------------+
 
 The header of a moi file consists of eight fields. Those fields are:
 
@@ -92,9 +92,26 @@ The header of a moi file consists of eight fields. Those fields are:
                 The first part is the length of the char[] as a 2-byte short.
                 The second part is the ascii char[] array that contains the column datatype.
                 The max length of the char[] is 255.
-            All the column names together create this field.
+            All the column definitions together create this field.
             The array of all definitions must be the same size as field numberOfColumns.
 
+
+
+Persisting non-primitives
+------------------------
+
+Non-primitive datatypes like VarChar are saved as a compound of primitive datatypes.
+
+* VarChar:
+          A VarChar is saved as a short and a char[]-array. The short value saves the
+          length of the char[]-array, the char[]-array holds the ascii data.
+
+          Table3: VarChar on disc
+          +--------------+-------------+
+          |    length    |    value    |
+          ---------------+-------------+
+          |    short     |    char[]   |
+          +--------------+-------------+
 
 
 *all the ACII tables are generated with: https://ozh.github.io/ascii-tables/
