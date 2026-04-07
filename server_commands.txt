@@ -1,0 +1,33 @@
+                                                                          D.Laible
+                                                                     07 April 2026
+
+                                Server Comm Interface
+                                ---------------------
+
+Introduction
+------------
+You can communicate with the server via telnet using port 7878.
+
+
+Commands
+--------
+
+* quit:
+      shuts down your current connection with the server.
+
+* bye:
+      same as quit.
+
+* shutdown:
+      shuts the whole server down.
+
+* show databases (not implemented yet)
+      returns a list of all databases available on the current system
+
+* use <db name> (not implemented yet)
+      makes this database the one you work with
+
+* show tables (not implemented yet)
+      just works after you used the use command
+      displays all tables within this database
+
