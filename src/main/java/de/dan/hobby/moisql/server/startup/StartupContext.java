@@ -17,4 +17,15 @@ public class StartupContext {
   public File dbmPath;
   public DbmFile dbmFile;
 
+
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("StartupContext{");
+    sb.append("osType=").append(osType);
+    sb.append(", dbmDir=").append(dbmDir);
+    sb.append(", dbmPath=").append(dbmPath);
+    sb.append(", dbmFile=").append(dbmFile);
+    sb.append('}');
+    return sb.toString();
+  }
 }

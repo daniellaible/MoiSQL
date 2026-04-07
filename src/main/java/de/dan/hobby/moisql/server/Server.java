@@ -39,6 +39,7 @@ public class Server {
 
   public Server() {
     runStartupSequence();
+    logger.info("Startup completed");
   }
 
   private void runStartupSequence() {
