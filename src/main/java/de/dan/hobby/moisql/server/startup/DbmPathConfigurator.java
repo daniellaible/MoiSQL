@@ -14,6 +14,9 @@ public class DbmPathConfigurator implements IStartupSequence{
   private static final String LINUX_DIR = "//bin//moidb";
   private static final String LINUX_PATH = "//bin//moidb//moi.dbm";
 
+  private static final String LOGGER_UNSUPPORTED_OS_TYPE = "Unsupported osType: {}";
+  private static final String LOGGER_PATH_IN_HAS_BEEN_SET = "Path in {} has been set";
+
 
   @Override
   public void commence(StartupContext context) {
@@ -27,8 +30,8 @@ public class DbmPathConfigurator implements IStartupSequence{
         context.dbmDir = new File(LINUX_DIR);
         context.dbmPath = new File(LINUX_PATH);
       default:
-        logger.warn("Unsupported osType: " + context.osType);
+        logger.warn(LOGGER_UNSUPPORTED_OS_TYPE, context.osType);
     }
-    logger.info("Path in {} has been set", context.osType);
+    logger.info(LOGGER_PATH_IN_HAS_BEEN_SET, context.osType);
   }
 }

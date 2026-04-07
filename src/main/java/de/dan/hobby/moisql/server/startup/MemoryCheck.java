@@ -15,6 +15,7 @@ public class MemoryCheck implements IStartupSequence{
   private static final Logger logger = LoggerFactory.getLogger(MemoryCheck.class);
 
   private static final long MEGABYTES = 1024 * 1024;
+  private static final String LOGGER_MEMORY_OUTPUT = "max: {}MB free: {}MB total: {}MB";
 
   @Override
   public void commence(StartupContext context) {
@@ -24,7 +25,7 @@ public class MemoryCheck implements IStartupSequence{
     final long freeMemory = runtime.freeMemory();
     final long totalMemory = runtime.totalMemory();
 
-    logger.info("max: {}MB free: {}MB total: {}MB", maxMemory / MEGABYTES, freeMemory / MEGABYTES, totalMemory / MEGABYTES);
+    logger.info(LOGGER_MEMORY_OUTPUT, maxMemory / MEGABYTES, freeMemory / MEGABYTES, totalMemory / MEGABYTES);
 
   }
 }

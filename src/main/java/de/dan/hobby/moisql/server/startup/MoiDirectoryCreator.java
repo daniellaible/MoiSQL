@@ -15,12 +15,13 @@ import org.slf4j.LoggerFactory;
 public class MoiDirectoryCreator implements IStartupSequence{
 
   private static final Logger logger = LoggerFactory.getLogger(MoiDirectoryCreator.class);
+  private static final String LOGGER_MOI_DIRECTORY_AVAILABLE = "Moi directory available";
 
   @Override
   public void commence(StartupContext context) {
     if(!context.dbmDir.exists()){
       context.dbmDir.mkdirs();
     }
-    logger.info("Moi directory available");
+    logger.info(LOGGER_MOI_DIRECTORY_AVAILABLE);
   }
 }

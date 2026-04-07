@@ -16,19 +16,29 @@ public class OSDetector implements IStartupSequence {
 
   private static final Logger logger = LoggerFactory.getLogger(OSDetector.class);
 
+  private static final String OS_NAME = "os.name";
+  private static final String GENERIC = "generic";
+  private static final String WIN = "win";
+  private static final String NIX = "nix";
+  private static final String NUX = "nux";
+  private static final String AIX = "aix";
+  private static final String MAC = "mac";
+  private static final String SUNOS = "sunos";
+  private static final String LOGGER_DETECTED_OS_IS = "Detected OS is: {}";
+
   public void commence(StartupContext context) {
-    String os = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-    if (os.contains("win")) {
+    String os = System.getProperty(OS_NAME, GENERIC).toLowerCase(Locale.ENGLISH);
+    if (os.contains(WIN)) {
       context.osType = OSType.WINDOWS;
-    } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+    } else if (os.contains(NIX) || os.contains(NUX) || os.contains(AIX)) {
       context.osType = OSType.LINUX;
-    } else if (os.contains("mac")) {
+    } else if (os.contains(MAC)) {
       context.osType = OSType.MAC;
-    } else if (os.contains("sunos")) {
+    } else if (os.contains(SUNOS)) {
       context.osType = OSType.SOLARIS;
     } else {
       context.osType = OSType.OTHER;
     }
-    logger.info("Detected OS is: {}", context.osType);
+    logger.info(LOGGER_DETECTED_OS_IS, context.osType);
   }
 }
