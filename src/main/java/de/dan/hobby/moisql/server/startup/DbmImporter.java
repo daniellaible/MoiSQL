@@ -25,8 +25,6 @@ public class DbmImporter implements IStartupSequence {
 
   private static final Logger logger = LoggerFactory.getLogger(DbmImporter.class);
 
-  private static final String DBM_PATH_WINDOWS = "C:\\moidb\\moi.dbm";
-  private static final String DBM_PATH_LINUX = "//bin//moidb//moi.dbm";
   private static final String DB_START = "<db>";
   private static final String NAME_START = "<name>";
   private static final String NAME_END = "</name>";
@@ -41,22 +39,13 @@ public class DbmImporter implements IStartupSequence {
   private static final String DB_END = "</db>";
 
   private static final String LOGGER_UNABLE_TO_READ_DBM_FILE = "Unable to read dbm file";
-  private static final String LOGGER_UNSUPPORTED_OS_TYPE = "Unsupported os type";
   private static final String LOGGER_LOADED_DBM_FILE = "Loaded dbm file {}";
 
 
   @Override
   public void commence(StartupContext context) {
-    Optional<DbmFile> dbmFile = Optional.empty();
-    switch (context.osType) {
-      case WINDOWS:
-        dbmFile = loadDbmFile(DBM_PATH_WINDOWS);
-        break;
-      case LINUX:
-        dbmFile = loadDbmFile(DBM_PATH_LINUX);
-      default:
-        logger.warn(LOGGER_UNSUPPORTED_OS_TYPE);
-    }
+    Optional<DbmFile> dbmFile = loadDbmFile(context.dbmPath);
+
     if(dbmFile.isPresent()) {
       context.dbmFile = dbmFile.get();
     }else{
@@ -70,7 +59,7 @@ public class DbmImporter implements IStartupSequence {
     return data.trim();
   }
 
-  private Optional<DbmFile> loadDbmFile(String path) {
+  private Optional<DbmFile> loadDbmFile(File path) {
     DbmFile dbmFile = new DbmFile();
     try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 

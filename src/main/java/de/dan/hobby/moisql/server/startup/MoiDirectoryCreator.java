@@ -1,5 +1,7 @@
 package de.dan.hobby.moisql.server.startup;
 
+import de.dan.hobby.moisql.server.DbmFile.DbmFile;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,9 @@ public class MoiDirectoryCreator implements IStartupSequence{
 
   @Override
   public void commence(StartupContext context) {
-    logger.info("MoiDirectoryCreator needs to be implemented");
+    if(!context.dbmDir.exists()){
+      context.dbmDir.mkdirs();
+    }
+    logger.info("Moi directory available");
   }
 }
