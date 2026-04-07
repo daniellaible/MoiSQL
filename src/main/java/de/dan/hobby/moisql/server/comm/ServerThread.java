@@ -1,10 +1,12 @@
 package de.dan.hobby.moisql.server.comm;
 
+import de.dan.hobby.moisql.server.Server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,9 +14,11 @@ public class ServerThread extends Thread{
 
   private static final Logger logger = LoggerFactory.getLogger(ServerThread.class);
   private final Socket socket;
+  private final Server server;
 
-  public ServerThread(final Socket socket) {
+  public ServerThread(final Socket socket, Server server) {
     this.socket = socket;
+    this.server = server;
   }
 
   public void run() {
@@ -42,6 +46,14 @@ public class ServerThread extends Thread{
           out.println(line);
 
           if(line.equalsIgnoreCase("bye") || line.equalsIgnoreCase("quit")){
+            break;
+          }
+          if(line.equalsIgnoreCase("shutdown")){
+            try {
+              server.stop();
+            }catch(SocketException ex){
+              logger.warn("Shutting down the server", ex);
+            }
             break;
           }
         }

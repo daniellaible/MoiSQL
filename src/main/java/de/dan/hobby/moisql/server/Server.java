@@ -53,13 +53,12 @@ public class Server {
   public void start()  {
     try {
       while (isListening) {
-        new ServerThread(socket.accept()).start();
+        new ServerThread(socket.accept(), this).start();
       }
     }catch(SocketException ex){
       logger.error("Socket exception", ex);
     } catch (IOException e) {
-      logger.error("Socket exception", e);
-      throw new RuntimeException(e);
+      logger.error("IOException", e);
     }
   }
 
