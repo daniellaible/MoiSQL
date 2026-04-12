@@ -4,6 +4,7 @@ import de.dan.hobby.moisql.server.comm.commandFactory.commands.CloseConnectionCo
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.ServerShutDownCommand;
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.ShowDatabaseCommand;
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.UnknownCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.UseDatabaseCommand;
 
 /**
  * @author Daniel Laible
@@ -18,20 +19,25 @@ public class CommandFactory {
   private static final String QUIT = "quit";
   private static final String SHUTDOWN = "shutdown";
   private static final String HELP = "help";
+  private static final String USE_DATABASE = "use database";
 
   public ICommand getCommand(String line) {
     line = line.trim();
-    if (line.equalsIgnoreCase(SHOW_DATABASE)) {
+    line = line.toLowerCase();
+    if (line.equals(SHOW_DATABASE)) {
       return new ShowDatabaseCommand();
 
-    }else if (line.equalsIgnoreCase(BYE) || line.equalsIgnoreCase(QUIT)) {
+    }else if (line.equals(BYE) || line.equalsIgnoreCase(QUIT)) {
       return new CloseConnectionCommand();
 
-    }else if (line.equalsIgnoreCase(SHUTDOWN)) {
+    }else if (line.equals(SHUTDOWN)) {
       return new ServerShutDownCommand();
 
-    }else if (line.equalsIgnoreCase(HELP)) {
+    }else if (line.equals(HELP)) {
       return new ServerShutDownCommand();
+
+    }else if(line.startsWith(USE_DATABASE)){
+        return new UseDatabaseCommand();
     }
 
     return new UnknownCommand();

@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server;
 
+import de.dan.hobby.moisql.database.Database;
 import de.dan.hobby.moisql.server.DbmFile.DbmFile;
 import de.dan.hobby.moisql.server.comm.ServerThread;
 import de.dan.hobby.moisql.server.startup.DbmImporter;
@@ -26,8 +27,14 @@ import org.slf4j.LoggerFactory;
 public class Server {
 
   private static final Logger logger = LoggerFactory.getLogger(Server.class);
+  private static final String NO_DATABASE_SELECTED = "No database selected";
+  private static final String LOGGER_STARTUP_COMPLETED = "Startup completed";
+  private static final String LOGGER_SOCKET_EXCEPTION = "Socket exception";
+  private static final String LOGGER_IO_EXCEPTION = "IOException";
+
   private ServerSocket socket;
   private boolean isListening = true;
+  private Database databaseInUse = null;
 
   public static StartupContext context;
   public static final int PORT = 7878;
@@ -41,12 +48,12 @@ public class Server {
   );
 
   public static void main(String[] args) {
-    Server server = new Server();
+    new Server();
   }
 
   public Server() {
     runStartupSequence();
-    logger.info("Startup completed");
+    logger.info(LOGGER_STARTUP_COMPLETED);
     start();
   }
 
@@ -56,18 +63,37 @@ public class Server {
         new ServerThread(socket.accept(), this).start();
       }
     }catch(SocketException ex){
-      logger.error("Socket exception", ex);
+      logger.error(LOGGER_SOCKET_EXCEPTION, ex);
     } catch (IOException e) {
-      logger.error("IOException", e);
+      logger.error(LOGGER_IO_EXCEPTION, e);
     }
   }
 
+  /**
+   * Stopps the ServerSocket from receiving any new commands
+   * @throws IOException
+   */
   public void stop() throws IOException {
     this.socket.close();
+    System.exit(0);
   }
 
+  /**
+   * returns the content of the DbmFile read on startup
+   * @return
+   */
   public DbmFile getDbmFile() {
     return context.dbmFile;
+  }
+
+  public void useDatabase(String dbName){
+  }
+
+  public String getDatabase(String dbName){
+    if(databaseInUse == null){
+      return NO_DATABASE_SELECTED;
+    }
+    return databaseInUse.getDbName();
   }
 
   private void runStartupSequence() {

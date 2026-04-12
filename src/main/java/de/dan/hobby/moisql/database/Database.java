@@ -37,6 +37,10 @@ public class Database {
     return false;
   }
 
+  public String getDbName() {
+    return dbName.toString();
+  }
+
   public void addTable(Table table) {
     tables.add(table);
   }
