@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server;
 
+import de.dan.hobby.moisql.server.DbmFile.DbmFile;
 import de.dan.hobby.moisql.server.comm.ServerThread;
 import de.dan.hobby.moisql.server.startup.DbmImporter;
 import de.dan.hobby.moisql.server.startup.DbmPathConfigurator;
@@ -25,12 +26,11 @@ import org.slf4j.LoggerFactory;
 public class Server {
 
   private static final Logger logger = LoggerFactory.getLogger(Server.class);
+  private ServerSocket socket;
+  private boolean isListening = true;
 
   public static StartupContext context;
   public static final int PORT = 7878;
-
-  private ServerSocket socket;
-  private boolean isListening = true;
 
   private List<IStartupSequence> startupSequences = Arrays.asList(
       new OSDetector(),
@@ -66,6 +66,10 @@ public class Server {
     this.socket.close();
   }
 
+  public DbmFile getDbmFile() {
+    return context.dbmFile;
+  }
+
   private void runStartupSequence() {
     context = new StartupContext();
     for (IStartupSequence sequence : startupSequences) {
@@ -78,4 +82,6 @@ public class Server {
       throw new RuntimeException(e);
     }
   }
+
+
 }

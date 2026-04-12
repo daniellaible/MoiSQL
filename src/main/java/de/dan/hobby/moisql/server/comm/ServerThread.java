@@ -1,6 +1,8 @@
 package de.dan.hobby.moisql.server.comm;
 
 import de.dan.hobby.moisql.server.Server;
+import de.dan.hobby.moisql.server.comm.commandFactory.CommandFactory;
+import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +12,12 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Daniel Laible
+ * @since 0.1.7
+ * <p>
+ * Communication thread for the outside world
+ */
 public class ServerThread extends Thread{
 
   private static final Logger logger = LoggerFactory.getLogger(ServerThread.class);
@@ -36,26 +44,34 @@ public class ServerThread extends Thread{
 
     try {
       out = new PrintWriter(this.socket.getOutputStream(), true);
-      in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+      in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
       welcomeMessage(out);
 
-      String line;
+      String line = "";
       while ((line = in.readLine()) != null) {
         if(!line.isBlank()){
           line = line.trim();
-          out.println(line);
+          out.println("Received: " + line);
 
           if(line.equalsIgnoreCase("bye") || line.equalsIgnoreCase("quit")){
             break;
           }
           if(line.equalsIgnoreCase("shutdown")){
             try {
+              logger.warn("Shutting down the server");
               server.stop();
             }catch(SocketException ex){
-              logger.warn("Shutting down the server", ex);
+
             }
             break;
           }
+
+
+          CommandFactory commandFactory = new CommandFactory();
+          final ICommand command = commandFactory.getCommand(line);
+          command.execute(server, out, line);
+
         }
       }
     } catch (IOException e) {
@@ -72,8 +88,7 @@ public class ServerThread extends Thread{
   }
 
   private void welcomeMessage(final PrintWriter out) {
+    out.println("Welcome to MoiSQL Server");
     out.println("We are all programmed to receive");
   }
-
-
 }

@@ -21,7 +21,7 @@ Commands
 * shutdown:
       shuts the whole server down.
 
-* show databases (not implemented yet)
+* show databases
       returns a list of all databases available on the current system
 
 * use <db name> (not implemented yet)
