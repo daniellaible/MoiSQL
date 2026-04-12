@@ -3,6 +3,8 @@ package de.dan.hobby.moisql.server.comm;
 import de.dan.hobby.moisql.server.Server;
 import de.dan.hobby.moisql.server.comm.commandFactory.CommandFactory;
 import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.CloseConnectionCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.ServerShutDownCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -54,22 +56,17 @@ public class ServerThread extends Thread{
           line = line.trim();
           out.println("Received: " + line);
 
-          if(line.equalsIgnoreCase("bye") || line.equalsIgnoreCase("quit")){
-            break;
-          }
-          if(line.equalsIgnoreCase("shutdown")){
-            try {
-              logger.warn("Shutting down the server");
-              server.stop();
-            }catch(SocketException ex){
-
-            }
-            break;
-          }
-
-
           CommandFactory commandFactory = new CommandFactory();
           final ICommand command = commandFactory.getCommand(line);
+
+          if(command instanceof CloseConnectionCommand){
+            break;
+          } else if (command instanceof ServerShutDownCommand) {
+            logger.warn("Shutting down the server");
+            server.stop();
+            break;
+          }
+
           command.execute(server, out, line);
 
         }

@@ -10,18 +10,14 @@ import org.slf4j.LoggerFactory;
  * @author Daniel Laible
  * @since 0.1.7
  * <p>
- * Factory class implementation for an unknown command
+ * Factory class implementation for the 'close connection' command
  */
-public class UnknownCommand implements ICommand {
+public class CloseConnectionCommand implements ICommand {
 
-  private static final Logger logger = LoggerFactory.getLogger(UnknownCommand.class);
-  private static final String UNKNOWN_COMMAND = "Unknown command: ";
+  private static final Logger logger = LoggerFactory.getLogger(CloseConnectionCommand.class);
 
   @Override
   public void execute(Server server, PrintWriter out, String line) {
-    out.println(UNKNOWN_COMMAND + line);
-    logger.warn(UNKNOWN_COMMAND + line);
-    new HelpCommand().execute(server, out, line);
-
+    logger.warn("Closing connection");
   }
 }

@@ -8,6 +8,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Daniel Laible
+ * @since 0.1.7
+ * <p>
+ * Factory class implementation for the 'show databases' command
+ */
 public class ShowDatabaseCommand implements ICommand {
 
   private static final Logger logger = LoggerFactory.getLogger(ShowDatabaseCommand.class);
