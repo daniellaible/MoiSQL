@@ -1,0 +1,58 @@
+                                                                          D.Laible
+                                                                     02 April 2026
+
+                                Datatypes in MoiSQL
+                                -------------------
+
+Introduction
+------------
+
+MoiSQL uses several different datatypes that are commonly used in other SQL dialects.
+
+
+Numeric datatypes
+-----------------
+
+* BigInt
+            64-bit non-decimal number
+
+* Int
+            32-bit non-decimal number
+
+* SmallInt
+            16-bit non-decimal number
+
+* Decimal
+            32-bit decimal number
+
+* Float
+            64-bit decimal number
+
+
+Data/Time datatypes
+-------------------
+
+* Time
+          64-bit timestamp
+
+* Date
+          64-bit timestamp
+
+* DateTime
+          64-bit timestamp
+
+
+Text datatypes
+--------------
+
+* VarChar
+         Ascii char[]-array with max. 255 charcters
+
+* Text
+        UTF-8 String with max 8000 characters
+
+Boolean datatype
+----------------
+
+* Bool
+      either true or false

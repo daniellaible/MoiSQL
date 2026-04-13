@@ -2,12 +2,16 @@ package de.dan.hobby.moisql.datatype.text;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Daniel Laible
  * @since 0.0.2
- * <p>
+ *
  * VarChar is a wrapper class for a char[255].
+ * All characters in the char[] have to be ascii.
  * VarChar always uses 255 characters.
  */
 public class VarChar implements IDataType {
@@ -16,6 +20,11 @@ public class VarChar implements IDataType {
 
   private DataType datatype = DataType.VARCHAR;
 
+  /**
+   * Basic constructor of a VarChar variable. Make sure only ascii characters are used
+   * and that the text is not longer than 255 characters
+   * @param value the text that will be stored in ascii
+   */
   public VarChar(String value) {
     if (value.length() > 255) {
       return;
@@ -32,15 +41,47 @@ public class VarChar implements IDataType {
     }
   }
 
+  /**
+   *
+   * @return the value of this instance as String
+   */
   public String getValue() {
     String returnValue =  String.valueOf(value);
     return returnValue.trim();
   }
 
-  public String getDataType() {
-    return "VARCHAR";
+  /**
+   * Transforms the value of this instance to an byte[] containing ascii
+   * @return
+   */
+  @Override
+  public byte[] toByteArray() {
+    return new String(value).getBytes(StandardCharsets.US_ASCII);
   }
 
+  @Override
+  public char[] fromByteArray(byte[] data) {
+    ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+    CharBuffer charBuffer = StandardCharsets.US_ASCII.decode(byteBuffer);
+    char[] charArray = new char[charBuffer.remaining()];
+    charBuffer.get(charArray);
+    return charArray;
+  }
+
+
+  /**
+   *
+   * @return {@link de.dan.hobby.moisql.datatype.DataType}
+   */
+  @Override
+  public DataType getDataType() {
+    return DataType.VARCHAR;
+  }
+
+  /**
+   *
+   * @return the value of the instance as String
+   */
   @Override
   public String toString(){
     return getValue();

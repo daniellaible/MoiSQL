@@ -2,6 +2,7 @@ package de.dan.hobby.moisql.datatype.date;
 
 import de.dan.hobby.moisql.datatype.DataType;
 import de.dan.hobby.moisql.datatype.IDataType;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import java.time.ZoneId;
 
 public abstract class DateDataType implements IDataType {
@@ -22,9 +23,7 @@ public abstract class DateDataType implements IDataType {
     this.datatype = datatype;
   }
 
-  public abstract long getValue();
-
   public abstract ZoneId getTimeZone();
 
-  public abstract String getDataType();
+  public abstract DataType getDataType();
 }

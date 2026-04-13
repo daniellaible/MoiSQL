@@ -13,15 +13,38 @@ import java.util.List;
  *
  * This class represents the leaf a B+Tree and therefor will hold the data
  */
-//TODO Here will the actual data be stored
 public class LeafNode extends Node {
 
   LeafNode next;
 
   List<IDataType[]> rows = new ArrayList<>();
 
+  /**
+   * returns true since this is a leaf
+   * @return
+   */
   @Override
   boolean isLeaf() {
     return true;
+  }
+
+
+  /**
+   * This is a pointer to the next leaf in a B+Tree
+   *
+   * @return the next leaf node in a B+Tree
+   */
+  public LeafNode getNext() {
+    return next;
+  }
+
+
+  /**
+   * Returns the type definition of a table
+   *
+   * @return the type the definition
+   */
+  public List<IDataType[]> getRows() {
+    return rows;
   }
 }

@@ -17,6 +17,10 @@ public class InternalNode extends Node{
 
   List<Node> children = new ArrayList<>();
 
+  /**
+   * Returns false since this is not a leaf
+   * @return false
+   */
   @Override
   boolean isLeaf() {
     return false;
