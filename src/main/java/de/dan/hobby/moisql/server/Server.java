@@ -57,18 +57,6 @@ public class Server {
     start();
   }
 
-  public void start()  {
-    try {
-      while (isListening) {
-        new ServerThread(socket.accept(), this).start();
-      }
-    }catch(SocketException ex){
-      logger.error(LOGGER_SOCKET_EXCEPTION, ex);
-    } catch (IOException e) {
-      logger.error(LOGGER_IO_EXCEPTION, e);
-    }
-  }
-
   /**
    * Stopps the ServerSocket from receiving any new commands
    * @throws IOException
@@ -96,6 +84,18 @@ public class Server {
     return databaseInUse.getDbName();
   }
 
+  private void start()  {
+    try {
+      while (isListening) {
+        new ServerThread(socket.accept(), this).start();
+      }
+    }catch(SocketException ex){
+      logger.error(LOGGER_SOCKET_EXCEPTION, ex);
+    } catch (IOException e) {
+      logger.error(LOGGER_IO_EXCEPTION, e);
+    }
+  }
+
   private void runStartupSequence() {
     context = new StartupContext();
     for (IStartupSequence sequence : startupSequences) {
@@ -108,6 +108,4 @@ public class Server {
       throw new RuntimeException(e);
     }
   }
-
-
 }

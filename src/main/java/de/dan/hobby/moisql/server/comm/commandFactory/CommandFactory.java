@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.server.comm.commandFactory;
 
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.CloseConnectionCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.HelpCommand;
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.ServerShutDownCommand;
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.ShowDatabaseCommand;
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.UnknownCommand;
@@ -24,6 +25,7 @@ public class CommandFactory {
   public ICommand getCommand(String line) {
     line = line.trim();
     line = line.toLowerCase();
+
     if (line.equals(SHOW_DATABASE)) {
       return new ShowDatabaseCommand();
 
@@ -34,7 +36,7 @@ public class CommandFactory {
       return new ServerShutDownCommand();
 
     }else if (line.equals(HELP)) {
-      return new ServerShutDownCommand();
+      return new HelpCommand();
 
     }else if(line.startsWith(USE_DATABASE)){
         return new UseDatabaseCommand();

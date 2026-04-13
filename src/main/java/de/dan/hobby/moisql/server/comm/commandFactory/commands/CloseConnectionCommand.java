@@ -15,9 +15,10 @@ import org.slf4j.LoggerFactory;
 public class CloseConnectionCommand implements ICommand {
 
   private static final Logger logger = LoggerFactory.getLogger(CloseConnectionCommand.class);
+  private static final String LOGGER_CLOSING_CONNECTION = "Closing connection";
 
   @Override
   public void execute(Server server, PrintWriter out, String line) {
-    logger.warn("Closing connection");
+    logger.warn(LOGGER_CLOSING_CONNECTION);
   }
 }

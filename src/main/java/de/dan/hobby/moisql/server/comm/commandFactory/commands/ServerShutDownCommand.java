@@ -16,10 +16,11 @@ import org.slf4j.LoggerFactory;
 public class ServerShutDownCommand implements ICommand {
 
   private static final Logger logger = LoggerFactory.getLogger(ServerShutDownCommand.class);
+  private static final String LOGGER_SHUTTING_DOWN_SERVER = "Shutting down server";
 
   @Override
   public void execute(Server server, PrintWriter out, String line) {
-    logger.warn("Shutting down server");
+    logger.warn(LOGGER_SHUTTING_DOWN_SERVER);
     try {
       server.stop();
     } catch (IOException e) {

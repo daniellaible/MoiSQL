@@ -17,10 +17,11 @@ import org.slf4j.LoggerFactory;
 public class ShowDatabaseCommand implements ICommand {
 
   private static final Logger logger = LoggerFactory.getLogger(ShowDatabaseCommand.class);
+  private static final String LOGGER_EXECUTING_SHOW_DATABASE_COMMAND = "Executing ShowDatabaseCommand";
 
   @Override
   public void execute(Server server, PrintWriter out, String line) {
-      logger.info("Executing ShowDatabaseCommand");
+    logger.info(LOGGER_EXECUTING_SHOW_DATABASE_COMMAND);
 
     final List<DbmDatabase> dbnames = server.getDbmFile().getDbnames();
     for (DbmDatabase db : dbnames) {

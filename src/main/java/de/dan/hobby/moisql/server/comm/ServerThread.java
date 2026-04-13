@@ -23,6 +23,13 @@ import org.slf4j.LoggerFactory;
 public class ServerThread extends Thread{
 
   private static final Logger logger = LoggerFactory.getLogger(ServerThread.class);
+
+  private static final String OUTPUT_WELCOME_TO_MOI_SQL_SERVER = "Welcome to MoiSQL Server";
+  private static final String OUTPUT_WE_ARE_ALL_PROGRAMMED_TO_RECEIVE = "We are all programmed to receive";
+  private static final String LOGGER_SHUTTING_DOWN_THE_SERVER = "Shutting down the server";
+  private static final String OUTPUT_RECEIVED = "Received: ";
+  private static final String LOGGER_SOMETHING_WRONG_IN_PROCESS_MESSAGE = "Something wrong in process message";
+
   private final Socket socket;
   private final Server server;
 
@@ -35,7 +42,7 @@ public class ServerThread extends Thread{
     try {
       processMessage();
     } catch (IOException e) {
-      logger.error("Something wrong in process message", e);
+      logger.error(LOGGER_SOMETHING_WRONG_IN_PROCESS_MESSAGE, e);
       throw new RuntimeException(e);
     }
   }
@@ -54,7 +61,7 @@ public class ServerThread extends Thread{
       while ((line = in.readLine()) != null) {
         if(!line.isBlank()){
           line = line.trim();
-          out.println("Received: " + line);
+          out.println(OUTPUT_RECEIVED + line);
 
           CommandFactory commandFactory = new CommandFactory();
           final ICommand command = commandFactory.getCommand(line);
@@ -62,13 +69,11 @@ public class ServerThread extends Thread{
           if(command instanceof CloseConnectionCommand){
             break;
           } else if (command instanceof ServerShutDownCommand) {
-            logger.warn("Shutting down the server");
+            logger.warn(LOGGER_SHUTTING_DOWN_THE_SERVER);
             server.stop();
             break;
           }
-
           command.execute(server, out, line);
-
         }
       }
     } catch (IOException e) {
@@ -85,7 +90,7 @@ public class ServerThread extends Thread{
   }
 
   private void welcomeMessage(final PrintWriter out) {
-    out.println("Welcome to MoiSQL Server");
-    out.println("We are all programmed to receive");
+    out.println(OUTPUT_WELCOME_TO_MOI_SQL_SERVER);
+    out.println(OUTPUT_WE_ARE_ALL_PROGRAMMED_TO_RECEIVE);
   }
 }
