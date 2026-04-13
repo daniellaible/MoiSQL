@@ -1,4 +1,4 @@
-package de.dan.hobby.moisql.server.DbmFile;
+package de.dan.hobby.moisql.server.dbmfile;
 
 import java.util.Objects;
 

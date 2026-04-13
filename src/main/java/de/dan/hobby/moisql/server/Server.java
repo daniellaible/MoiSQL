@@ -2,8 +2,8 @@ package de.dan.hobby.moisql.server;
 
 import de.dan.hobby.moisql.database.Database;
 import de.dan.hobby.moisql.datatype.text.VarChar;
-import de.dan.hobby.moisql.server.DbmFile.DbmDatabase;
-import de.dan.hobby.moisql.server.DbmFile.DbmFile;
+import de.dan.hobby.moisql.server.dbmfile.DbmDatabase;
+import de.dan.hobby.moisql.server.dbmfile.DbmFile;
 import de.dan.hobby.moisql.server.comm.ServerThread;
 import de.dan.hobby.moisql.server.startup.DbmImporter;
 import de.dan.hobby.moisql.server.startup.DbmPathConfigurator;

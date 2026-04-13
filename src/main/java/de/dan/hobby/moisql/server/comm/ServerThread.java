@@ -3,14 +3,13 @@ package de.dan.hobby.moisql.server.comm;
 import de.dan.hobby.moisql.server.Server;
 import de.dan.hobby.moisql.server.comm.commandFactory.CommandFactory;
 import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
-import de.dan.hobby.moisql.server.comm.commandFactory.commands.CloseConnectionCommand;
-import de.dan.hobby.moisql.server.comm.commandFactory.commands.ServerShutDownCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.CloseConnectionCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.ServerShutDownCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

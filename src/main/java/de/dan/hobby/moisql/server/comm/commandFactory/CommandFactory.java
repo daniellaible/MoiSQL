@@ -1,11 +1,11 @@
 package de.dan.hobby.moisql.server.comm.commandFactory;
 
-import de.dan.hobby.moisql.server.comm.commandFactory.commands.CloseConnectionCommand;
-import de.dan.hobby.moisql.server.comm.commandFactory.commands.HelpCommand;
-import de.dan.hobby.moisql.server.comm.commandFactory.commands.ServerShutDownCommand;
-import de.dan.hobby.moisql.server.comm.commandFactory.commands.ShowDatabaseCommand;
-import de.dan.hobby.moisql.server.comm.commandFactory.commands.UnknownCommand;
-import de.dan.hobby.moisql.server.comm.commandFactory.commands.UseDatabaseCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.CloseConnectionCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.HelpCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.ServerShutDownCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.ShowDatabaseCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.UnknownCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.UseDatabaseCommand;
 
 /**
  * @author Daniel Laible

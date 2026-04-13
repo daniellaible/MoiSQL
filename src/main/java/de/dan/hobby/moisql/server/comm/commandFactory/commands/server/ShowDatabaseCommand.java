@@ -1,6 +1,6 @@
-package de.dan.hobby.moisql.server.comm.commandFactory.commands;
+package de.dan.hobby.moisql.server.comm.commandFactory.commands.server;
 
-import de.dan.hobby.moisql.server.DbmFile.DbmDatabase;
+import de.dan.hobby.moisql.server.dbmfile.DbmDatabase;
 import de.dan.hobby.moisql.server.Server;
 import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
 import java.io.PrintWriter;
