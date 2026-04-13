@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.server;
 
 import de.dan.hobby.moisql.database.Database;
+import de.dan.hobby.moisql.server.DbmFile.DbmDatabase;
 import de.dan.hobby.moisql.server.DbmFile.DbmFile;
 import de.dan.hobby.moisql.server.comm.ServerThread;
 import de.dan.hobby.moisql.server.startup.DbmImporter;
@@ -75,6 +76,14 @@ public class Server {
   }
 
   public void useDatabase(String dbName){
+    dbName = dbName.toUpperCase();
+    final List<DbmDatabase> dbnames = context.dbmFile.getDbnames();
+    for(DbmDatabase dbmDb : dbnames){
+      String dbmName = dbmDb.getDbName().toUpperCase();
+      if(dbmName.equals(dbName)){
+        logger.info("Loading database {}", dbmName);
+      }
+    }
   }
 
   public String getDatabase(String dbName){

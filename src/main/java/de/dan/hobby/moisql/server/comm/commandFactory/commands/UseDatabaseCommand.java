@@ -21,7 +21,7 @@ public class UseDatabaseCommand implements ICommand {
   public void execute(Server server, PrintWriter out, String line) {
       logger.info(LOGGER_USE_DATABASE_COMMAND_TRIGGERED);
       String[] tokens = tokenizeLine(line);
-      server.useDatabase(tokens[3]);
+      server.useDatabase(tokens[2]);
   }
 
   private String[] tokenizeLine(String line) {
