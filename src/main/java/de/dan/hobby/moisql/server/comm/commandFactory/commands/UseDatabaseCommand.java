@@ -20,5 +20,16 @@ public class UseDatabaseCommand implements ICommand {
   @Override
   public void execute(Server server, PrintWriter out, String line) {
       logger.info(LOGGER_USE_DATABASE_COMMAND_TRIGGERED);
+      String[] tokens = tokenizeLine(line);
+      server.useDatabase(tokens[3]);
+  }
+
+  private String[] tokenizeLine(String line) {
+    line = line.trim();
+    String[] splits = line.split(" ");
+    if(splits.length > 3 || splits.length < 3) {
+      logger.warn("Bad input {}", line);
+    }
+    return splits;
   }
 }
