@@ -88,8 +88,6 @@ public class Table {
   }
 
   /**
-   *
-   *
    * @param id the id of a row with this id
    */
   public void delete(int id) {

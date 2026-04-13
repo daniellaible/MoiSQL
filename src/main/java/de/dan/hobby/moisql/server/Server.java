@@ -1,6 +1,7 @@
 package de.dan.hobby.moisql.server;
 
 import de.dan.hobby.moisql.database.Database;
+import de.dan.hobby.moisql.datatype.text.VarChar;
 import de.dan.hobby.moisql.server.DbmFile.DbmDatabase;
 import de.dan.hobby.moisql.server.DbmFile.DbmFile;
 import de.dan.hobby.moisql.server.comm.ServerThread;
@@ -11,6 +12,7 @@ import de.dan.hobby.moisql.server.startup.MemoryCheck;
 import de.dan.hobby.moisql.server.startup.MoiDirectoryCreator;
 import de.dan.hobby.moisql.server.startup.OSDetector;
 import de.dan.hobby.moisql.server.startup.StartupContext;
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketException;
@@ -34,8 +36,8 @@ public class Server {
   private static final String LOGGER_IO_EXCEPTION = "IOException";
 
   private ServerSocket socket;
-  private boolean isListening = true;
   private Database databaseInUse = null;
+  private boolean isListening = true;
 
   public static StartupContext context;
   public static final int PORT = 7878;
@@ -63,6 +65,7 @@ public class Server {
    * @throws IOException
    */
   public void stop() throws IOException {
+    isListening = false;
     this.socket.close();
     System.exit(0);
   }
@@ -75,6 +78,10 @@ public class Server {
     return context.dbmFile;
   }
 
+  /**
+   *
+   * @param dbName name of the database which will be loaded into memory
+   */
   public void useDatabase(String dbName){
     dbName = dbName.toUpperCase();
     final List<DbmDatabase> dbnames = context.dbmFile.getDbnames();
@@ -82,6 +89,15 @@ public class Server {
       String dbmName = dbmDb.getDbName().toUpperCase();
       if(dbmName.equals(dbName)){
         logger.info("Loading database {}", dbmName);
+
+        Database db = new Database(new VarChar(dbName), new File(dbmDb.getDbPath()));
+        try {
+          db.loadDatabase(dbmDb.getTables());
+        } catch (IOException e) {
+          logger.error("Unable to import database {}", dbmName, e);
+        }
+        databaseInUse = db;
+        logger.info("database in use {}", databaseInUse.getDbName());
       }
     }
   }
