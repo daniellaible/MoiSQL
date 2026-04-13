@@ -1,6 +1,6 @@
 package de.dan.hobby.moisql.server.startup;
 
-import de.dan.hobby.moisql.server.DbmFile.DbmFile;
+import de.dan.hobby.moisql.server.dbmfile.DbmFile;
 import de.dan.hobby.moisql.server.OSType;
 import java.io.File;
 

@@ -1,5 +1,10 @@
 package de.dan.hobby.moisql.server.comm;
 
+import de.dan.hobby.moisql.server.Server;
+import de.dan.hobby.moisql.server.comm.commandFactory.CommandFactory;
+import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.CloseConnectionCommand;
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.ServerShutDownCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,20 +13,35 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Daniel Laible
+ * @since 0.1.7
+ * <p>
+ * Communication thread for the outside world
+ */
 public class ServerThread extends Thread{
 
   private static final Logger logger = LoggerFactory.getLogger(ServerThread.class);
-  private final Socket socket;
 
-  public ServerThread(final Socket socket) {
+  private static final String OUTPUT_WELCOME_TO_MOI_SQL_SERVER = "Welcome to MoiSQL Server";
+  private static final String OUTPUT_WE_ARE_ALL_PROGRAMMED_TO_RECEIVE = "We are all programmed to receive";
+  private static final String LOGGER_SHUTTING_DOWN_THE_SERVER = "Shutting down the server";
+  private static final String OUTPUT_RECEIVED = "Received: ";
+  private static final String LOGGER_SOMETHING_WRONG_IN_PROCESS_MESSAGE = "Something wrong in process message";
+
+  private final Socket socket;
+  private final Server server;
+
+  public ServerThread(final Socket socket, Server server) {
     this.socket = socket;
+    this.server = server;
   }
 
   public void run() {
     try {
       processMessage();
     } catch (IOException e) {
-      logger.error("Something wrong in process message", e);
+      logger.error(LOGGER_SOMETHING_WRONG_IN_PROCESS_MESSAGE, e);
       throw new RuntimeException(e);
     }
   }
@@ -32,18 +52,27 @@ public class ServerThread extends Thread{
 
     try {
       out = new PrintWriter(this.socket.getOutputStream(), true);
-      in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+      in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
       welcomeMessage(out);
 
-      String line;
+      String line = "";
       while ((line = in.readLine()) != null) {
         if(!line.isBlank()){
           line = line.trim();
-          out.println(line);
+          out.println(OUTPUT_RECEIVED + line);
 
-          if(line.equalsIgnoreCase("bye") || line.equalsIgnoreCase("quit")){
+          CommandFactory commandFactory = new CommandFactory();
+          final ICommand command = commandFactory.getCommand(line);
+
+          if(command instanceof CloseConnectionCommand){
+            break;
+          } else if (command instanceof ServerShutDownCommand) {
+            logger.warn(LOGGER_SHUTTING_DOWN_THE_SERVER);
+            server.stop();
             break;
           }
+          command.execute(server, out, line);
         }
       }
     } catch (IOException e) {
@@ -60,8 +89,7 @@ public class ServerThread extends Thread{
   }
 
   private void welcomeMessage(final PrintWriter out) {
-    out.println("We are all programmed to receive");
+    out.println(OUTPUT_WELCOME_TO_MOI_SQL_SERVER);
+    out.println(OUTPUT_WE_ARE_ALL_PROGRAMMED_TO_RECEIVE);
   }
-
-
 }

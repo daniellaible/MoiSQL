@@ -171,10 +171,6 @@ public class DiscImporter {
           row[i] = tempRow.get(i);
         }
 
-        for (IDataType cell : row) {
-          System.out.print(cell + " ");
-        }
-        System.out.println();
         rows.add(row);
       }
     } catch (EOFException e) {
