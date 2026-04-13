@@ -12,6 +12,6 @@ public class InsertCommand implements ICommand {
 
   @Override
   public void execute(Server server, PrintWriter out, String line) {
-
+    logger.info("Insert command running");
   }
 }

@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server.comm.commandFactory;
 
+import de.dan.hobby.moisql.server.comm.commandFactory.commands.dml.InsertCommand;
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.CloseConnectionCommand;
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.HelpCommand;
 import de.dan.hobby.moisql.server.comm.commandFactory.commands.server.ServerShutDownCommand;
@@ -21,6 +22,7 @@ public class CommandFactory {
   private static final String SHUTDOWN = "shutdown";
   private static final String HELP = "help";
   private static final String USE_DATABASE = "use database";
+  private static final String INSERT_INTO = "insert into";
 
   public ICommand getCommand(String line) {
     line = line.trim();
@@ -40,6 +42,9 @@ public class CommandFactory {
 
     }else if(line.startsWith(USE_DATABASE)){
         return new UseDatabaseCommand();
+
+    }else if(line.startsWith(INSERT_INTO)){
+      return new InsertCommand();
     }
 
     return new UnknownCommand();

@@ -12,6 +12,6 @@ public class UpdateCommand implements ICommand {
 
   @Override
   public void execute(Server server, PrintWriter out, String line) {
-
+    logger.warn("Not yet implemented");
   }
 }
