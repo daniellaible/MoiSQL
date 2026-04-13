@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server.comm.commandFactory.commands.server;
 
+import de.dan.hobby.moisql.server.IServer;
 import de.dan.hobby.moisql.server.Server;
 import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class ServerShutDownCommand implements ICommand {
   private static final String LOGGER_SHUTTING_DOWN_SERVER = "Shutting down server";
 
   @Override
-  public void execute(Server server, PrintWriter out, String line) {
+  public void execute(IServer server, PrintWriter out, String line) {
     logger.warn(LOGGER_SHUTTING_DOWN_SERVER);
     try {
       server.stop();

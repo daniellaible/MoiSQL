@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * <p>
  * The startup class for the DB Server
  */
-public class Server {
+public class Server implements IServer{
 
   private static final Logger logger = LoggerFactory.getLogger(Server.class);
   private static final String NO_DATABASE_SELECTED = "No database selected";
@@ -102,7 +102,11 @@ public class Server {
     }
   }
 
-  public String getDatabase(String dbName){
+  public Database getDatabase() {
+    return databaseInUse;
+  }
+
+  public String getDatabaseName(){
     if(databaseInUse == null){
       return NO_DATABASE_SELECTED;
     }

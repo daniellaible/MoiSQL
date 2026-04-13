@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server.comm.commandFactory.commands.server;
 
+import de.dan.hobby.moisql.server.IServer;
 import de.dan.hobby.moisql.server.Server;
 import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
 import java.io.PrintWriter;
@@ -18,7 +19,7 @@ public class UseDatabaseCommand implements ICommand {
   private static final String LOGGER_USE_DATABASE_COMMAND_TRIGGERED = "Use database command triggered";
 
   @Override
-  public void execute(Server server, PrintWriter out, String line) {
+  public void execute(IServer server, PrintWriter out, String line) {
       logger.info(LOGGER_USE_DATABASE_COMMAND_TRIGGERED);
       String[] tokens = tokenizeLine(line);
       server.useDatabase(tokens[2]);

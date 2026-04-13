@@ -25,25 +25,24 @@ public class CommandFactory {
   private static final String INSERT_INTO = "insert into";
 
   public ICommand getCommand(String line) {
-    line = line.trim();
-    line = line.toLowerCase();
-
-    if (line.equals(SHOW_DATABASE)) {
+    String input = line.trim();
+    input = input.toLowerCase();
+    if (input.equals(SHOW_DATABASE)) {
       return new ShowDatabaseCommand();
 
-    }else if (line.equals(BYE) || line.equalsIgnoreCase(QUIT)) {
+    }else if (input.equals(BYE) || input.equalsIgnoreCase(QUIT)) {
       return new CloseConnectionCommand();
 
-    }else if (line.equals(SHUTDOWN)) {
+    }else if (input.equals(SHUTDOWN)) {
       return new ServerShutDownCommand();
 
-    }else if (line.equals(HELP)) {
+    }else if (input.equals(HELP)) {
       return new HelpCommand();
 
-    }else if(line.startsWith(USE_DATABASE)){
+    }else if(input.startsWith(USE_DATABASE)){
         return new UseDatabaseCommand();
 
-    }else if(line.startsWith(INSERT_INTO)){
+    }else if(input.startsWith(INSERT_INTO)){
       return new InsertCommand();
     }
 

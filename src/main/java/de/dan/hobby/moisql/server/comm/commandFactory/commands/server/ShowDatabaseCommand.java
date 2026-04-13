@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server.comm.commandFactory.commands.server;
 
+import de.dan.hobby.moisql.server.IServer;
 import de.dan.hobby.moisql.server.dbmfile.DbmDatabase;
 import de.dan.hobby.moisql.server.Server;
 import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
@@ -20,7 +21,7 @@ public class ShowDatabaseCommand implements ICommand {
   private static final String LOGGER_EXECUTING_SHOW_DATABASE_COMMAND = "Executing ShowDatabaseCommand";
 
   @Override
-  public void execute(Server server, PrintWriter out, String line) {
+  public void execute(IServer server, PrintWriter out, String line) {
     logger.info(LOGGER_EXECUTING_SHOW_DATABASE_COMMAND);
 
     final List<DbmDatabase> dbnames = server.getDbmFile().getDbnames();

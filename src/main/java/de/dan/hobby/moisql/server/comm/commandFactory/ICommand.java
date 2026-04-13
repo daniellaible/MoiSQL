@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server.comm.commandFactory;
 
+import de.dan.hobby.moisql.server.IServer;
 import de.dan.hobby.moisql.server.Server;
 import java.io.PrintWriter;
 
@@ -11,7 +12,7 @@ import java.io.PrintWriter;
  */
 public interface ICommand {
 
-  void execute(Server server, PrintWriter out, String line);
+  void execute(IServer server, PrintWriter out, String line);
 
 
 

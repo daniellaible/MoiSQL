@@ -53,6 +53,15 @@ public class Database {
     return dbName.toString();
   }
 
+  public Table getTable(String tableName) {
+    for (Table table : tables) {
+      if(tableName.equalsIgnoreCase(table.getTableName())){
+        return table;
+      }
+    }
+    return null;
+  }
+
   /**
    * Loads the database and all its tables from disc
    */

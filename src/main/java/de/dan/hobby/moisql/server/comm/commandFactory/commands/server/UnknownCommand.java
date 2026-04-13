@@ -1,5 +1,6 @@
 package de.dan.hobby.moisql.server.comm.commandFactory.commands.server;
 
+import de.dan.hobby.moisql.server.IServer;
 import de.dan.hobby.moisql.server.Server;
 import de.dan.hobby.moisql.server.comm.commandFactory.ICommand;
 import java.io.PrintWriter;
@@ -18,7 +19,7 @@ public class UnknownCommand implements ICommand {
   private static final String UNKNOWN_COMMAND = "Unknown command: ";
 
   @Override
-  public void execute(Server server, PrintWriter out, String line) {
+  public void execute(IServer server, PrintWriter out, String line) {
     out.println(UNKNOWN_COMMAND + line);
     logger.warn(UNKNOWN_COMMAND + line);
     new HelpCommand().execute(server, out, line);
